@@ -1,6 +1,7 @@
 import model.*;
 
 import java.time.LocalDate;
+import java.util.HashMap;
 
 public class Main {
     public static void main(String[] args) {
@@ -16,9 +17,18 @@ public class Main {
             BedroomType bedroomType = new BedroomType("Familliale");
             Bedroom bedroom = new Bedroom(32, 5, 100, 50, null, true, null, bedroomType, hotel);
             BedroomOwnsAmenity bedroomOwnsAmenity = new BedroomOwnsAmenity(amenity, bedroom);
+
+            Star star = CreateStar.getStar(1);
+            Star star2 = CreateStar.getStar(2);
+            Star star3 = CreateStar.getStar(3);
+            Star star4 = CreateStar.getStar(4);
+            Star star5 = CreateStar.getStar(5);
+            Star star6 = CreateStar.getStar(5);
+
             BedroomOwnsBed bedroomOwnsBed = new BedroomOwnsBed(bedroom, bed);
-            Star star = new Star(5);
             Review review = new Review("Trop la classe", hotel, "A recommender", true, star, customer, LocalDate.now(), null);
+
+
 
         } catch (Exception e) {
             System.out.println(e.getMessage());

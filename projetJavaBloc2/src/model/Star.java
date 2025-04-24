@@ -16,4 +16,8 @@ public class Star {
             this.starNumber = starNumber;
         }
     }
+
+    public String toString(){
+        return starNumber + "";
+    }
 }
