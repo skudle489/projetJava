@@ -25,10 +25,15 @@ public class Main {
             Star star5 = CreateStar.getStar(5);
             Star star6 = CreateStar.getStar(5);
 
+            BedroomType bedroomType2 = CreateBedroomType.getBedroomType("Familliale");
+
             BedroomOwnsBed bedroomOwnsBed = new BedroomOwnsBed(bedroom, bed);
             Review review = new Review("Trop la classe", hotel, "A recommender", true, star, customer, LocalDate.now(), null);
 
-
+            Country country2 = CreateCountry.getCountry("BE", "Belgique");
+            Country country3 = CreateCountry.getCountry("BE", "Belgique");
+            System.out.println(country2);
+            System.out.println(country3);
 
         } catch (Exception e) {
             System.out.println(e.getMessage());
