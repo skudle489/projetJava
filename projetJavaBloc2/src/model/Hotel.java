@@ -1,6 +1,5 @@
 package model;
 
-import exceptions.CustomerCreationException;
 import exceptions.HotelCreationException;
 
 public class Hotel {

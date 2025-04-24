@@ -1,7 +1,6 @@
-import model.Country;
-import model.Customer;
-import model.Hotel;
-import model.Locality;
+import model.*;
+
+import java.time.LocalDate;
 
 public class Main {
     public static void main(String[] args) {
@@ -12,6 +11,15 @@ public class Main {
             Customer customer = new Customer("thounythea4@gmail.com", "Thouny", "Thea", "0498797605", "Rue de l'Europe", 1, 30, 9, 2003, false, locality);
             Hotel hotel = new Hotel(1, "Rue de la brochette", 8, 5, locality, "Briochoc");
             System.out.println(hotel);
+            Bed bed = new Bed("King");
+            Amenity amenity = new Amenity("Chauffage");
+            BedroomType bedroomType = new BedroomType("Familliale");
+            Bedroom bedroom = new Bedroom(32, 5, 100, 50, null, true, null, bedroomType, hotel);
+            BedroomOwnsAmenity bedroomOwnsAmenity = new BedroomOwnsAmenity(amenity, bedroom);
+            BedroomOwnsBed bedroomOwnsBed = new BedroomOwnsBed(bedroom, bed);
+            Star star = new Star(5);
+            Review review = new Review("Trop la classe", hotel, "A recommender", true, star, customer, LocalDate.now(), null);
+
         } catch (Exception e) {
             System.out.println(e.getMessage());
         }
