@@ -1,5 +1,9 @@
+import dataAccess.CustomerDBDAO;
+import dataAccess.DatabaseConnection;
 import model.*;
 
+import java.sql.Connection;
+import java.sql.DriverManager;
 import java.time.LocalDate;
 import java.util.HashMap;
 
@@ -9,7 +13,7 @@ public class Main {
         try {
             Country country = new Country("BE", "Belgique");
             Locality locality = new Locality("Limelette", country, "1342");
-            Customer customer = new Customer("thounythea4@gmail.com", "Thouny", "Thea", "0498797605", "Rue de l'Europe", 1, 30, 9, 2003, false, locality);
+            Customer customer = new Customer("thounythea4@gmail.com", "Thouny", "Thea", "0498797605", "Rue de l'Europe", 1, 30, 9, 2003, false, locality, null);
             Hotel hotel = new Hotel(1, "Rue de la brochette", 8, 5, locality, "Briochoc");
             System.out.println(hotel);
             Bed bed = new Bed("King");
@@ -34,6 +38,13 @@ public class Main {
             Country country3 = CreateCountry.getCountry("BE", "Belgique");
             System.out.println(country2);
             System.out.println(country3);
+
+            Connection connection = DriverManager.getConnection("jdbc:mysql://127.0.0.1:3306/hotel", "root", "root");
+
+
+            CustomerDBDAO customerDBDAO = new CustomerDBDAO();
+            Customer customer1 = customerDBDAO.getCustomer("thounythea4@gmail.com");
+            System.out.println(customer1);
 
         } catch (Exception e) {
             System.out.println(e.getMessage());

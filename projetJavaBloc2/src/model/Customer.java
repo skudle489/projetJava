@@ -18,7 +18,7 @@ public class Customer {
     private Locality locality;
     private String secondaryPhone;
 
-    public Customer(String mailAdress, String firstName, String lastName, String phone, String street, int streetNumber, int day, int month, int year, boolean isVegan, Locality locality) throws CustomerCreationException {
+    public Customer(String mailAdress, String firstName, String lastName, String phone, String street, int streetNumber, int day, int month, int year, boolean isVegan, Locality locality, String secondaryPhone) throws CustomerCreationException {
         setMailAdress(mailAdress);
         setFirstName(firstName);
         setLastName(lastName);
@@ -149,7 +149,59 @@ public class Customer {
         }
     }
 
+    public String getMailAdress() {
+        return mailAdress;
+    }
 
+    public String getFirstName() {
+        return firstName;
+    }
+
+    public String getLastName() {
+        return lastName;
+    }
+
+    public String getPhone() {
+        return phone;
+    }
+
+    public String getStreet() {
+        return street;
+    }
+
+    public int getStreetNumber() {
+        return streetNumber;
+    }
+
+    public LocalDate getBirthDate() {
+        return birthDate;
+    }
+
+    public String getSecondaryPhone() {
+        return secondaryPhone;
+    }
+
+    public boolean getIsVegan(){
+        return isVegan;
+    }
+
+    public Locality getLocality() {
+        return locality;
+    }
+
+
+
+    @Override
+    public String toString() {
+        return "\tInformation du client \n" +
+                "Adresse mail :" + mailAdress + "\n" +
+                "Nom complet : " + lastName + " " + firstName + "\n" +
+                "Numéro de téléphone : " + phone + "\n" +
+                "Adresse : " + street + " " + streetNumber + " " + locality + "\n" +
+                "Date de naissance : " + birthDate + "\n" +
+                "Est vegan : " + (isVegan ? "Oui" : "Non" + "\n" +
+                "Numéro de téléphone secondaire : " + (secondaryPhone == null ? "" : secondaryPhone));
+    }
 
 
 }

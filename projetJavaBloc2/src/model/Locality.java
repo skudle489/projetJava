@@ -25,6 +25,18 @@ public class Locality {
         }
     }
 
+    public String getCity() {
+        return city;
+    }
+
+    public Country getCountry() {
+        return country;
+    }
+
+    public String getPostalCode() {
+        return postalCode;
+    }
+
 
     public void setPostalCode(String postalCode) throws LocalityCreationException {
         if (postalCode == null){
