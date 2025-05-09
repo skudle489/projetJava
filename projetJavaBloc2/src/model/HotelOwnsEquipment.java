@@ -1,10 +1,10 @@
 package model;
 
 public class HotelOwnsEquipment {
-    private Hotel hotel;
-    private Equipment equipment;
+    private int hotel;
+    private String equipment;
 
-    public HotelOwnsEquipment(Hotel hotel, Equipment equipment) {
+    public HotelOwnsEquipment(int hotel, String equipment) {
         this.hotel = hotel;
         this.equipment = equipment;
     }

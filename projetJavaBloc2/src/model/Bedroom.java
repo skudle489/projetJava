@@ -13,11 +13,11 @@ public class Bedroom {
     private String description;
     private boolean hasBalcony;
     private LocalDate lastRenovationDate;
-    private BedroomType bedroomType;
-    private Hotel hotel;
+    private String bedroomType;
+    private int hotel;
 
 
-    public Bedroom(int bedroomNumber, int nbOfPeople, double bedroomSize, double costPerDay, String description, boolean hasBalcony, LocalDate lastRenovationDate, BedroomType bedroomType ,Hotel hotel) throws BedroomCreationException {
+    public Bedroom(int bedroomNumber, int nbOfPeople, double bedroomSize, double costPerDay, String description, boolean hasBalcony, LocalDate lastRenovationDate, String bedroomType, int hotel) throws BedroomCreationException {
         setBedroomNumber(bedroomNumber);
         setNbOfPeople(nbOfPeople);
         setBedroomSize(bedroomSize);

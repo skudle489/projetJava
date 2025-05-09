@@ -1,10 +1,10 @@
 package model;
 
 public class BedroomOwnsAmenity {
-    private Amenity amenity;
-    private Bedroom bedroom;
+    private String amenity;
+    private int bedroom;
 
-    public BedroomOwnsAmenity(Amenity amenity, Bedroom bedroom) {
+    public BedroomOwnsAmenity(String amenity, int bedroom) {
         this.amenity = amenity;
         this.bedroom = bedroom;
     }

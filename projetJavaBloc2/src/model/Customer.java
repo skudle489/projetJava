@@ -15,22 +15,27 @@ public class Customer {
     private int streetNumber;
     private LocalDate birthDate;
     private boolean isVegan;
-    private Locality locality;
+    private String city;
+    private String postalCode;
+    private String countryIso;
     private String secondaryPhone;
 
-    public Customer(String mailAdress, String firstName, String lastName, String phone, String street, int streetNumber, int day, int month, int year, boolean isVegan, Locality locality, String secondaryPhone) throws CustomerCreationException {
+    public Customer(String mailAdress, String firstName, String lastName, String phone, String street, int streetNumber, int day, int month, int year, boolean isVegan, String city, String postalCode, String countryIso, String secondaryPhone) throws CustomerCreationException {
         setMailAdress(mailAdress);
         setFirstName(firstName);
         setLastName(lastName);
         setPhone(phone);
         setStreet(street);
         setStreetNumber(streetNumber);
+        this.city = city;
+        this.postalCode = postalCode;
+        this.countryIso = countryIso;
 
         LocalDate birthDate = LocalDate.of(year, month, day);
 
         setBirthDate(birthDate);
         this.isVegan = isVegan;
-        this.locality = locality;
+
         setSecondaryPhone(secondaryPhone);
     }
 
@@ -185,19 +190,28 @@ public class Customer {
         return isVegan;
     }
 
-    public Locality getLocality() {
-        return locality;
+
+    public String getCity(){
+        return city;
+    }
+
+    public String getPostalCode(){
+        return postalCode;
+    }
+
+    public String getCountry(){
+        return countryIso;
     }
 
 
 
     @Override
     public String toString() {
-        return "\tInformation du client \n" +
+        return "\t========== Information du client ========== \n" +
                 "Adresse mail :" + mailAdress + "\n" +
                 "Nom complet : " + lastName + " " + firstName + "\n" +
                 "Numéro de téléphone : " + phone + "\n" +
-                "Adresse : " + street + " " + streetNumber + " " + locality + "\n" +
+                "Adresse : " + street + " " + streetNumber + " " + city + " " + postalCode + " "  + countryIso + "\n" +
                 "Date de naissance : " + birthDate + "\n" +
                 "Est vegan : " + (isVegan ? "Oui" : "Non" + "\n" +
                 "Numéro de téléphone secondaire : " + (secondaryPhone == null ? "" : secondaryPhone));

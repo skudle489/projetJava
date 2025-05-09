@@ -20,4 +20,8 @@ public class Star {
     public String toString(){
         return starNumber + "";
     }
+
+    public int getStarNumber() {
+        return starNumber;
+    }
 }

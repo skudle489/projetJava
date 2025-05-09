@@ -7,15 +7,19 @@ public class Hotel {
     private String street;
     private int streetNumber;
     private int stars;
-    private Locality locality;
+    private String city;
+    private String postalCode;
+    private String countryIso;
     private String name;
 
-    public Hotel(int id, String street, int streetNumber, int stars, Locality locality, String name) throws HotelCreationException {
+    public Hotel(int id, String street, int streetNumber, int stars, String city, String postalCode, String countryIso, String name) throws HotelCreationException {
         this.id = id;
         setStreet(street);
         setStreetNumber(streetNumber);
         setStars(stars);
-        this.locality = locality;
+        this.city = city;
+        this.postalCode = postalCode;
+        this.countryIso = countryIso;
         this.name = name;
     }
 
@@ -49,6 +53,10 @@ public class Hotel {
 
     @Override
     public String toString() {
-        return "Hotel " + name + " à " + stars + " étoile" + (stars == 0 ? "":"s") + " situé à : " + street + " " + streetNumber + ", " + locality;
+        return "Hotel " + name + " à " + stars + " étoile" + (stars == 0 ? "":"s") + " situé à : " + street + " " + streetNumber + ", " + city + " " + postalCode + " " + countryIso;
+    }
+
+    public int getId() {
+        return id;
     }
 }

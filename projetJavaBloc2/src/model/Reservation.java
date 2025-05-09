@@ -7,7 +7,7 @@ import java.time.LocalDate;
 public class Reservation {
     private LocalDate startDate;
     private LocalDate endDate;
-    private Customer customer;
+    private String customer;
     private Bedroom bedroom;
 
     public void setStartDate(LocalDate startDate) throws ReservationCreationException {

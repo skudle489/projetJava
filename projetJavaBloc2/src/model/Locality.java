@@ -4,10 +4,10 @@ import exceptions.LocalityCreationException;
 
 public class Locality {
     private String city;
-    private Country country;
+    private String country;
     private String postalCode;
 
-    public Locality(String city, Country country, String postalCode) throws LocalityCreationException {
+    public Locality(String city, String country, String postalCode) throws LocalityCreationException {
         setCity(city);
         setPostalCode(postalCode);
         this.country = country;
@@ -29,7 +29,7 @@ public class Locality {
         return city;
     }
 
-    public Country getCountry() {
+    public String getCountry() {
         return country;
     }
 
