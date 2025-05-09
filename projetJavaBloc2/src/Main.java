@@ -1,4 +1,3 @@
-import dataAccess.CountryDBDAO;
 import dataAccess.CustomerDBDAO;
 import dataAccess.DatabaseConnection;
 import dataAccess.ReviewDBDAO;
@@ -6,11 +5,8 @@ import model.*;
 import userInterface.AllCustomersModel;
 
 import javax.swing.*;
-import java.sql.Connection;
-import java.sql.DriverManager;
 import java.time.LocalDate;
 import java.util.ArrayList;
-import java.util.HashMap;
 
 public class Main {
     public static void main(String[] args) {
@@ -56,7 +52,7 @@ public class Main {
 
 
 
-            CountryDBDAO countryDBDAO = new CountryDBDAO();
+
 
             ArrayList<Customer> customers = customerDBDAO.getAllCustomers();
             /*for (Customer c : customers) {
@@ -93,6 +89,8 @@ public class Main {
             //customerDBDAO.updateCustomer(customer);
             //reviewDBDAO.addReview(review);
             //reviewDBDAO.updateReview(review);
+
+
 
 
 

@@ -11,7 +11,7 @@ import java.sql.SQLException;
 import java.time.LocalDate;
 import java.util.ArrayList;
 
-public class ReviewDBDAO {
+public class ReviewDBDAO implements IReviewDataAccess {
     private static Connection connection;
 
     public ReviewDBDAO() throws SQLException {

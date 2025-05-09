@@ -14,7 +14,7 @@ import java.sql.SQLException;
 import java.time.LocalDate;
 import java.util.ArrayList;
 
-public class CustomerDBDAO {
+public class CustomerDBDAO implements ICustomerDataAccess {
     private final ReviewDBDAO reviewDBDAO;
     private static Connection connection;
 
