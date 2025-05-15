@@ -3,6 +3,7 @@ package userInterface;
 import controller.CustomerController;
 import dataAccess.*;
 import model.*;
+import model.BedroomOwnsAmenity;
 
 import javax.swing.*;
 import java.util.ArrayList;

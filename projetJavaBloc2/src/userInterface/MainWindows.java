@@ -1,6 +1,6 @@
 package userInterface;
 
-import controller.LocalityController;
+import controller.*;
 import dataAccess.CountryDBDAO;
 import dataAccess.CustomerDBDAO;
 import exceptions.*;
@@ -13,9 +13,6 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.sql.SQLException;
 import java.util.ArrayList;
-
-import controller.CustomerController;
-import controller.CountryController;
 
 public class MainWindows extends JFrame implements IRegistrationListener {
     private CustomerController customerController;
@@ -43,7 +40,8 @@ public class MainWindows extends JFrame implements IRegistrationListener {
 
     private CountryController countryController;
     private LocalityController localityController;
-
+    private HotelController hotelController;
+    private BedroomController bedroomController;
 
 
     public MainWindows() {
@@ -52,6 +50,8 @@ public class MainWindows extends JFrame implements IRegistrationListener {
         customerController = new CustomerController();
         countryController = new CountryController();
         localityController = new LocalityController();
+        hotelController = new HotelController();
+        bedroomController = new BedroomController();
 
 
         setBounds(100, 100, 700, 300);
@@ -146,6 +146,14 @@ public class MainWindows extends JFrame implements IRegistrationListener {
         } catch (GetCustomerException e) {
             return false;
         }
+    }
+
+    public HotelController getHotelController(){
+        return hotelController;
+    }
+
+    public BedroomController getBedroomController(){
+        return bedroomController;
     }
 
     public CustomerController getCustomerController() {

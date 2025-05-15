@@ -16,4 +16,8 @@ public class Amenity {
             this.label = label;
         }
     }
+
+    public String getLabel() {
+        return label;
+    }
 }

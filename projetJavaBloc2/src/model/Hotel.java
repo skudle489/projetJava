@@ -53,7 +53,7 @@ public class Hotel {
 
     @Override
     public String toString() {
-        return "Hotel " + name + " à " + stars + " étoile" + (stars == 0 ? "":"s") + " situé à : " + street + " " + streetNumber + ", " + city + " " + postalCode + " " + countryIso;
+        return name + " à " + stars + " étoile" + (stars == 0 ? "":"s") + " situé à : " + street + " " + streetNumber + ", " + city + " " + postalCode + " " + countryIso;
     }
 
     public int getId() {
