@@ -1,13 +1,8 @@
 package userInterface;
 
 import controller.CustomerController;
-import dataAccess.CountryDBDAO;
-import dataAccess.CustomerDBDAO;
-import dataAccess.LocalityDBDAO;
-import dataAccess.ReviewDBDAO;
-import model.Country;
-import model.Locality;
-import model.Review;
+import dataAccess.*;
+import model.*;
 
 import javax.swing.*;
 import java.util.ArrayList;
@@ -17,10 +12,9 @@ public class main {
         try {
             MainWindows mainWindows = new MainWindows();
 
+
         } catch (Exception e) {
             System.out.println(e.getMessage());
         }
-
-
     }
 }

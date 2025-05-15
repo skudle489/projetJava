@@ -13,11 +13,7 @@ public class CountryManager {
     private CountryDBDAO countryDBDAO;
 
     public CountryManager() {
-        try {
-            countryDBDAO = new CountryDBDAO();
-        } catch (SQLException exception){
-            throw new DataAccessException("Erreur d'acces à la base de donnée");
-        }
+        countryDBDAO = new CountryDBDAO();
     }
 
 

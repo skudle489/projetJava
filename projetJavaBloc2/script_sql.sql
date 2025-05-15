@@ -22,15 +22,16 @@ CREATE TABLE customer (
 	mail_adress VARCHAR (255) NOT NULL,
     first_name VARCHAR(100) NOT NULL,
     last_name VARCHAR(100) NOT NULL,
-    phone VARCHAR(20),
+    phone VARCHAR(10),
     street VARCHAR(255) NOT NULL,
     street_number INT NOT NULL,
     birthdate DATE NOT NULL,
     is_vegan BIT NOT NULL,
-    secondary_phone VARCHAR(20),
+    secondary_phone VARCHAR(10),
     city VARCHAR(100) NOT NULL,
     postal_code VARCHAR(15) NOT NULL,
     country VARCHAR(2) NOT NULL,
+    CHECK (street_number >= 0),
     PRIMARY KEY(mail_adress),
     FOREIGN KEY(city, postal_code, country) REFERENCES locality(city, postal_code, country)
 );
@@ -38,6 +39,7 @@ CREATE TABLE customer (
 
 CREATE TABLE star (
 	star_number INT NOT NULL,
+    check (star_number between 1 and 5),
     PRIMARY KEY(star_number)
 );
 
@@ -50,6 +52,8 @@ CREATE TABLE hotel (
     city VARCHAR(100) NOT NULL,
     postal_code VARCHAR(15) NOT NULL,
     country VARCHAR(2) NOT NULL,
+    check ( street_number >= 0 ),
+    check ( stars between 1 and 5),
     PRIMARY KEY(id),
     FOREIGN KEY(city, postal_code, country) REFERENCES locality(city, postal_code, country)
 );
@@ -71,6 +75,8 @@ CREATE TABLE review (
     is_anonymous BIT NOT NULL,
     title VARCHAR(100),
     hotel INT NOT NULL,
+    CHECK ( star between 1 and 5),
+    check ( hotel >= 0 ),
     PRIMARY KEY (hotel, customer, creation_date),
     FOREIGN KEY (hotel) REFERENCES hotel(id),
     FOREIGN KEY (star) REFERENCES star(star_number),
@@ -102,6 +108,10 @@ CREATE TABLE bedroom (
     last_renovation_date DATE,
     bedroom_type VARCHAR(100) NOT NULL,
     hotel INT NOT NULL,
+    check ( bedroom_number >= 0 ),
+    check ( nb_of_people >= 1 ),
+    check ( bedroom_size > 0 ),
+    check ( cost_per_day > 0 ),
     PRIMARY KEY (hotel, bedroom_number),
     FOREIGN KEY (bedroom_type) REFERENCES bedroom_type(label),
     FOREIGN KEY (hotel) REFERENCES hotel(id)
@@ -114,6 +124,9 @@ CREATE TABLE reservation (
     customer VARCHAR(255) NOT NULL,
     bedroom_number INT NOT NULL,
     hotel INT NOT NULL,
+    check ( end_date >= start_date ),
+    check ( bedroom_number >= 0 ),
+    check ( hotel >= 0 ),
     PRIMARY KEY (customer, bedroom_number, start_date),
     FOREIGN KEY (customer) REFERENCES customer(mail_adress),
     FOREIGN KEY (hotel, bedroom_number) REFERENCES bedroom(hotel, bedroom_number)
@@ -124,6 +137,8 @@ CREATE TABLE bedroom_owns_amenity (
 	amenity VARCHAR(100) NOT NULL,
     hotel INT NOT NULL,
     bedroom_number INT NOT NULL,
+    check ( hotel >= 0 ),
+    check ( bedroom_number >= 0 ),
     PRIMARY KEY (amenity, hotel, bedroom_number),
     FOREIGN KEY (amenity) REFERENCES amenity(label),
     FOREIGN KEY (hotel, bedroom_number) REFERENCES bedroom(hotel, bedroom_number)
@@ -133,6 +148,8 @@ CREATE TABLE bedroom_owns_bed (
 	hotel INT NOT NULL,
     bedroom_number INT NOT NULL,
     bed VARCHAR(100) NOT NULL,
+    check ( hotel >= 0 ),
+    check ( bedroom_number >= 0 ),
     PRIMARY KEY(hotel, bedroom_number, bed),
     FOREIGN KEY (bed) REFERENCES bed(type),
     FOREIGN KEY (hotel, bedroom_number) REFERENCES bedroom(hotel, bedroom_number)

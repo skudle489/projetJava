@@ -1,6 +1,7 @@
 package dataAccess;
 
 import exceptions.CountryCreationException;
+import exceptions.DataAccessException;
 import exceptions.GetAllCountryException;
 import model.Country;
 
@@ -13,7 +14,7 @@ import java.util.ArrayList;
 public class CountryDBDAO {
     private static Connection connection;
 
-    public CountryDBDAO() throws SQLException {
+    public CountryDBDAO() throws DataAccessException {
         connection = DatabaseConnection.getInstance();
     }
 

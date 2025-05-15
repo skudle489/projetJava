@@ -8,7 +8,33 @@ public class Reservation {
     private LocalDate startDate;
     private LocalDate endDate;
     private String customer;
-    private Bedroom bedroom;
+    private int bedroom;
+    private int hotel;
+
+    public Reservation(LocalDate startDate, LocalDate endDate, String customer, int bedroom, int hotel) throws ReservationCreationException {
+        setStartDate(startDate);
+        setEndDate(endDate);
+        this.customer = customer;
+        setBedroom(bedroom);
+        setHotel(hotel);
+    }
+
+    public void setHotel(int hotel) throws ReservationCreationException {
+        if (hotel < 0){
+            throw new ReservationCreationException("Le numéro d'hotel doit etre positif");
+        } else {
+            this.hotel = hotel;
+        }
+    }
+
+    public void setBedroom(int bedroom) throws ReservationCreationException {
+        if (bedroom < 0){
+            throw new ReservationCreationException("Le numéro de la chambre ne peut etre négatif");
+        } else {
+            this.bedroom = bedroom;
+        }
+    }
+
 
     public void setStartDate(LocalDate startDate) throws ReservationCreationException {
         if (startDate == null) {

@@ -1,5 +1,6 @@
 package dataAccess;
 
+import exceptions.DataAccessException;
 import exceptions.GetAllLocalityWithCountryException;
 import exceptions.LocalityCreationException;
 import model.Locality;
@@ -14,7 +15,7 @@ import java.util.ArrayList;
 public class LocalityDBDAO {
     private static Connection connection;
 
-    public LocalityDBDAO() throws SQLException {
+    public LocalityDBDAO() throws DataAccessException {
         connection = DatabaseConnection.getInstance();
     }
 

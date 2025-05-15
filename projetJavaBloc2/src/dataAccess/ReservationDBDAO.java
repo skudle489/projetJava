@@ -1,5 +1,6 @@
 package dataAccess;
 
+import exceptions.DataAccessException;
 import exceptions.DeleteReviewException;
 
 import javax.xml.crypto.Data;
@@ -10,7 +11,7 @@ import java.sql.SQLException;
 public class ReservationDBDAO {
     private static Connection connection;
 
-    public ReservationDBDAO() throws SQLException {
+    public ReservationDBDAO() throws DataAccessException {
         connection = DatabaseConnection.getInstance();
     }
 

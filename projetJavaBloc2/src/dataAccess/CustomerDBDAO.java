@@ -17,7 +17,7 @@ public class CustomerDBDAO implements ICustomerDataAccess {
     private final ReservationDBDAO reservationDBDAO;
     private static Connection connection;
 
-    public CustomerDBDAO() throws SQLException {
+    public CustomerDBDAO() throws DataAccessException {
         reservationDBDAO = new ReservationDBDAO();
         reviewDBDAO = new ReviewDBDAO();
         connection = DatabaseConnection.getInstance();

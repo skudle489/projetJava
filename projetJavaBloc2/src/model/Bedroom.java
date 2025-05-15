@@ -29,6 +29,43 @@ public class Bedroom {
         this.hotel = hotel;
     }
 
+    public int getBedroomNumber() {
+        return bedroomNumber;
+    }
+
+    public int getNbOfPeople() {
+        return nbOfPeople;
+    }
+
+    public double getBedroomSize() {
+        return bedroomSize;
+    }
+
+    public double getCostPerDay() {
+        return costPerDay;
+    }
+
+    public String getDescription() {
+        return description;
+    }
+
+    public boolean getHasBalcony() {
+        return hasBalcony;
+    }
+
+    public LocalDate getLastRenovationDate() {
+        return lastRenovationDate;
+    }
+
+    public String getBedroomType() {
+        return bedroomType;
+    }
+
+    public int getHotel() {
+        return hotel;
+    }
+
+
     public void setBedroomNumber(int bedroomNumber) throws BedroomCreationException {
         if (bedroomNumber < 0) {
             throw new BedroomCreationException("Le numéro de la chambre de ne etre négatif");

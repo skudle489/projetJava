@@ -63,12 +63,22 @@ public class DeleteCustomerPanel extends JPanel {
             try {
                 Customer selectedCustomer = (Customer) customersComboBox.getSelectedItem();
                 if (selectedCustomer != null) {
-                    deleteCustomerListener.getCustomerController().deleteCustomer(selectedCustomer.getMailAdress());
 
-                    loadAllCustomers();
+                    int confirmation = JOptionPane.showConfirmDialog(
+                            null,
+                            "Voulez-vous vraiment supprimer le client " + selectedCustomer.getFirstName() + " " + selectedCustomer.getLastName() + " ? \nATTENTION: Les avis et les réservations du client seront également supprimés",
+                            "Confirmation de suppression",
+                            JOptionPane.YES_NO_OPTION
+                    );
 
-                    deleteCustomerListener.getFrameContainer().repaint();
-                    deleteCustomerListener.getFrameContainer().revalidate();
+                    if (confirmation == JOptionPane.YES_OPTION) {
+                        deleteCustomerListener.getCustomerController().deleteCustomer(selectedCustomer.getMailAdress());
+
+                        loadAllCustomers();
+
+                        deleteCustomerListener.getFrameContainer().repaint();
+                        deleteCustomerListener.getFrameContainer().revalidate();
+                    }
                 } else {
                     throw new DeleteCustomerException("Impossible de supprimer un client inexistant");
                 }

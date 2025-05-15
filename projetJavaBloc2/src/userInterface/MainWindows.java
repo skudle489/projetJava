@@ -25,8 +25,8 @@ public class MainWindows extends JFrame implements IRegistrationListener {
 
 
     private JMenuBar menuBar;
-    private JMenu menuCustomer;
-    private JMenuItem customerRegistration, listingCustomers, updateCustomer, deleteCustomer;
+    private JMenu menuCustomer, reservationMenu;
+    private JMenuItem customerRegistration, listingCustomers, updateCustomer, deleteCustomer, newReservationMenuItem;
     private Container frameContainer;
 
     private RegistrationForm registrationForm;
@@ -38,6 +38,7 @@ public class MainWindows extends JFrame implements IRegistrationListener {
     private UpdateCustomerPanel updateCustomerPanel;
 
     private DeleteCustomerPanel deleteCustomerPanel;
+    private ReservationPanel reservationPanel;
 
 
     private CountryController countryController;
@@ -75,6 +76,13 @@ public class MainWindows extends JFrame implements IRegistrationListener {
 
         menuCustomer = new JMenu("Client");
         menuBar.add(menuCustomer);
+
+        reservationMenu = new JMenu("Reservation");
+        menuBar.add(reservationMenu);
+        newReservationMenuItem = new JMenuItem("Nouvelle Reservation");
+        reservationMenu.add(newReservationMenuItem);
+        newReservationMenuItem.addActionListener(new NewReservationActionListener());
+
 
         customerRegistration = new JMenuItem("Inscription");
         menuCustomer.add(customerRegistration);
@@ -210,6 +218,17 @@ public class MainWindows extends JFrame implements IRegistrationListener {
             frameContainer.revalidate();
             frameContainer.repaint();
 
+        }
+    }
+
+    public class NewReservationActionListener implements ActionListener {
+        public void actionPerformed(ActionEvent e) {
+            frameContainer.removeAll();
+            reservationPanel = new ReservationPanel();
+            frameContainer.add(reservationPanel, BorderLayout.CENTER);
+            reservationPanel.reservationlistener(MainWindows.this);
+            frameContainer.revalidate();
+            frameContainer.repaint();
         }
     }
 

@@ -14,7 +14,7 @@ import java.util.ArrayList;
 public class ReviewDBDAO implements IReviewDataAccess {
     private static Connection connection;
 
-    public ReviewDBDAO() throws SQLException {
+    public ReviewDBDAO() throws DataAccessException {
         connection = DatabaseConnection.getInstance();
     }
 
