@@ -2,6 +2,7 @@ package dataAccess;
 
 import exceptions.DataAccessException;
 import exceptions.GetAllCountryException;
+import exceptions.GetAllHotelsException;
 import exceptions.HotelCreationException;
 import model.Hotel;
 
@@ -18,7 +19,7 @@ public class HotelDBDAO {
         connection = DatabaseConnection.getInstance();
     }
 
-    public ArrayList<Hotel> getAllHotels() throws GetAllCountryException {
+    public ArrayList<Hotel> getAllHotels() throws GetAllHotelsException {
         try {
             String sqlInstruction = "select * from hotel";
             PreparedStatement preparedStatement = connection.prepareStatement(sqlInstruction);
@@ -46,7 +47,7 @@ public class HotelDBDAO {
             }
             return hotels;
         } catch (SQLException | HotelCreationException exception){
-            throw new GetAllCountryException("Erreur lors de la lecture de tous les hotels");
+            throw new GetAllHotelsException("Erreur lors de la lecture de tous les hotels");
         }
     }
 

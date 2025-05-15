@@ -3,9 +3,11 @@ package userInterface;
 import controller.LocalityController;
 import dataAccess.CountryDBDAO;
 import dataAccess.CustomerDBDAO;
+
 import exceptions.*;
 import model.Country;
 import model.Customer;
+import model.Review;
 
 import javax.swing.*;
 import java.awt.*;
@@ -16,9 +18,15 @@ import java.util.ArrayList;
 
 import controller.CustomerController;
 import controller.CountryController;
+import controller.HotelController;
+import controller.ReviewController;
 
 public class MainWindows extends JFrame implements IRegistrationListener {
     private CustomerController customerController;
+    private CountryController countryController;
+    private HotelController hotelController;
+    private ReviewController reviewController;
+    private LocalityController localityController;
 
     private Plane plane;
     private Container container;
@@ -26,11 +34,14 @@ public class MainWindows extends JFrame implements IRegistrationListener {
 
     private JMenuBar menuBar;
     private JMenu menuCustomer, reservationMenu;
-    private JMenuItem customerRegistration, listingCustomers, updateCustomer, deleteCustomer, newReservationMenuItem;
+    private JMenuItem customerRegistration, listingCustomers, updateCustomer, deleteCustomer, newReservationMenuItem, addCommentCustomer;
     private Container frameContainer;
 
     private RegistrationForm registrationForm;
+    private ReviewForm reviewForm;
     private AllCustomersModel allCustomersModel;
+
+    private AddCustomerCommentActionListener addCustomerCommentActionListener;
 
     private AddCustomerActionListener addCustomerActionListener;
     private ListingCustomerActionListener listingCustomerActionListener;
@@ -41,9 +52,6 @@ public class MainWindows extends JFrame implements IRegistrationListener {
     private ReservationPanel reservationPanel;
 
 
-    private CountryController countryController;
-    private LocalityController localityController;
-
 
 
     public MainWindows() {
@@ -51,8 +59,8 @@ public class MainWindows extends JFrame implements IRegistrationListener {
 
         customerController = new CustomerController();
         countryController = new CountryController();
-        localityController = new LocalityController();
-
+        hotelController = new HotelController();
+        reviewController = new ReviewController();
 
         setBounds(100, 100, 700, 300);
         container = getContentPane();
@@ -106,6 +114,10 @@ public class MainWindows extends JFrame implements IRegistrationListener {
         DeleteCustomerActionListener deleteCustomerActionListener = new DeleteCustomerActionListener();
         deleteCustomer.addActionListener(deleteCustomerActionListener);
 
+        addCommentCustomer = new JMenuItem("Ajouter un commentaire client");
+        menuCustomer.add(addCommentCustomer);
+        addCustomerCommentActionListener = new AddCustomerCommentActionListener();
+        addCommentCustomer.addActionListener(addCustomerActionListener);
 
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         setExtendedState(JFrame.MAXIMIZED_BOTH);
@@ -124,6 +136,9 @@ public class MainWindows extends JFrame implements IRegistrationListener {
 
     public void updateCustomer(Customer customer) throws UpdateCustomerException {
         customerController.updateCustomer(customer);
+    }
+    public void addReview(Review review) throws SQLException {
+        reviewController.addReview(review);
     }
 
     public LocalityController getLocalityController() {
@@ -175,6 +190,21 @@ public class MainWindows extends JFrame implements IRegistrationListener {
                 frameContainer.revalidate();
                 frameContainer.repaint();
             } catch (GetAllCountryException ex) {
+                JOptionPane.showMessageDialog(null, ex.getMessage());
+            }
+        }
+    }
+
+    private class AddCustomerCommentActionListener implements ActionListener {
+        public void actionPerformed(ActionEvent e) {
+            try{
+                frameContainer.removeAll();
+                reviewForm = new ReviewForm(customerController.getAllCustomers(), hotelController.getAllHotels());
+                reviewForm.setRegistrationListener(MainWindows.this);
+                frameContainer.add(reviewForm, BorderLayout.CENTER);
+                frameContainer.revalidate();
+                frameContainer.repaint();
+            }catch (GetAllHotelsException | GetAllCustomersException ex){
                 JOptionPane.showMessageDialog(null, ex.getMessage());
             }
         }
