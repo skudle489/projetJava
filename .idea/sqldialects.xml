@@ -1,6 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="SqlDialectMappings">
+    <file url="file://$PROJECT_DIR$/projetJavaBloc2/script_sql_remplissage.sql" dialect="MySQL" />
+    <file url="file://$PROJECT_DIR$/projetJavaBloc2/src/business/SearchReviews.java" dialect="GenericSQL" />
+    <file url="file://$PROJECT_DIR$/projetJavaBloc2/src/dataAccess/CountryDBDAO.java" dialect="GenericSQL" />
     <file url="file://$PROJECT_DIR$/projetJavaBloc2/src/dataAccess/CustomerDBDAO.java" dialect="GenericSQL" />
     <file url="file://$PROJECT_DIR$/projetJavaBloc2/src/dataAccess/ReviewDBDAO.java" dialect="GenericSQL" />
   </component>

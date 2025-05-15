@@ -9,7 +9,11 @@ public class PlaneMovementThread extends Thread {
 
     public void run() {
         try {
-            while (true){
+
+            long startTime = System.currentTimeMillis();
+            long duration = 6000;
+
+            while (System.currentTimeMillis() - startTime <= duration){
                 plane.movePlane(2, -1);
                 Thread.sleep(8);
                 plane.repaint();

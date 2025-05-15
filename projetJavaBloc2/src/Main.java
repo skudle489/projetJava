@@ -3,6 +3,7 @@ import dataAccess.DatabaseConnection;
 import dataAccess.ReviewDBDAO;
 import model.*;
 import userInterface.AllCustomersModel;
+import userInterface.AllReviewsModel;
 
 import javax.swing.*;
 import java.time.LocalDate;
@@ -82,7 +83,18 @@ public class Main {
             frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
             frame.setSize(600, 400);
             frame.add(scrollPane);
-            frame.setVisible(false);
+            //frame.setVisible(true);
+
+
+            AllReviewsModel reviewsModel = new AllReviewsModel(reviewDBDAO.getAllReviews());
+            JTable tableReviews = new JTable(reviewsModel);
+            JScrollPane scrollPaneReviews = new JScrollPane(tableReviews);
+
+            JFrame frameReviews = new JFrame("Liste des avis");
+            frameReviews.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+            frameReviews.setSize(600, 400);
+            frameReviews.add(scrollPaneReviews);
+            frameReviews.setVisible(true);
 
             //customerDBDAO.deleteCustomer("thounythea4@gmail.com");
             //customerDBDAO.addCustomer(customer);

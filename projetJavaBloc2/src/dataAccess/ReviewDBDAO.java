@@ -1,6 +1,6 @@
 package dataAccess;
 
-import exceptions.ReviewCreationException;
+import exceptions.*;
 import model.Customer;
 import model.Review;
 
@@ -18,77 +18,93 @@ public class ReviewDBDAO implements IReviewDataAccess {
         connection = DatabaseConnection.getInstance();
     }
 
-    public void addReview(Review review) throws SQLException {
-        String sqlInstruction = "insert into review values(?,?,?,?,?,?,?,?)";
-        PreparedStatement preparedStatement = connection.prepareStatement(sqlInstruction);
-        preparedStatement.setString(1, review.getComment());
+    public void addReview(Review review) throws AddReviewException {
+        try {
+            String sqlInstruction = "insert into review values(?,?,?,?,?,?,?,?)";
+            PreparedStatement preparedStatement = connection.prepareStatement(sqlInstruction);
+            preparedStatement.setString(1, review.getComment());
 
-        LocalDate lastVisitDateHotelCountry = review.getLastVisitDateHotelCountry();
+            LocalDate lastVisitDateHotelCountry = review.getLastVisitDateHotelCountry();
 
-        if (lastVisitDateHotelCountry != null) {
-            preparedStatement.setDate(2, java.sql.Date.valueOf(lastVisitDateHotelCountry));
-        } else {
-            preparedStatement.setNull(2, java.sql.Types.DATE);
+            if (lastVisitDateHotelCountry != null) {
+                preparedStatement.setDate(2, java.sql.Date.valueOf(lastVisitDateHotelCountry));
+            } else {
+                preparedStatement.setNull(2, java.sql.Types.DATE);
+            }
+
+            LocalDate creationDate = review.getCreationDate();
+            preparedStatement.setDate(3, java.sql.Date.valueOf(creationDate));
+
+
+            preparedStatement.setString(4, review.getCustomer());
+            preparedStatement.setInt(5, review.getStar());
+            preparedStatement.setBoolean(6, review.getIsAnonymous());
+            preparedStatement.setString(7, review.getTitle());
+            preparedStatement.setInt(8, review.getHotel());
+            preparedStatement.executeUpdate();
+        } catch (SQLException e) {
+            throw new AddReviewException("Erreur lors de l'ajout d'un avis");
         }
-
-        LocalDate creationDate = review.getCreationDate();
-        preparedStatement.setDate(3, java.sql.Date.valueOf(creationDate));
-
-
-        preparedStatement.setString(4, review.getCustomer());
-        preparedStatement.setInt(5, review.getStar());
-        preparedStatement.setBoolean(6, review.getIsAnonymous());
-        preparedStatement.setString(7, review.getTitle());
-        preparedStatement.setInt(8, review.getHotel());
-        preparedStatement.executeUpdate();
     }
 
-    public ArrayList<Review> getAllReviews() throws SQLException, ReviewCreationException {
-        String sqlInstruction = "select * from review";
-        PreparedStatement preparedStatement = connection.prepareStatement(sqlInstruction);
-        ResultSet data = preparedStatement.executeQuery();
+    public ArrayList<Review> getAllReviews() throws GetAllReviewException {
 
-        Review review;
-        String comment, title, customer;
-        int hotel, star;
-        boolean isAnonymous;
-        LocalDate creationDate, lastVisitDateHotelCountry;
-        ArrayList<Review> reviews = new ArrayList<>();
+        try {
 
-        while (data.next()) {
-            comment = data.getString("comment");
-            lastVisitDateHotelCountry = data.getDate("last_visit_date_hotel_country").toLocalDate();
-            creationDate = data.getDate("creation_date").toLocalDate();
-            customer = data.getString("customer");
-            star = data.getInt("star");
-            isAnonymous = data.getBoolean("is_anonymous");
-            title = data.getString("title");
-            hotel = data.getInt("hotel");
-            review = new Review(comment, hotel, title, isAnonymous, star, customer, creationDate, lastVisitDateHotelCountry);
-            reviews.add(review);
+            String sqlInstruction = "select * from review";
+            PreparedStatement preparedStatement = connection.prepareStatement(sqlInstruction);
+            ResultSet data = preparedStatement.executeQuery();
+
+            Review review;
+            String comment, title, customer;
+            int hotel, star;
+            boolean isAnonymous;
+            LocalDate creationDate, lastVisitDateHotelCountry;
+            ArrayList<Review> reviews = new ArrayList<>();
+
+            while (data.next()) {
+                comment = data.getString("comment");
+                lastVisitDateHotelCountry = data.getDate("last_visit_date_hotel_country").toLocalDate();
+                creationDate = data.getDate("creation_date").toLocalDate();
+                customer = data.getString("customer");
+                star = data.getInt("star");
+                isAnonymous = data.getBoolean("is_anonymous");
+                title = data.getString("title");
+                hotel = data.getInt("hotel");
+                review = new Review(comment, hotel, title, isAnonymous, star, customer, creationDate, lastVisitDateHotelCountry);
+                reviews.add(review);
+            }
+            return reviews;
+        } catch (SQLException | ReviewCreationException exception){
+            throw new GetAllReviewException("Erreur lors de la lecture de tous les avis");
         }
-        return reviews;
     }
 
 
-    public void updateReview(Review review) throws SQLException {
-        String sqlInstruction = "update review set comment = ?, title = ?, is_anonymous = ?, star = ?, last_visit_date_hotel_country = ? where hotel = ? and customer = ? and creation_date = ?";
-        PreparedStatement preparedStatement = connection.prepareStatement(sqlInstruction);
-        preparedStatement.setString(1, review.getComment());
-        preparedStatement.setString(2, review.getTitle());
-        preparedStatement.setBoolean(3, review.getIsAnonymous());
-        preparedStatement.setInt(4, review.getStar());
+    public void updateReview(Review review) throws UpdateReviewException {
 
-        if (review.getLastVisitDateHotelCountry() != null) {
-            preparedStatement.setDate(5, java.sql.Date.valueOf(review.getLastVisitDateHotelCountry()));
-        } else {
-            preparedStatement.setNull(5, java.sql.Types.DATE);
+        try {
+
+            String sqlInstruction = "update review set comment = ?, title = ?, is_anonymous = ?, star = ?, last_visit_date_hotel_country = ? where hotel = ? and customer = ? and creation_date = ?";
+            PreparedStatement preparedStatement = connection.prepareStatement(sqlInstruction);
+            preparedStatement.setString(1, review.getComment());
+            preparedStatement.setString(2, review.getTitle());
+            preparedStatement.setBoolean(3, review.getIsAnonymous());
+            preparedStatement.setInt(4, review.getStar());
+
+            if (review.getLastVisitDateHotelCountry() != null) {
+                preparedStatement.setDate(5, java.sql.Date.valueOf(review.getLastVisitDateHotelCountry()));
+            } else {
+                preparedStatement.setNull(5, java.sql.Types.DATE);
+            }
+
+            preparedStatement.setInt(6, review.getHotel());
+            preparedStatement.setString(7, review.getCustomer());
+            preparedStatement.setDate(8, java.sql.Date.valueOf(review.getCreationDate()));
+            preparedStatement.executeUpdate();
+        } catch (SQLException e) {
+            throw new UpdateReviewException("Erreur lors de la mise à jour de l'avis");
         }
-
-        preparedStatement.setInt(6, review.getHotel());
-        preparedStatement.setString(7, review.getCustomer());
-        preparedStatement.setDate(8, java.sql.Date.valueOf(review.getCreationDate()));
-        preparedStatement.executeUpdate();
     }
 
     public void deleteReview(int hotel, String customer, LocalDate creationDate) throws SQLException {
@@ -102,11 +118,32 @@ public class ReviewDBDAO implements IReviewDataAccess {
 
 
 
-    public void deleteReviews(String customer) throws SQLException {
-        String sqlInstruction = "delete from review where customer = ?";
-        PreparedStatement preparedStatement = connection.prepareStatement(sqlInstruction);
-        preparedStatement.setString(1, customer);
-        preparedStatement.executeUpdate();
+    public void deleteReviews(String customer) throws DeleteReviewException {
+        try {
+            String sqlInstruction = "delete from review where customer = ?";
+            PreparedStatement preparedStatement = connection.prepareStatement(sqlInstruction);
+            preparedStatement.setString(1, customer);
+            preparedStatement.executeUpdate();
+        } catch (SQLException exception) {
+            throw new DeleteReviewException("Erreur lors de la supression de l'avis client");
+        }
     }
+
+
+/*
+    //creer une classe qui contient les info ?
+    public ??? searchReviewBetweenDates (int stars, LocalDate startDate, LocalDate endDate) throws SQLException {
+        String sqlInstruction = "SELECT r.comment, h.name, h.stars, c.first_name, c.last_name " +
+                "FROM review AS r " +
+                "INNER JOIN hotel AS h ON r.hotel_id = h.hotel_id " +
+                "INNER JOIN customer AS c ON r.customer_email = c.mail_adress" +
+                "WHERE r.stars = ? AND r.creation_date BETWEEN ? AND ?";
+        PreparedStatement preparedStatement = connection.prepareStatement(sqlInstruction);
+        preparedStatement.setInt(1, stars);
+        preparedStatement.setDate(2, java.sql.Date.valueOf(startDate));
+        preparedStatement.setDate(3, java.sql.Date.valueOf(endDate));
+        return preparedStatement.executeQuery();
+
+    }*/
 
 }

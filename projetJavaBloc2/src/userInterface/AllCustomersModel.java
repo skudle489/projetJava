@@ -8,7 +8,7 @@ import java.util.ArrayList;
 import java.util.Date;
 
 public class AllCustomersModel extends AbstractTableModel {
-    private ArrayList<String> columnNames;
+    private final ArrayList<String> columnNames;
     private ArrayList<Customer> contents;
 
     public AllCustomersModel(ArrayList<Customer> contents) {

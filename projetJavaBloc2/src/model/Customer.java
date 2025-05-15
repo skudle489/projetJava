@@ -139,17 +139,13 @@ public class Customer {
     }
 
     public void setSecondaryPhone(String secondaryPhone) throws CustomerCreationException {
-        if (secondaryPhone == null) {
+        if (secondaryPhone == null || secondaryPhone.isEmpty()) {
             this.secondaryPhone = null;
         } else {
-            if (secondaryPhone.isEmpty()) {
-                throw new CustomerCreationException("Le numéro du téléphone secondaire ne peut pas etre vide");
+            if (phone == null) {
+                throw new CustomerCreationException("Le numéro du téléphone principal est null");
             } else {
-                if (phone == null) {
-                    throw new CustomerCreationException("Le numéro du téléphone principal est null");
-                } else {
-                    this.secondaryPhone = secondaryPhone;
-                }
+                this.secondaryPhone = secondaryPhone;
             }
         }
     }
@@ -203,19 +199,18 @@ public class Customer {
         return countryIso;
     }
 
-
-
     @Override
     public String toString() {
-        return "\t========== Information du client ========== \n" +
+        return mailAdress;
+        /*return "\t========== Information du client ========== \n" +
                 "Adresse mail :" + mailAdress + "\n" +
                 "Nom complet : " + lastName + " " + firstName + "\n" +
                 "Numéro de téléphone : " + phone + "\n" +
                 "Adresse : " + street + " " + streetNumber + " " + city + " " + postalCode + " "  + countryIso + "\n" +
                 "Date de naissance : " + birthDate + "\n" +
-                "Est vegan : " + (isVegan ? "Oui" : "Non" + "\n" +
-                "Numéro de téléphone secondaire : " + (secondaryPhone == null ? "" : secondaryPhone));
+                "Est vegan : " + (isVegan ? "Oui" : "Non") + "\n" +
+                "Numéro de téléphone secondaire : " + (secondaryPhone == null ? "" : secondaryPhone);
+    */
     }
-
 
 }
