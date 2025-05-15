@@ -13,6 +13,7 @@ public class Main {
     public static void main(String[] args) {
 
         try {
+
             Country country = new Country("BE", "Belgique");
             Locality locality = new Locality("Limelette", "BE", "1342");
             Customer customer = new Customer("thounythea4@gmail.com", "Thouny", "Thea", "0498797605", "Rue de l'Europe", 1, 30, 9, 2003, false, "Spy", "5190", "BE", null);
@@ -21,7 +22,7 @@ public class Main {
             Amenity amenity = new Amenity("Chauffage");
             BedroomType bedroomType = new BedroomType("Familliale");
             Bedroom bedroom = new Bedroom(32, 5, 100, 50, null, true, null, "Familliale", 1);
-            BedroomOwnsAmenity bedroomOwnsAmenity = new BedroomOwnsAmenity("Chauffage", 32);
+            BedroomOwnsAmenity bedroomOwnsAmenity = new BedroomOwnsAmenity("Chauffage", 32, 1);
 
             Star star = CreateStar.getStar(5);
             Star star2 = CreateStar.getStar(2);
@@ -32,7 +33,7 @@ public class Main {
 
             BedroomType bedroomType2 = CreateBedroomType.getBedroomType("Familliale");
 
-            BedroomOwnsBed bedroomOwnsBed = new BedroomOwnsBed(32, "King");
+            BedroomOwnsBed bedroomOwnsBed = new BedroomOwnsBed(32, "King", 1);
             Review review = new Review("Trop la classe", 1, "A recommender", true, 4, "thounythea4@gmail.com", LocalDate.now(), null);
 
             Country country2 = CreateCountry.getCountry("BE", "Belgique");

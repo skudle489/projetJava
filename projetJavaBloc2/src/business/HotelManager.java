@@ -15,4 +15,7 @@ public class HotelManager {
     public ArrayList<Hotel> getAllHotels() throws GetAllHotelsException {
         return hotelDBDAO.getAllHotels();
     }
+
 }
+
+

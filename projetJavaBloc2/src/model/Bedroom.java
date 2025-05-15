@@ -105,4 +105,22 @@ public class Bedroom {
             throw new BedroomCreationException("La description ne peut etre vide");
         }
     }
+
+    public String getFullDescription() {
+        String descriptionText = "Chambre numéro " + bedroomNumber + "\n" +
+                "Type : " + bedroomType + "\n" +
+                "Capacité : " + nbOfPeople + " personne" + (nbOfPeople > 1 ? "s" : "") + "\n" +
+                "Surface : " + bedroomSize + " m²\n" +
+                "Prix par jour : " + costPerDay + " euros\n" +
+                "Balcon : " + (hasBalcony ? "Oui" : "Non") + "\n" +
+                "Dernière rénovation : " + lastRenovationDate + "\n" +
+                "Description : " + description + "\n";
+
+        return descriptionText;
+    }
+
+
+    public String toString(){
+        return "Chambre numéro " + bedroomNumber;
+    }
 }

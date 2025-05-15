@@ -218,7 +218,7 @@ public class ReviewForm extends JPanel {
                     registrationListener.addReview(review);
                 }
 
-            }catch(SQLException | ReviewCreationException ex){
+            }catch(AddReviewException | ReviewCreationException ex){
                 JOptionPane.showMessageDialog(null, ex.getMessage());
             }
         }

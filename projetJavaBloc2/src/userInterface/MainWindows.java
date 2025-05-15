@@ -1,6 +1,6 @@
 package userInterface;
 
-import controller.LocalityController;
+import controller.*;
 import dataAccess.CountryDBDAO;
 import dataAccess.CustomerDBDAO;
 
@@ -16,17 +16,13 @@ import java.awt.event.ActionListener;
 import java.sql.SQLException;
 import java.util.ArrayList;
 
-import controller.CustomerController;
-import controller.CountryController;
-import controller.HotelController;
-import controller.ReviewController;
-
 public class MainWindows extends JFrame implements IRegistrationListener {
     private CustomerController customerController;
     private CountryController countryController;
     private HotelController hotelController;
     private ReviewController reviewController;
     private LocalityController localityController;
+    private BedroomController bedroomController;
 
     private Plane plane;
     private Container container;
@@ -59,8 +55,9 @@ public class MainWindows extends JFrame implements IRegistrationListener {
 
         customerController = new CustomerController();
         countryController = new CountryController();
+        localityController = new LocalityController();
         hotelController = new HotelController();
-        reviewController = new ReviewController();
+        bedroomController = new BedroomController();
 
         setBounds(100, 100, 700, 300);
         container = getContentPane();
@@ -137,7 +134,7 @@ public class MainWindows extends JFrame implements IRegistrationListener {
     public void updateCustomer(Customer customer) throws UpdateCustomerException {
         customerController.updateCustomer(customer);
     }
-    public void addReview(Review review) throws SQLException {
+    public void addReview(Review review) throws AddReviewException {
         reviewController.addReview(review);
     }
 
@@ -161,6 +158,14 @@ public class MainWindows extends JFrame implements IRegistrationListener {
         } catch (GetCustomerException e) {
             return false;
         }
+    }
+
+    public HotelController getHotelController(){
+        return hotelController;
+    }
+
+    public BedroomController getBedroomController(){
+        return bedroomController;
     }
 
     public CustomerController getCustomerController() {
