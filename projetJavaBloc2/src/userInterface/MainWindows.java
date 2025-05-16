@@ -42,6 +42,9 @@ public class MainWindows extends JFrame implements IRegistrationListener {
     private LocalityController localityController;
     private HotelController hotelController;
     private BedroomController bedroomController;
+    private BedroomOwnsAmenityController bedroomOwnsAmenityController;
+    private BedroomOwnsBedController bedroomOwnsBedController;
+    private ReservationController reservationController;
 
 
     public MainWindows() {
@@ -52,6 +55,9 @@ public class MainWindows extends JFrame implements IRegistrationListener {
         localityController = new LocalityController();
         hotelController = new HotelController();
         bedroomController = new BedroomController();
+        bedroomOwnsAmenityController = new BedroomOwnsAmenityController();
+        bedroomOwnsBedController = new BedroomOwnsBedController();
+        reservationController = new ReservationController();
 
 
         setBounds(100, 100, 700, 300);
@@ -164,6 +170,16 @@ public class MainWindows extends JFrame implements IRegistrationListener {
         return countryController;
     }
 
+    public ReservationController getReservationController() {return reservationController;}
+
+    public BedroomOwnsAmenityController getBedroomOwnsAmenityController() {
+        return bedroomOwnsAmenityController;
+    }
+
+    public BedroomOwnsBedController getBedroomOwnsBedController() {
+        return bedroomOwnsBedController;
+    }
+
     public void showPanel(JPanel panel) {
         frameContainer.removeAll();
         frameContainer.add(panel, BorderLayout.CENTER);
@@ -178,7 +194,7 @@ public class MainWindows extends JFrame implements IRegistrationListener {
             try {
                 frameContainer.removeAll();
                 registrationForm = new RegistrationForm(countryController.getAllCountries(), null);
-                registrationForm.setRegistrationListener(MainWindows.this);
+                registrationForm.setMainWindows(MainWindows.this);
                 frameContainer.add(registrationForm, BorderLayout.CENTER);
                 frameContainer.revalidate();
                 frameContainer.repaint();
@@ -234,7 +250,7 @@ public class MainWindows extends JFrame implements IRegistrationListener {
             frameContainer.removeAll();
             reservationPanel = new ReservationPanel();
             frameContainer.add(reservationPanel, BorderLayout.CENTER);
-            reservationPanel.reservationlistener(MainWindows.this);
+            reservationPanel.setMainWindows(MainWindows.this);
             frameContainer.revalidate();
             frameContainer.repaint();
         }

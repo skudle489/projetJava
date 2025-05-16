@@ -134,7 +134,7 @@ public class CustomerDBDAO implements ICustomerDataAccess {
             PreparedStatement preparedStatement = connection.prepareStatement(sqlInstruction);
             preparedStatement.setString(1, mailAdress);
             preparedStatement.executeUpdate();
-        } catch (SQLException | DeleteReviewException e) {
+        } catch (SQLException | DeleteReservationException | DeleteReviewException e) {
             throw new DeleteCustomerException("Erreur lors de la suppression du client");
         }
     }

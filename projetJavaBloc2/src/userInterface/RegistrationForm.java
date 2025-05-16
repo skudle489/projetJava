@@ -28,7 +28,7 @@ public class RegistrationForm extends JPanel {
     private JLabel mailAddressLabel, firstNameLabel, lastName, street, streetNumber, birthday, phone, secondaryPhone, dayLabel, monthLabel, yearLabel, cityLabel, postalCode, country ;
     private JTextField mailAddressTextField, firstNameTextField, lastNameTextField, streetTextField, streetNumberTextField, postalCodeTextField, phoneTextField, secondaryPhoneTextField, cityTextField;
     private JButton buttonValidation;
-    private MainWindows registrationListener;
+    private MainWindows mainWindows;
 
     private JComboBox dayCombox;
     private JComboBox monthCombox;
@@ -209,7 +209,7 @@ public class RegistrationForm extends JPanel {
         try {
 
             cityPostalCode.removeAllItems();
-            ArrayList<Locality> localities = registrationListener.getLocalityController().getAllLocalityWithCountry(countryIso);
+            ArrayList<Locality> localities = mainWindows.getLocalityController().getAllLocalityWithCountry(countryIso);
 
             for (Locality locality : localities) {
                 cityPostalCode.addItem(locality);
@@ -271,8 +271,8 @@ public class RegistrationForm extends JPanel {
     }
 
 
-    public void setRegistrationListener(MainWindows listener) {
-        this.registrationListener = listener;
+    public void setMainWindows(MainWindows listener) {
+        this.mainWindows = listener;
 
         if (customer != null) {
 
@@ -308,58 +308,57 @@ public class RegistrationForm extends JPanel {
 
     private class ValidateButtonActionListener implements ActionListener {
         public void actionPerformed(ActionEvent e) {
-            if (registrationListener != null) {
 
-                String mailAdress = mailAddressTextField.getText();
-                String firstName = firstNameTextField.getText();
-                String lastName = lastNameTextField.getText();
-                String phone = phoneTextField.getText();
-                String street = streetTextField.getText();
-                String streetNumber = streetNumberTextField.getText();
-                int iDay = dayCombox.getSelectedIndex();
-                int iMonth = monthCombox.getSelectedIndex();
-                int iYear = yearCombox.getSelectedIndex();
-                boolean isVegan = isVeganCheckBox.isSelected();
+            String mailAdress = mailAddressTextField.getText();
+            String firstName = firstNameTextField.getText();
+            String lastName = lastNameTextField.getText();
+            String phone = phoneTextField.getText();
+            String street = streetTextField.getText();
+            String streetNumber = streetNumberTextField.getText();
+            int iDay = dayCombox.getSelectedIndex();
+            int iMonth = monthCombox.getSelectedIndex();
+            int iYear = yearCombox.getSelectedIndex();
+            boolean isVegan = isVeganCheckBox.isSelected();
 
-                Country selectedCountry = (Country) countryComboBox.getSelectedItem();
-                Locality selectedLocality = (Locality) cityPostalCode.getSelectedItem();
+            Country selectedCountry = (Country) countryComboBox.getSelectedItem();
+            Locality selectedLocality = (Locality) cityPostalCode.getSelectedItem();
 
-                String city = selectedLocality.getCity();
-                String postalCode = selectedLocality.getPostalCode();
-                Country country = (Country) countryComboBox.getSelectedItem();
-                String iso = country.getIso();
-                String secondaryPhone = secondaryPhoneTextField.getText();
+            String city = selectedLocality.getCity();
+            String postalCode = selectedLocality.getPostalCode();
+            Country country = (Country) countryComboBox.getSelectedItem();
+            String iso = country.getIso();
+            String secondaryPhone = secondaryPhoneTextField.getText();
 
-                try {
-                    CustomerFormValidator.validateMailAdress(mailAdress);
+            try {
+                CustomerFormValidator.validateMailAdress(mailAdress);
 
 
-                    CustomerFormValidator.validateStringValue("prénom", firstName);
-                    CustomerFormValidator.validateStringValue("nom", lastName);
-                    CustomerFormValidator.validatePhone(phone);
-                    CustomerFormValidator.validateStringValue("rue", street);
-                    CustomerFormValidator.validateStreetNumber(streetNumber);
-                    CustomerFormValidator.validateBirthDateAdult(daysValues[iDay], monthsValues[iMonth], yearsValues[iYear]);
-                    CustomerFormValidator.validateSecondaryPhone(secondaryPhone);
+                CustomerFormValidator.validateStringValue("prénom", firstName);
+                CustomerFormValidator.validateStringValue("nom", lastName);
+                CustomerFormValidator.validatePhone(phone);
+                CustomerFormValidator.validateStringValue("rue", street);
+                CustomerFormValidator.validateStreetNumber(streetNumber);
+                CustomerFormValidator.validateBirthDateAdult(daysValues[iDay], monthsValues[iMonth], yearsValues[iYear]);
+                CustomerFormValidator.validateSecondaryPhone(secondaryPhone);
 
-                    Customer customer = new Customer(mailAdress, firstName, lastName, phone, street, Integer.parseInt(streetNumber), daysValues[iDay], monthsValues[iMonth], yearsValues[iYear], isVegan, city, postalCode, iso, secondaryPhone);
+                Customer customer = new Customer(mailAdress, firstName, lastName, phone, street, Integer.parseInt(streetNumber), daysValues[iDay], monthsValues[iMonth], yearsValues[iYear], isVegan, city, postalCode, iso, secondaryPhone);
 
-                    if (RegistrationForm.this.customer != null) {
-                        registrationListener.updateCustomer(customer);
-                    } else {
-                        if (registrationListener.customerExists(mailAdress)) {
-                            throw new GetCustomerException("Client déjà existant");
-                        }
-                        registrationListener.addCustomer(customer);
+                if (RegistrationForm.this.customer != null) {
+                    mainWindows.updateCustomer(customer);
+                } else {
+                    if (mainWindows.customerExists(mailAdress)) {
+                        throw new GetCustomerException("Client déjà existant");
                     }
-
-
-                    registrationListener.onRegistrationValidated();
-                } catch (GetCustomerException | UpdateCustomerException | CustomerCreationException |
-                         AddCustomerException ex) {
-                    JOptionPane.showMessageDialog(null, ex.getMessage());
+                    mainWindows.addCustomer(customer);
                 }
+
+
+                mainWindows.onRegistrationValidated();
+            } catch (GetCustomerException | UpdateCustomerException | CustomerCreationException |
+                     AddCustomerException ex) {
+                JOptionPane.showMessageDialog(null, ex.getMessage());
             }
+
         }
     }
 }

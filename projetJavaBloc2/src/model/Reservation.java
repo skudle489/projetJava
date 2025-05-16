@@ -1,6 +1,8 @@
 package model;
 
+import exceptions.CustomerCreationException;
 import exceptions.ReservationCreationException;
+import utils.CustomerFormValidator;
 
 import java.time.LocalDate;
 
@@ -11,12 +13,43 @@ public class Reservation {
     private int bedroom;
     private int hotel;
 
-    public Reservation(LocalDate startDate, LocalDate endDate, String customer, int bedroom, int hotel) throws ReservationCreationException {
-        setStartDate(startDate);
-        setEndDate(endDate);
-        this.customer = customer;
+    public Reservation(LocalDate startDate, LocalDate endDate, String customer, int bedroom, int hotel) throws ReservationCreationException, CustomerCreationException {
+        this.startDate = startDate;
+        this.endDate = endDate;
+
+        validateStartDate();
+        validateEndDate();
+
+
+        setCustomer(customer);
         setBedroom(bedroom);
         setHotel(hotel);
+    }
+
+    public LocalDate getStartDate() {
+        return startDate;
+    }
+
+    public LocalDate getEndDate() {
+        return endDate;
+    }
+
+    public String getCustomer() {
+        return customer;
+    }
+
+    public int getBedroom() {
+        return bedroom;
+    }
+
+    public int getHotel() {
+        return hotel;
+    }
+
+
+    public void setCustomer(String customer) throws CustomerCreationException {
+        CustomerFormValidator.validateMailAdress(customer);
+        this.customer = customer;
     }
 
     public void setHotel(int hotel) throws ReservationCreationException {
@@ -36,23 +69,18 @@ public class Reservation {
     }
 
 
-    public void setStartDate(LocalDate startDate) throws ReservationCreationException {
+    public void validateStartDate() throws ReservationCreationException {
         if (startDate == null) {
             throw new ReservationCreationException("La date de début de la réservation ne peut etre null");
         } else {
             if (startDate.isBefore(LocalDate.now())) {
                 throw new ReservationCreationException("La date de début de la réservation ne peut commencer avant la date actuelle");
-            } else {
-                if (startDate.isAfter(endDate)) {
-                    throw new ReservationCreationException("La date de début de la réservation ne peut commencer après la date de fin de la réservation");
-                } else {
-                    this.startDate = startDate;
-                }
             }
         }
     }
 
-    public void setEndDate(LocalDate endDate) throws ReservationCreationException {
+
+    public void validateEndDate() throws ReservationCreationException {
         if (endDate == null) {
             throw new ReservationCreationException("La date de fin de la réservation ne peut etre null");
         } else {
@@ -62,8 +90,9 @@ public class Reservation {
                 if (endDate.isBefore(LocalDate.now())) {
                     throw new ReservationCreationException("La date de fin de la réservation ne peut se terminer avant la date actuelle");
                 }
-                this.endDate = endDate;
             }
         }
     }
 }
+
+

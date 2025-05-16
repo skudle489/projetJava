@@ -10,4 +10,12 @@ public class BedroomOwnsBed {
         this.bed = bed;
         this.hotel = hotel;
     }
+
+    public int getBedroom() {
+        return bedroom;
+    }
+
+    public String getBed() {
+        return bed;
+    }
 }

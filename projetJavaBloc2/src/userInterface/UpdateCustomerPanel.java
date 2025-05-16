@@ -62,7 +62,7 @@ public class UpdateCustomerPanel extends JPanel {
                 Customer selectedCustomer = (Customer) customersComboBox.getSelectedItem();
 
                 RegistrationForm registrationForm = new RegistrationForm(updateCustomerListener.getCountryController().getAllCountries(), selectedCustomer);
-                registrationForm.setRegistrationListener(updateCustomerListener);
+                registrationForm.setMainWindows(updateCustomerListener);
                 updateCustomerListener.showPanel(registrationForm);
 
             } catch (GetAllCountryException exception){
