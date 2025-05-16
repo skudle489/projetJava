@@ -93,6 +93,11 @@ public class Reservation {
             }
         }
     }
+
+    public String toString() {
+        return "hotel " + hotel + " chambre " + bedroom + " le " + startDate + " au " + endDate;
+    }
+
 }
 
 

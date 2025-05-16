@@ -99,6 +99,36 @@ public class ReservationDBDAO {
         }
     }
 
+    public ArrayList<Reservation> getAllReservationsCustomer(String customer) throws ReservationException {
+
+        try {
+            String sqlInstruction = "select * from reservation where customer = ?";
+            PreparedStatement preparedStatement = connection.prepareStatement(sqlInstruction);
+            preparedStatement.setString(1, customer);
+            ResultSet data = preparedStatement.executeQuery();
+
+
+            LocalDate startDate;
+            LocalDate endDate;
+
+            int bedroom;
+            int hotel;
+
+            ArrayList<Reservation> reservations = new ArrayList<>();
+            while (data.next()) {
+                startDate = data.getDate("start_date").toLocalDate();
+                endDate = data.getDate("end_date").toLocalDate();
+                bedroom = data.getInt("bedroom_number");
+                hotel = data.getInt("hotel");
+                reservations.add(new Reservation(startDate, endDate, customer, bedroom, hotel));
+            }
+            return reservations;
+
+        } catch (SQLException | ReservationCreationException | CustomerCreationException exception) {
+            throw new ReservationException("Erreur lors de la lecture de tous les réservations client " + exception.getMessage());
+        }
+    }
+
 
 
 

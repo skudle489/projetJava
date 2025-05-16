@@ -1,8 +1,7 @@
 package controller;
 
 import business.ReservationManager;
-import exceptions.IsRoomReservedException;
-import exceptions.ReservationException;
+import exceptions.*;
 import model.Reservation;
 
 import java.time.LocalDate;
@@ -25,6 +24,14 @@ public class ReservationController {
 
     public void addReservation(Reservation reservation) throws ReservationException {
         reservationManager.addReservation(reservation);
+    }
+
+    public ArrayList<Reservation> getAllReservationsCustomer(String customer) throws ReservationException {
+        return reservationManager.getAllReservationsCustomer(customer);
+    }
+
+    public String getReservationInvoiceCustomer(Reservation reservation) throws ReservationException, GetAllAmenitiesFromBedroomException, GetAllBedsFromBedroomException, BedroomCreationException {
+        return reservationManager.getReservationInvoiceCustomer(reservation);
     }
 
 

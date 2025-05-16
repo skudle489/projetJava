@@ -1,9 +1,6 @@
 package dataAccess;
 
-import exceptions.DataAccessException;
-import exceptions.GetAllCountryException;
-import exceptions.GetAllHotelsException;
-import exceptions.HotelCreationException;
+import exceptions.*;
 import model.Hotel;
 
 import java.sql.Connection;
@@ -48,6 +45,21 @@ public class HotelDBDAO {
             return hotels;
         } catch (SQLException | HotelCreationException exception){
             throw new GetAllHotelsException("Erreur lors de la lecture de tous les hotels");
+        }
+    }
+
+    public String getHotelName(int id) throws HotelException {
+        try {
+            String sqlInstruction = "select name from hotel where id = ?";
+            PreparedStatement preparedStatement = connection.prepareStatement(sqlInstruction);
+            preparedStatement.setInt(1, id);
+            ResultSet data = preparedStatement.executeQuery();
+            data.next();
+            return data.getString("name");
+
+
+        } catch (SQLException exception){
+            throw new HotelException("Erreur lors de la recherche du nom d'hotel " + exception.getMessage());
         }
     }
 

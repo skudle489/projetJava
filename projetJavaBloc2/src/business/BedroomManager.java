@@ -16,4 +16,8 @@ public class BedroomManager {
     public ArrayList<Bedroom> getBedroomsFromHotel(int hotelID) throws BedroomCreationException {
         return bedroomDBDAO.getBedroomsFromHotel(hotelID);
     }
+
+    public Bedroom getBedroom(int bedroomNumber, int hotel) throws BedroomCreationException {
+        return bedroomDBDAO.getBedroom(bedroomNumber, hotel);
+    }
 }

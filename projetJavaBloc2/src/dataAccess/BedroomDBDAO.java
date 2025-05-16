@@ -55,4 +55,37 @@ public class BedroomDBDAO {
             throw new BedroomCreationException("Erreur lors de la récupération des chambres de l'hotel " + exception.getMessage());
         }
     }
+
+
+
+    public Bedroom getBedroom(int bedroomNumber, int hotel) throws BedroomCreationException {
+        try {
+
+            String sqlInstruction = "SELECT * FROM bedroom WHERE bedroom_number = ? and hotel = ?";
+            PreparedStatement preparedStatement = connection.prepareStatement(sqlInstruction);
+            preparedStatement.setInt(1, bedroomNumber);
+            preparedStatement.setInt(2, hotel);
+            ResultSet data = preparedStatement.executeQuery();
+            data.next();
+
+            int nbOfPeople;
+            double bedroomSize;
+            double costPerDay;
+            String description;
+            boolean hasBalcony;
+            LocalDate lastRenovationDate;
+            String bedroomType;
+
+            nbOfPeople = data.getInt("nb_of_people");
+            bedroomSize = data.getFloat("bedroom_size");
+            costPerDay = data.getFloat("cost_per_day");
+            description = data.getString("description");
+            hasBalcony = data.getBoolean("has_balcony");
+            lastRenovationDate = data.getDate("last_renovation_date").toLocalDate();
+            bedroomType = data.getString("bedroom_type");
+            return new Bedroom(bedroomNumber, nbOfPeople, bedroomSize, costPerDay, description, hasBalcony, lastRenovationDate, bedroomType, hotel);
+        } catch (SQLException exception) {
+            throw new BedroomCreationException("Erreur lors de la lecture du lit " + exception.getMessage());
+        }
+    }
 }

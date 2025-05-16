@@ -256,10 +256,8 @@ public class ReservationPanel extends JPanel {
                 mainWindows.repaint();
 
 
-            } catch (ReservationException | ReservationCreationException | CustomerCreationException exception){
+            } catch (IsRoomReservedException | ReservationException | ReservationCreationException | CustomerCreationException exception){
                 JOptionPane.showMessageDialog(mainPanel, exception.getMessage(), "Erreur", JOptionPane.ERROR_MESSAGE);
-            } catch (IsRoomReservedException ex) {
-                throw new RuntimeException(ex);
             }
         }
     }

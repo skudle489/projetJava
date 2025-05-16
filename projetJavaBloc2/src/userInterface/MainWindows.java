@@ -23,7 +23,7 @@ public class MainWindows extends JFrame implements IRegistrationListener {
 
     private JMenuBar menuBar;
     private JMenu menuCustomer, reservationMenu;
-    private JMenuItem customerRegistration, listingCustomers, updateCustomer, deleteCustomer, newReservationMenuItem;
+    private JMenuItem customerRegistration, listingCustomers, updateCustomer, deleteCustomer, newReservationMenuItem, reservationInvoiceMenuItem;
     private Container frameContainer;
 
     private RegistrationForm registrationForm;
@@ -36,6 +36,7 @@ public class MainWindows extends JFrame implements IRegistrationListener {
 
     private DeleteCustomerPanel deleteCustomerPanel;
     private ReservationPanel reservationPanel;
+    private ReservationInvoicePanel reservationInvoicePanel;
 
 
     private CountryController countryController;
@@ -88,6 +89,10 @@ public class MainWindows extends JFrame implements IRegistrationListener {
         newReservationMenuItem = new JMenuItem("Nouvelle Reservation");
         reservationMenu.add(newReservationMenuItem);
         newReservationMenuItem.addActionListener(new NewReservationActionListener());
+
+        reservationInvoiceMenuItem = new JMenuItem("Facture réservation");
+        reservationInvoiceMenuItem.addActionListener(new ReservationInvoiceActionListener());
+        reservationMenu.add(reservationInvoiceMenuItem);
 
 
         customerRegistration = new JMenuItem("Inscription");
@@ -253,6 +258,21 @@ public class MainWindows extends JFrame implements IRegistrationListener {
             reservationPanel.setMainWindows(MainWindows.this);
             frameContainer.revalidate();
             frameContainer.repaint();
+        }
+    }
+
+    private class ReservationInvoiceActionListener implements ActionListener {
+        public void actionPerformed(ActionEvent e) {
+            try {
+                frameContainer.removeAll();
+                reservationInvoicePanel = new ReservationInvoicePanel();
+                frameContainer.add(reservationInvoicePanel, BorderLayout.CENTER);
+                reservationInvoicePanel.setMainWindows(MainWindows.this);
+                frameContainer.revalidate();
+                frameContainer.repaint();
+            } catch (GetAllCustomersException | HotelException | ReservationException exception){
+                JOptionPane.showMessageDialog(null, exception.getMessage());
+            }
         }
     }
 
