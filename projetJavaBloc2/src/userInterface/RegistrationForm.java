@@ -4,6 +4,7 @@ import exceptions.*;
 import model.Country;
 import model.Customer;
 import model.Locality;
+import utils.AppControllers;
 import utils.CustomerFormValidator;
 
 import javax.swing.*;
@@ -43,20 +44,31 @@ public class RegistrationForm extends JPanel {
 
     Customer customer;
 
+    AppControllers appControllers;
+
 
     private ArrayList<Country> countries;
 
-    public RegistrationForm(ArrayList<Country> countries, Customer customer) {
+    public RegistrationForm(AppControllers appControllers, Customer customer) throws GetAllCountryException, GetAllLocalityWithCountryException {
+
+        this.appControllers = appControllers;
+
         this.customer = customer;
 
-        this.countries = countries;
+        this.countries = appControllers.getCountryController().getAllCountries();
 
         setUpUI();
 
         if (customer != null) {
             setCustomerValue();
+        } else {
+            initializeComboBoxCityPostalCodeDefaultValues();
         }
 
+    }
+
+    public void setMainWindows(MainWindows mainWindows) {
+        this.mainWindows = mainWindows;
     }
 
 
@@ -70,6 +82,10 @@ public class RegistrationForm extends JPanel {
         formPanel.add(mailAddressLabel);
         mailAddressTextField = new JTextField();
         formPanel.add(mailAddressTextField);
+
+        if (customer != null) {
+            mailAddressTextField.setEditable(false);
+        }
 
         firstNameLabel=new JLabel("Prénom :");
         formPanel.add(firstNameLabel);
@@ -196,7 +212,11 @@ public class RegistrationForm extends JPanel {
                 if (e.getStateChange() == ItemEvent.SELECTED) {
                     Country selectedCountry = (Country) countryComboBox.getSelectedItem();
                     if (selectedCountry != null) {
-                        loadLocalitiesForCountry(selectedCountry.getIso());
+                        try {
+                            loadLocalitiesForCustomerCountry(selectedCountry.getIso());
+                        } catch (GetAllLocalityWithCountryException ex) {
+                            JOptionPane.showMessageDialog(mainWindows, ex.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
+                        }
                     }
                 }
             }
@@ -205,30 +225,19 @@ public class RegistrationForm extends JPanel {
     }
 
 
-    private void loadLocalitiesForCountry(String countryIso) {
-        try {
 
-            cityPostalCode.removeAllItems();
-            ArrayList<Locality> localities = mainWindows.getLocalityController().getAllLocalityWithCountry(countryIso);
-
-            for (Locality locality : localities) {
-                cityPostalCode.addItem(locality);
+    public void setCustomerLocality(){
+        for (int i = 0; i < cityPostalCode.getItemCount(); i++) {
+            Locality locality = (Locality) cityPostalCode.getItemAt(i);
+            if (Objects.equals(locality.getCity(), customer.getCity()) && Objects.equals(locality.getPostalCode(), customer.getPostalCode())) {
+                cityPostalCode.setSelectedItem(locality);
+                break;
             }
-
-        } catch (Exception e) {
-            JOptionPane.showMessageDialog(null, "Impossible de charger les villes : " + e.getMessage());
         }
     }
 
 
-
-
-
-
-
-
-
-    public void setCustomerValue(){
+    public void setCustomerValue() throws GetAllLocalityWithCountryException {
 
         mailAddressTextField.setText(customer.getMailAdress());
         firstNameTextField.setText(customer.getFirstName());
@@ -268,48 +277,51 @@ public class RegistrationForm extends JPanel {
             isVeganCheckBox.setSelected(true);
         }
 
+        loadCountryForCustomer();
+        loadLocalitiesForCustomerCountry(customer.getCountry());
+        setCustomerLocality();
     }
 
+    private void loadLocalitiesForCustomerCountry(String countryIso) throws GetAllLocalityWithCountryException {
+        cityPostalCode.removeAllItems();
+        ArrayList<Locality> localities = appControllers.getLocalityController().getAllLocalityWithCountry(countryIso);
 
-    public void setMainWindows(MainWindows listener) {
-        this.mainWindows = listener;
-
-        if (customer != null) {
-
-            for (int i = 0; i < countryComboBox.getItemCount(); i++) {
-                Country country = (Country) countryComboBox.getItemAt(i);
-                if (Objects.equals(country.getIso(), customer.getCountry())) {
-                    countryComboBox.setSelectedItem(country);
-                    break;
-                }
-            }
-
-
-            loadLocalitiesForCountry(customer.getCountry());
-
-
-            for (int i = 0; i < cityPostalCode.getItemCount(); i++) {
-                Locality locality = (Locality) cityPostalCode.getItemAt(i);
-                if (Objects.equals(locality.getCity(), customer.getCity()) && Objects.equals(locality.getPostalCode(), customer.getPostalCode())) {
-                    cityPostalCode.setSelectedItem(locality);
-                    break;
-                }
-            }
-
-        } else {
-            initializeComboBoxCityPostalCodeDefaultValues();
+        for (Locality locality : localities) {
+            cityPostalCode.addItem(locality);
         }
     }
 
-    public void initializeComboBoxCityPostalCodeDefaultValues() {
+    public void loadCountryForCustomer(){
+        for (int i = 0; i < countryComboBox.getItemCount(); i++) {
+            Country country = (Country) countryComboBox.getItemAt(i);
+            if (Objects.equals(country.getIso(), customer.getCountry())) {
+                countryComboBox.setSelectedItem(country);
+                break;
+            }
+        }
+    }
+
+
+    public void initializeComboBoxCityPostalCodeDefaultValues() throws GetAllLocalityWithCountryException {
         Country selectedCountry = (Country) countryComboBox.getSelectedItem();
-        loadLocalitiesForCountry(selectedCountry.getIso());
+        loadLocalitiesForCustomerCountry(selectedCountry.getIso());
+    }
+
+    public void validateForm(String mailAddress, String firstName, String lastName, String phone, String street, String streetNumber, int day, int month, int year, String secondaryPhone) throws CustomerCreationException {
+        CustomerFormValidator.validateMailAdress(mailAddress);
+        CustomerFormValidator.validateStringValue("prénom", firstName);
+        CustomerFormValidator.validateStringValue("nom", lastName);
+        CustomerFormValidator.validatePhone(phone);
+        CustomerFormValidator.validateStringValue("rue", street);
+        CustomerFormValidator.validateStreetNumber(streetNumber);
+        CustomerFormValidator.validateBirthDateAdult(day, month, year);
+        CustomerFormValidator.validateSecondaryPhone(secondaryPhone);
     }
 
     private class ValidateButtonActionListener implements ActionListener {
         public void actionPerformed(ActionEvent e) {
 
-            String mailAdress = mailAddressTextField.getText();
+            String mailAddress = mailAddressTextField.getText();
             String firstName = firstNameTextField.getText();
             String lastName = lastNameTextField.getText();
             String phone = phoneTextField.getText();
@@ -320,7 +332,6 @@ public class RegistrationForm extends JPanel {
             int iYear = yearCombox.getSelectedIndex();
             boolean isVegan = isVeganCheckBox.isSelected();
 
-            Country selectedCountry = (Country) countryComboBox.getSelectedItem();
             Locality selectedLocality = (Locality) cityPostalCode.getSelectedItem();
 
             String city = selectedLocality.getCity();
@@ -330,35 +341,21 @@ public class RegistrationForm extends JPanel {
             String secondaryPhone = secondaryPhoneTextField.getText();
 
             try {
-                CustomerFormValidator.validateMailAdress(mailAdress);
-
-
-                CustomerFormValidator.validateStringValue("prénom", firstName);
-                CustomerFormValidator.validateStringValue("nom", lastName);
-                CustomerFormValidator.validatePhone(phone);
-                CustomerFormValidator.validateStringValue("rue", street);
-                CustomerFormValidator.validateStreetNumber(streetNumber);
-                CustomerFormValidator.validateBirthDateAdult(daysValues[iDay], monthsValues[iMonth], yearsValues[iYear]);
-                CustomerFormValidator.validateSecondaryPhone(secondaryPhone);
-
-                Customer customer = new Customer(mailAdress, firstName, lastName, phone, street, Integer.parseInt(streetNumber), daysValues[iDay], monthsValues[iMonth], yearsValues[iYear], isVegan, city, postalCode, iso, secondaryPhone);
+                validateForm(mailAddress, firstName, lastName, phone, street, streetNumber, daysValues[iDay], monthsValues[iMonth], yearsValues[iYear], secondaryPhone);
+                Customer customer = new Customer(mailAddress, firstName, lastName, phone, street, Integer.parseInt(streetNumber), daysValues[iDay], monthsValues[iMonth], yearsValues[iYear], isVegan, city, postalCode, iso, secondaryPhone);
 
                 if (RegistrationForm.this.customer != null) {
-                    mainWindows.updateCustomer(customer);
+                    appControllers.getCustomerController().updateCustomer(customer);
                 } else {
-                    if (mainWindows.customerExists(mailAdress)) {
-                        throw new GetCustomerException("Client déjà existant");
+                    if (appControllers.getCustomerController().customerExists(mailAddress)) {
+                        throw new CustomerCreationException("Client déjà existant");
                     }
-                    mainWindows.addCustomer(customer);
+                    appControllers.getCustomerController().addCustomer(customer);
                 }
-
-
                 mainWindows.onRegistrationValidated();
-            } catch (GetCustomerException | UpdateCustomerException | CustomerCreationException |
-                     AddCustomerException ex) {
-                JOptionPane.showMessageDialog(null, ex.getMessage());
+            } catch (Exception ex) {
+                JOptionPane.showMessageDialog(mainWindows, ex.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
             }
-
         }
     }
 }

@@ -6,6 +6,7 @@ import dataAccess.CustomerDBDAO;
 import exceptions.*;
 import model.Country;
 import model.Customer;
+import utils.AppControllers;
 
 import javax.swing.*;
 import java.awt.*;
@@ -14,11 +15,13 @@ import java.awt.event.ActionListener;
 import java.sql.SQLException;
 import java.util.ArrayList;
 
-public class MainWindows extends JFrame implements IRegistrationListener {
-    private CustomerController customerController;
+public class MainWindows extends JFrame {
+    private final AppControllers appControllers;
+
+
+    //private CustomerController customerController;
 
     private Plane plane;
-    private Container container;
 
 
     private JMenuBar menuBar;
@@ -39,39 +42,40 @@ public class MainWindows extends JFrame implements IRegistrationListener {
     private ReservationInvoicePanel reservationInvoicePanel;
 
 
-    private CountryController countryController;
+    /*private CountryController countryController;
     private LocalityController localityController;
     private HotelController hotelController;
     private BedroomController bedroomController;
     private BedroomOwnsAmenityController bedroomOwnsAmenityController;
     private BedroomOwnsBedController bedroomOwnsBedController;
-    private ReservationController reservationController;
+    private ReservationController reservationController;*/
 
 
     public MainWindows() {
         super("Plane");
+        appControllers = new AppControllers();
 
-        customerController = new CustomerController();
+        /*customerController = new CustomerController();
         countryController = new CountryController();
         localityController = new LocalityController();
         hotelController = new HotelController();
         bedroomController = new BedroomController();
         bedroomOwnsAmenityController = new BedroomOwnsAmenityController();
         bedroomOwnsBedController = new BedroomOwnsBedController();
-        reservationController = new ReservationController();
+        reservationController = new ReservationController();*/
 
 
         setBounds(100, 100, 700, 300);
-        container = getContentPane();
+        frameContainer = getContentPane();
 
         plane = new Plane(100, 600, 200, 100);
-        container.add(plane);
+        frameContainer.add(plane);
 
 
         Timer timer = new Timer(6000, e -> {
-            container.remove(plane);
+            frameContainer.remove(plane);
             plane = null;
-            container.repaint();
+            frameContainer.repaint();
         });
         timer.setRepeats(false);
         timer.start();
@@ -129,7 +133,7 @@ public class MainWindows extends JFrame implements IRegistrationListener {
         frameContainer.repaint();
     }
 
-    public void addCustomer(Customer customer) throws AddCustomerException {
+    /*public void addCustomer(Customer customer) throws AddCustomerException {
         customerController.addCustomer(customer);
     }
 
@@ -139,13 +143,13 @@ public class MainWindows extends JFrame implements IRegistrationListener {
 
     public LocalityController getLocalityController() {
         return localityController;
-    }
+    }*/
 
     public Container getFrameContainer() {
         return frameContainer;
     }
 
-    public Customer getCustomer(String mailAddress) throws GetCustomerException {
+    /*public Customer getCustomer(String mailAddress) throws GetCustomerException {
         return customerController.getCustomer(mailAddress);
     }
 
@@ -183,7 +187,7 @@ public class MainWindows extends JFrame implements IRegistrationListener {
 
     public BedroomOwnsBedController getBedroomOwnsBedController() {
         return bedroomOwnsBedController;
-    }
+    }*/
 
     public void showPanel(JPanel panel) {
         frameContainer.removeAll();
@@ -198,12 +202,12 @@ public class MainWindows extends JFrame implements IRegistrationListener {
         public void actionPerformed(ActionEvent e) {
             try {
                 frameContainer.removeAll();
-                registrationForm = new RegistrationForm(countryController.getAllCountries(), null);
+                registrationForm = new RegistrationForm(appControllers, null);
                 registrationForm.setMainWindows(MainWindows.this);
                 frameContainer.add(registrationForm, BorderLayout.CENTER);
                 frameContainer.revalidate();
                 frameContainer.repaint();
-            } catch (GetAllCountryException ex) {
+            } catch (Exception ex) {
                 JOptionPane.showMessageDialog(null, ex.getMessage());
             }
         }
@@ -213,7 +217,7 @@ public class MainWindows extends JFrame implements IRegistrationListener {
         public void actionPerformed(ActionEvent e) {
             try {
                 frameContainer.removeAll();
-                allCustomersModel = new AllCustomersModel(customerController.getAllCustomers());
+                allCustomersModel = new AllCustomersModel(appControllers.getCustomerController().getAllCustomers());
 
                 JTable table = new JTable(allCustomersModel);
                 JScrollPane scrollPane = new JScrollPane(table);
@@ -230,8 +234,8 @@ public class MainWindows extends JFrame implements IRegistrationListener {
     public class UpdateCustomerActionListener implements ActionListener {
         public void actionPerformed(ActionEvent e) {
             frameContainer.removeAll();
-            updateCustomerPanel = new UpdateCustomerPanel();
-            updateCustomerPanel.setUpdateCustomerListener(MainWindows.this);
+            updateCustomerPanel = new UpdateCustomerPanel(appControllers);
+            updateCustomerPanel.setMainWindow(MainWindows.this);
             frameContainer.add(updateCustomerPanel, BorderLayout.CENTER);
             frameContainer.revalidate();
             frameContainer.repaint();
@@ -241,7 +245,7 @@ public class MainWindows extends JFrame implements IRegistrationListener {
     private class DeleteCustomerActionListener implements ActionListener {
         public void actionPerformed(ActionEvent e) {
             frameContainer.removeAll();
-            deleteCustomerPanel = new DeleteCustomerPanel();
+            deleteCustomerPanel = new DeleteCustomerPanel(appControllers);
             deleteCustomerPanel.setDeleteCustomerListener(MainWindows.this);
             frameContainer.add(deleteCustomerPanel, BorderLayout.CENTER);
             frameContainer.revalidate();
@@ -253,7 +257,7 @@ public class MainWindows extends JFrame implements IRegistrationListener {
     public class NewReservationActionListener implements ActionListener {
         public void actionPerformed(ActionEvent e) {
             frameContainer.removeAll();
-            reservationPanel = new ReservationPanel();
+            reservationPanel = new ReservationPanel(appControllers);
             frameContainer.add(reservationPanel, BorderLayout.CENTER);
             reservationPanel.setMainWindows(MainWindows.this);
             frameContainer.revalidate();
@@ -263,17 +267,15 @@ public class MainWindows extends JFrame implements IRegistrationListener {
 
     private class ReservationInvoiceActionListener implements ActionListener {
         public void actionPerformed(ActionEvent e) {
+            frameContainer.removeAll();
             try {
-                frameContainer.removeAll();
-                reservationInvoicePanel = new ReservationInvoicePanel();
-                frameContainer.add(reservationInvoicePanel, BorderLayout.CENTER);
-                reservationInvoicePanel.setMainWindows(MainWindows.this);
-                frameContainer.revalidate();
-                frameContainer.repaint();
-            } catch (GetAllCustomersException | HotelException | ReservationException exception){
-                JOptionPane.showMessageDialog(null, exception.getMessage());
+                reservationInvoicePanel = new ReservationInvoicePanel(appControllers);
+            } catch (GetAllCustomersException ex) {
+                JOptionPane.showMessageDialog(null, ex.getMessage());
             }
+            frameContainer.add(reservationInvoicePanel, BorderLayout.CENTER);
+            frameContainer.revalidate();
+            frameContainer.repaint();
         }
     }
-
 }

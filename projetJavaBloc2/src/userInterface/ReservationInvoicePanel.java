@@ -8,6 +8,7 @@ import model.Amenity;
 import model.BedroomOwnsBed;
 import model.Customer;
 import model.Reservation;
+import utils.AppControllers;
 
 import javax.swing.*;
 import java.awt.*;
@@ -18,15 +19,16 @@ import java.util.ArrayList;
 public class ReservationInvoicePanel extends JPanel {
     private JLabel mailAddressJLabel, reservationJLabel;
     private JComboBox mailAddressComboBox, reservationComboBox;
-    private MainWindows mainWindows;
     private JPanel mainPanel;
     private JButton reservationInvoiceButton;
+    private AppControllers appControllers;
 
-    public ReservationInvoicePanel() {
+    public ReservationInvoicePanel(AppControllers appControllers) throws GetAllCustomersException {
+        this.appControllers = appControllers;
         setUpUI();
     }
 
-    public void setUpUI() {
+    public void setUpUI() throws GetAllCustomersException {
         mainPanel = new JPanel();
         mainPanel.setLayout(new GridLayout(2, 2));
         mailAddressJLabel = new JLabel("Addresse mail");
@@ -46,32 +48,26 @@ public class ReservationInvoicePanel extends JPanel {
 
         add(mainPanel);
         add(reservationInvoiceButton);
-    }
-
-    public void setMainWindows(MainWindows mainWindows) throws GetAllCustomersException, ReservationException, HotelException {
-        this.mainWindows = mainWindows;
         loadCustomersJComboBox();
     }
 
-    public void loadCustomersJComboBox() throws GetAllCustomersException, ReservationException, HotelException {
-        ArrayList<Customer> customers = mainWindows.getCustomerController().getAllCustomers();
+
+
+    public void loadCustomersJComboBox() throws GetAllCustomersException {
+        ArrayList<Customer> customers = appControllers.getCustomerController().getAllCustomers();
         for (Customer customer : customers) {
             mailAddressComboBox.addItem(customer);
         }
     }
 
 
-
     private void loadCustomerReservationJComboBox(String mailAddress) throws ReservationException, HotelException {
         reservationComboBox.removeAllItems();
-        ArrayList<Reservation> reservations = mainWindows.getReservationController().getAllReservationsCustomer(mailAddress);
+        ArrayList<Reservation> reservations = appControllers.getReservationController().getAllReservationsCustomer(mailAddress);
         for (Reservation reservation : reservations) {
             reservationComboBox.addItem(reservation);
         }
     }
-
-
-
 
 
     private class MailAddressActionListener implements ActionListener {
@@ -91,7 +87,7 @@ public class ReservationInvoicePanel extends JPanel {
         public void actionPerformed(ActionEvent e) {
             try {
                 Reservation reservation = (Reservation) reservationComboBox.getSelectedItem();
-                String description = mainWindows.getReservationController().getReservationInvoiceCustomer(reservation);
+                String description = appControllers.getReservationController().getReservationInvoiceCustomer(reservation);
 
                 JTextArea textArea = new JTextArea(description.toString());
 

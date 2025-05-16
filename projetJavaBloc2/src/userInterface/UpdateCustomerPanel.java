@@ -2,6 +2,7 @@ package userInterface;
 
 import exceptions.*;
 import model.Customer;
+import utils.AppControllers;
 import utils.CustomerFormValidator;
 
 import javax.swing.*;
@@ -18,11 +19,17 @@ public class UpdateCustomerPanel extends JPanel {
     private JComboBox customersComboBox;
 
     private JButton searchCustomerButton;
+    private AppControllers appControllers;
+    private MainWindows mainWindows;
 
-    MainWindows updateCustomerListener;
 
-    public UpdateCustomerPanel() {
+    public UpdateCustomerPanel(AppControllers appControllers) {
+        this.appControllers = appControllers;
         setUpUI();
+    }
+
+    public void setMainWindow(MainWindows mainWindows) {
+        this.mainWindows = mainWindows;
     }
 
     public void setUpUI(){
@@ -37,16 +44,17 @@ public class UpdateCustomerPanel extends JPanel {
         mailAddressPanel.add(searchCustomerButton);
 
         add(mailAddressPanel, BorderLayout.CENTER);
-    }
-
-    public void setUpdateCustomerListener(MainWindows listener){
-        this.updateCustomerListener = listener;
         loadAllCustomersInComboBox();
     }
 
+    public void setMainWindows(MainWindows mainWindows){
+        this.mainWindows = mainWindows;
+    }
+
+
     public void loadAllCustomersInComboBox(){
         try {
-            ArrayList<Customer> customers = updateCustomerListener.getCustomerController().getAllCustomers();
+            ArrayList<Customer> customers = appControllers.getCustomerController().getAllCustomers();
             customersComboBox.removeAllItems();
             for (Customer customer : customers) {
                 customersComboBox.addItem(customer);
@@ -61,11 +69,11 @@ public class UpdateCustomerPanel extends JPanel {
             try {
                 Customer selectedCustomer = (Customer) customersComboBox.getSelectedItem();
 
-                RegistrationForm registrationForm = new RegistrationForm(updateCustomerListener.getCountryController().getAllCountries(), selectedCustomer);
-                registrationForm.setMainWindows(updateCustomerListener);
-                updateCustomerListener.showPanel(registrationForm);
+                RegistrationForm registrationForm = new RegistrationForm(appControllers, selectedCustomer);
+                registrationForm.setMainWindows(mainWindows);
+                mainWindows.showPanel(registrationForm);
 
-            } catch (GetAllCountryException exception){
+            } catch (Exception exception){
                 JOptionPane.showMessageDialog(null, exception.getMessage());
             }
         }

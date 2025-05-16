@@ -35,4 +35,8 @@ public class CustomerController {
         customerManager.deleteCustomer(mailAddress);
     }
 
+    public boolean customerExists(String mailAddress){
+        return customerManager.customerExists(mailAddress);
+    }
+
 }

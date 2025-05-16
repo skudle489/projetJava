@@ -39,4 +39,13 @@ public class CustomerManager {
     public void deleteCustomer(String mailAddress) throws DeleteCustomerException {
         customerDBDAO.deleteCustomer(mailAddress);
     }
+
+    public boolean customerExists(String mailAddress) {
+        try {
+            Customer customer = getCustomer(mailAddress);
+            return customer != null;
+        } catch (GetCustomerException e) {
+            return false;
+        }
+    }
 }

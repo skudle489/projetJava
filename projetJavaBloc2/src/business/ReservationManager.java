@@ -84,6 +84,7 @@ public class ReservationManager {
         description.append("\nPrix total : ");
 
         long days = ChronoUnit.DAYS.between(reservation.getStartDate(), reservation.getEndDate());
+        System.out.println(days);
         if (days == 0) days = 1;
 
         int totalPrice = (int) (days * bedroom.getCostPerDay());

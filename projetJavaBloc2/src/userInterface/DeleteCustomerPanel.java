@@ -4,6 +4,7 @@ import exceptions.CustomerCreationException;
 import exceptions.DeleteCustomerException;
 import exceptions.GetAllCustomersException;
 import model.Customer;
+import utils.AppControllers;
 import utils.CustomerFormValidator;
 
 import javax.swing.*;
@@ -22,8 +23,10 @@ public class DeleteCustomerPanel extends JPanel {
 
     MainWindows updateCustomerListener;
     MainWindows deleteCustomerListener;
+    private AppControllers appControllers;
 
-    public DeleteCustomerPanel() {
+    public DeleteCustomerPanel(AppControllers appControllers) {
+        this.appControllers = appControllers;
         setUpUI();
     }
 
@@ -48,7 +51,7 @@ public class DeleteCustomerPanel extends JPanel {
 
     public void loadAllCustomers() {
         try {
-            ArrayList<Customer> customers = deleteCustomerListener.getCustomerController().getAllCustomers();
+            ArrayList<Customer> customers = appControllers.getCustomerController().getAllCustomers();
             customersComboBox.removeAllItems();
             for (Customer customer : customers) {
                 customersComboBox.addItem(customer);
@@ -72,7 +75,7 @@ public class DeleteCustomerPanel extends JPanel {
                     );
 
                     if (confirmation == JOptionPane.YES_OPTION) {
-                        deleteCustomerListener.getCustomerController().deleteCustomer(selectedCustomer.getMailAdress());
+                        appControllers.getCustomerController().deleteCustomer(selectedCustomer.getMailAdress());
 
                         loadAllCustomers();
 
