@@ -79,8 +79,8 @@ public class DeleteCustomerPanel extends JPanel {
 
                         loadAllCustomers();
 
-                        deleteCustomerListener.getFrameContainer().repaint();
-                        deleteCustomerListener.getFrameContainer().revalidate();
+                        deleteCustomerListener.getContentPane().repaint();
+                        deleteCustomerListener.getContentPane().revalidate();
                     }
                 } else {
                     throw new DeleteCustomerException("Impossible de supprimer un client inexistant");

@@ -1,130 +1,58 @@
 package userInterface;
 
-import controller.*;
-import dataAccess.CountryDBDAO;
-import dataAccess.CustomerDBDAO;
 import exceptions.*;
-import model.Country;
-import model.Customer;
 import utils.AppControllers;
 
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.sql.SQLException;
-import java.util.ArrayList;
 
 public class MainWindows extends JFrame {
     private final AppControllers appControllers;
-
-
-    //private CustomerController customerController;
+    private Container frameContainer;
 
     private Plane plane;
 
-
-    private JMenuBar menuBar;
-    private JMenu menuCustomer, reservationMenu;
-    private JMenuItem customerRegistration, listingCustomers, updateCustomer, deleteCustomer, newReservationMenuItem, reservationInvoiceMenuItem;
-    private Container frameContainer;
-
-    private RegistrationForm registrationForm;
-    private AllCustomersModel allCustomersModel;
-
-    private AddCustomerActionListener addCustomerActionListener;
-    private ListingCustomerActionListener listingCustomerActionListener;
-
-    private UpdateCustomerPanel updateCustomerPanel;
-
-    private DeleteCustomerPanel deleteCustomerPanel;
-    private ReservationPanel reservationPanel;
-    private ReservationInvoicePanel reservationInvoicePanel;
-
-
-    /*private CountryController countryController;
-    private LocalityController localityController;
-    private HotelController hotelController;
-    private BedroomController bedroomController;
-    private BedroomOwnsAmenityController bedroomOwnsAmenityController;
-    private BedroomOwnsBedController bedroomOwnsBedController;
-    private ReservationController reservationController;*/
-
-
     public MainWindows() {
         super("Plane");
-        appControllers = new AppControllers();
+        this.appControllers = new AppControllers();
+        this.frameContainer = getContentPane();
 
-        /*customerController = new CustomerController();
-        countryController = new CountryController();
-        localityController = new LocalityController();
-        hotelController = new HotelController();
-        bedroomController = new BedroomController();
-        bedroomOwnsAmenityController = new BedroomOwnsAmenityController();
-        bedroomOwnsBedController = new BedroomOwnsBedController();
-        reservationController = new ReservationController();*/
+        setupUI();
+        setupMenuBar();
+        showPlaneTemporarily();
+    }
 
-
+    private void setupUI() {
         setBounds(100, 100, 700, 300);
-        frameContainer = getContentPane();
-
-        plane = new Plane(100, 600, 200, 100);
-        frameContainer.add(plane);
-
-
-        Timer timer = new Timer(6000, e -> {
-            frameContainer.remove(plane);
-            plane = null;
-            frameContainer.repaint();
-        });
-        timer.setRepeats(false);
-        timer.start();
-
-        frameContainer = getContentPane();
-
-        menuBar = new JMenuBar();
-        setJMenuBar(menuBar);
-
-        menuCustomer = new JMenu("Client");
-        menuBar.add(menuCustomer);
-
-        reservationMenu = new JMenu("Reservation");
-        menuBar.add(reservationMenu);
-        newReservationMenuItem = new JMenuItem("Nouvelle Reservation");
-        reservationMenu.add(newReservationMenuItem);
-        newReservationMenuItem.addActionListener(new NewReservationActionListener());
-
-        reservationInvoiceMenuItem = new JMenuItem("Facture réservation");
-        reservationInvoiceMenuItem.addActionListener(new ReservationInvoiceActionListener());
-        reservationMenu.add(reservationInvoiceMenuItem);
-
-
-        customerRegistration = new JMenuItem("Inscription");
-        menuCustomer.add(customerRegistration);
-        addCustomerActionListener = new AddCustomerActionListener();
-        customerRegistration.addActionListener(addCustomerActionListener);
-
-        listingCustomers = new JMenuItem("Listing clients");
-        menuCustomer.add(listingCustomers);
-        listingCustomerActionListener = new ListingCustomerActionListener();
-        listingCustomers.addActionListener(listingCustomerActionListener);
-
-
-        updateCustomer = new JMenuItem("Modifier un client");
-        menuCustomer.add(updateCustomer);
-        UpdateCustomerActionListener updateCustomerActionListener = new UpdateCustomerActionListener();
-        updateCustomer.addActionListener(updateCustomerActionListener);
-
-
-        deleteCustomer = new JMenuItem("Supprimer un client");
-        menuCustomer.add(deleteCustomer);
-        DeleteCustomerActionListener deleteCustomerActionListener = new DeleteCustomerActionListener();
-        deleteCustomer.addActionListener(deleteCustomerActionListener);
-
-
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         setExtendedState(JFrame.MAXIMIZED_BOTH);
         setVisible(true);
+    }
+
+    private void setupMenuBar() {
+        JMenuBar menuBar = new JMenuBar();
+        setJMenuBar(menuBar);
+
+        JMenu menuCustomer = new JMenu("Client");
+        JMenu reservationMenu = new JMenu("Reservation");
+
+        menuBar.add(menuCustomer);
+        menuBar.add(reservationMenu);
+
+        addMenuItem(menuCustomer, "Inscription", new AddCustomerActionListener());
+        addMenuItem(menuCustomer, "Listing clients", new ListingCustomerActionListener());
+        addMenuItem(menuCustomer, "Modifier un client", new UpdateCustomerActionListener());
+        addMenuItem(menuCustomer, "Supprimer un client", new DeleteCustomerActionListener());
+        addMenuItem(reservationMenu, "Nouvelle Reservation", new NewReservationActionListener());
+        addMenuItem(reservationMenu, "Facture réservation", new ReservationInvoiceActionListener());
+    }
+
+    private void addMenuItem(JMenu menu, String title, ActionListener listener) {
+        JMenuItem item = new JMenuItem(title);
+        item.addActionListener(listener);
+        menu.add(item);
     }
 
     public void onRegistrationValidated() {
@@ -133,61 +61,17 @@ public class MainWindows extends JFrame {
         frameContainer.repaint();
     }
 
-    /*public void addCustomer(Customer customer) throws AddCustomerException {
-        customerController.addCustomer(customer);
+    private void showPlaneTemporarily() {
+        this.plane = new Plane(100, 600, 200, 100);
+        frameContainer.add(plane);
+        Timer timer = new Timer(6000, e -> {
+            frameContainer.remove(plane);
+            frameContainer.repaint();
+            plane = null;
+        });
+        timer.setRepeats(false);
+        timer.start();
     }
-
-    public void updateCustomer(Customer customer) throws UpdateCustomerException {
-        customerController.updateCustomer(customer);
-    }
-
-    public LocalityController getLocalityController() {
-        return localityController;
-    }*/
-
-    public Container getFrameContainer() {
-        return frameContainer;
-    }
-
-    /*public Customer getCustomer(String mailAddress) throws GetCustomerException {
-        return customerController.getCustomer(mailAddress);
-    }
-
-
-    public boolean customerExists(String mailAddress) {
-        try {
-            Customer customer = getCustomer(mailAddress);
-            return customer != null;
-        } catch (GetCustomerException e) {
-            return false;
-        }
-    }
-
-    public HotelController getHotelController(){
-        return hotelController;
-    }
-
-    public BedroomController getBedroomController(){
-        return bedroomController;
-    }
-
-    public CustomerController getCustomerController() {
-        return customerController;
-    }
-
-    public CountryController getCountryController() {
-        return countryController;
-    }
-
-    public ReservationController getReservationController() {return reservationController;}
-
-    public BedroomOwnsAmenityController getBedroomOwnsAmenityController() {
-        return bedroomOwnsAmenityController;
-    }
-
-    public BedroomOwnsBedController getBedroomOwnsBedController() {
-        return bedroomOwnsBedController;
-    }*/
 
     public void showPanel(JPanel panel) {
         frameContainer.removeAll();
@@ -201,81 +85,67 @@ public class MainWindows extends JFrame {
     private class AddCustomerActionListener implements ActionListener {
         public void actionPerformed(ActionEvent e) {
             try {
-                frameContainer.removeAll();
-                registrationForm = new RegistrationForm(appControllers, null);
-                registrationForm.setMainWindows(MainWindows.this);
-                frameContainer.add(registrationForm, BorderLayout.CENTER);
-                frameContainer.revalidate();
-                frameContainer.repaint();
+                RegistrationForm form = new RegistrationForm(appControllers, null);
+                form.setMainWindows(MainWindows.this);
+                showPanel(form);
             } catch (Exception ex) {
-                JOptionPane.showMessageDialog(null, ex.getMessage());
+                showError(ex);
             }
         }
     }
 
-    public class ListingCustomerActionListener implements ActionListener {
+    private class ListingCustomerActionListener implements ActionListener {
         public void actionPerformed(ActionEvent e) {
             try {
-                frameContainer.removeAll();
-                allCustomersModel = new AllCustomersModel(appControllers.getCustomerController().getAllCustomers());
-
-                JTable table = new JTable(allCustomersModel);
+                AllCustomersModel model = new AllCustomersModel(appControllers.getCustomerController().getAllCustomers());
+                JTable table = new JTable(model);
                 JScrollPane scrollPane = new JScrollPane(table);
-
+                frameContainer.removeAll();
                 frameContainer.add(scrollPane, BorderLayout.CENTER);
                 frameContainer.revalidate();
                 frameContainer.repaint();
-            } catch (Exception exception){
-                JOptionPane.showMessageDialog(null, exception.getMessage());
+            } catch (Exception ex) {
+                showError(ex);
             }
         }
     }
 
-    public class UpdateCustomerActionListener implements ActionListener {
+    private class UpdateCustomerActionListener implements ActionListener {
         public void actionPerformed(ActionEvent e) {
-            frameContainer.removeAll();
-            updateCustomerPanel = new UpdateCustomerPanel(appControllers);
-            updateCustomerPanel.setMainWindow(MainWindows.this);
-            frameContainer.add(updateCustomerPanel, BorderLayout.CENTER);
-            frameContainer.revalidate();
-            frameContainer.repaint();
+            UpdateCustomerPanel panel = new UpdateCustomerPanel(appControllers);
+            panel.setMainWindow(MainWindows.this);
+            showPanel(panel);
         }
     }
 
     private class DeleteCustomerActionListener implements ActionListener {
         public void actionPerformed(ActionEvent e) {
-            frameContainer.removeAll();
-            deleteCustomerPanel = new DeleteCustomerPanel(appControllers);
-            deleteCustomerPanel.setDeleteCustomerListener(MainWindows.this);
-            frameContainer.add(deleteCustomerPanel, BorderLayout.CENTER);
-            frameContainer.revalidate();
-            frameContainer.repaint();
-
+            DeleteCustomerPanel panel = new DeleteCustomerPanel(appControllers);
+            panel.setDeleteCustomerListener(MainWindows.this);
+            showPanel(panel);
         }
     }
 
-    public class NewReservationActionListener implements ActionListener {
+    private class NewReservationActionListener implements ActionListener {
         public void actionPerformed(ActionEvent e) {
-            frameContainer.removeAll();
-            reservationPanel = new ReservationPanel(appControllers);
-            frameContainer.add(reservationPanel, BorderLayout.CENTER);
-            reservationPanel.setMainWindows(MainWindows.this);
-            frameContainer.revalidate();
-            frameContainer.repaint();
+            ReservationPanel panel = new ReservationPanel(appControllers);
+            panel.setMainWindows(MainWindows.this);
+            showPanel(panel);
         }
     }
 
     private class ReservationInvoiceActionListener implements ActionListener {
         public void actionPerformed(ActionEvent e) {
-            frameContainer.removeAll();
             try {
-                reservationInvoicePanel = new ReservationInvoicePanel(appControllers);
+                ReservationInvoicePanel panel = new ReservationInvoicePanel(appControllers);
+                showPanel(panel);
             } catch (GetAllCustomersException ex) {
-                JOptionPane.showMessageDialog(null, ex.getMessage());
+                showError(ex);
             }
-            frameContainer.add(reservationInvoicePanel, BorderLayout.CENTER);
-            frameContainer.revalidate();
-            frameContainer.repaint();
         }
+    }
+
+    private void showError(Exception ex) {
+        JOptionPane.showMessageDialog(this, ex.getMessage(), "Erreur", JOptionPane.ERROR_MESSAGE);
     }
 }

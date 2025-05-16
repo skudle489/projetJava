@@ -14,12 +14,4 @@ public class IntegerUtil {
         return values;
     }
 
-    public static Integer[] getListIntegerToValueReverse(int startValue, int endValue) {
-        if (startValue > endValue) return new Integer[0];
-        Integer[] values = new Integer[endValue - startValue + 1];
-        for (int i = 0; i <= endValue - startValue; i++) {
-            values[i] = endValue - i;
-        }
-        return values;
-    }
 }
