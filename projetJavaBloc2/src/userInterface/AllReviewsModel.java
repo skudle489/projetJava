@@ -82,6 +82,4 @@ public class AllReviewsModel extends AbstractTableModel {
                 return String.class;
         }
     }
-
-
 }

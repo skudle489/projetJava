@@ -84,7 +84,6 @@ public class ReservationManager {
         description.append("\nPrix total : ");
 
         long days = ChronoUnit.DAYS.between(reservation.getStartDate(), reservation.getEndDate());
-        System.out.println(days);
         if (days == 0) days = 1;
 
         int totalPrice = (int) (days * bedroom.getCostPerDay());
@@ -110,7 +109,7 @@ public class ReservationManager {
 
     public ArrayList<LocalDate> getAvailableDatesFrom(int bedroom, int hotel, LocalDate startDate) throws IsRoomReservedException {
         ArrayList<LocalDate> availableDates = new ArrayList<>();
-        LocalDate endDate = startDate.plusMonths(6);  // borne fixe
+        LocalDate endDate = startDate.plusMonths(6);
 
         while (!isRoomReserved(bedroom, hotel, startDate) && !startDate.isAfter(endDate)) {
             availableDates.add(startDate);

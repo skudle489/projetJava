@@ -20,6 +20,22 @@ public class ReviewManager {
         customerManager = new CustomerManager();
     }
 
+    public void addReview(Review review) throws AddReviewException, ReviewException, UpdateReviewException {
+        if (reviewDBDAO.reviewExists(review.getCustomer(), review.getHotel(), review.getCreationDate())){
+            reviewDBDAO.updateReview(review);
+        } else {
+            reviewDBDAO.addReview(review);
+        }
+    }
+
+    public ArrayList<Review> getAllReviews() throws GetAllReviewException {
+        return reviewDBDAO.getAllReviews();
+    }
+
+    public void deleteReview(int hotel, String customer, LocalDate creationDate) throws ReviewException {
+        reviewDBDAO.deleteReview(hotel, customer, creationDate);
+    }
+
     public ArrayList<Review> getAllReviewsByHotel(int hotel) throws GetAllReviewException {
         return reviewDBDAO.getAllReviewsByHotel(hotel);
     }
@@ -39,6 +55,11 @@ public class ReviewManager {
             searchReviewsModels.add(new SearchReviewsModel(review.getComment(), hotelName, customer.getMailAdress(), hotelStar, customer.getFirstName(), customer.getLastName()));
         }
         return searchReviewsModels;
+    }
+
+    public ArrayList<Review> getAllReviewsByCustomerAndHotel(String customer, int hotel) throws ReviewException {
+        ArrayList<Review> reviews = reviewDBDAO.getAllReviewsByCustomerAndHotel(customer, hotel);
+        return reviewDBDAO.getAllReviewsByCustomerAndHotel(customer, hotel);
     }
 
 
