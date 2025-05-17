@@ -37,6 +37,18 @@ public class ReservationManager {
     }
 
     public void addReservation(Reservation reservation) throws ReservationException {
+        if (reservation.getStartDate().isBefore(LocalDate.now())){
+            throw new ReservationException("La date de début de réservation ne peut pas etre dans le passé");
+        }
+
+        if (reservation.getEndDate().isBefore(LocalDate.now())){
+            throw new ReservationException("La date de fin de réservation ne peut se terminer avant la date actuelle");
+        }
+
+        if (reservation.getStartDate().isAfter(reservation.getEndDate())){
+            throw new ReservationException("La date de début de réservation doit se terminer avant la date de fin");
+        }
+
         reservationDBDAO.addReservation(reservation);
     }
 
@@ -84,7 +96,6 @@ public class ReservationManager {
         description.append("\nPrix total : ");
 
         long days = ChronoUnit.DAYS.between(reservation.getStartDate(), reservation.getEndDate());
-        System.out.println(days);
         if (days == 0) days = 1;
 
         int totalPrice = (int) (days * bedroom.getCostPerDay());
@@ -93,24 +104,9 @@ public class ReservationManager {
         return description.toString();
     }
 
-
-
-    /*public ArrayList<LocalDate> getAllAvailableDatesFrom(int bedroom, int hotel, LocalDate startDate) throws ReservationException {
-        ArrayList<LocalDate> availableDates = new ArrayList<>();
-        ArrayList<LocalDate> reservedDates = getAllReservedDatesFrom(bedroom, hotel, startDate);
-
-        LocalDate endDate = startDate.plusMonths(6);
-        for (LocalDate date = startDate; !date.isAfter(endDate); date = date.plusDays(1)) {
-            if (!reservedDates.contains(date)) {
-                availableDates.add(date);
-            }
-        }
-        return availableDates;
-    }*/
-
     public ArrayList<LocalDate> getAvailableDatesFrom(int bedroom, int hotel, LocalDate startDate) throws IsRoomReservedException {
         ArrayList<LocalDate> availableDates = new ArrayList<>();
-        LocalDate endDate = startDate.plusMonths(6);  // borne fixe
+        LocalDate endDate = startDate.plusMonths(6);
 
         while (!isRoomReserved(bedroom, hotel, startDate) && !startDate.isAfter(endDate)) {
             availableDates.add(startDate);

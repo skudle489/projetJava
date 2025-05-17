@@ -72,10 +72,6 @@ public class Reservation {
     public void validateStartDate() throws ReservationCreationException {
         if (startDate == null) {
             throw new ReservationCreationException("La date de début de la réservation ne peut etre null");
-        } else {
-            if (startDate.isBefore(LocalDate.now())) {
-                throw new ReservationCreationException("La date de début de la réservation ne peut commencer avant la date actuelle");
-            }
         }
     }
 
@@ -86,10 +82,6 @@ public class Reservation {
         } else {
             if (endDate.isBefore(startDate)) {
                 throw new ReservationCreationException("La date de fin de la réservation ne peut terminer avant la date de début de la réservation");
-            } else {
-                if (endDate.isBefore(LocalDate.now())) {
-                    throw new ReservationCreationException("La date de fin de la réservation ne peut se terminer avant la date actuelle");
-                }
             }
         }
     }

@@ -31,26 +31,18 @@ public class Review {
     }
 
     public void setComment(String comment) throws ReviewCreationException {
-        if (comment == null){
+        if (comment == null || comment.isEmpty()){
             this.comment = null;
         } else {
-            if (comment.isEmpty()){
-                throw new ReviewCreationException("Le commentaire ne peut etre vide");
-            } else {
-                this.comment = comment;
-            }
+            this.comment = comment;
         }
     }
 
     public void setTitle(String title) throws ReviewCreationException {
-        if (title == null){
+        if (title == null || title.isEmpty()){
             this.title = null;
         } else {
-            if (title.isEmpty()){
-                throw new ReviewCreationException("Le titre ne peut etre vide");
-            } else {
-                this.title = title;
-            }
+            this.title = title;
         }
     }
 
@@ -99,6 +91,17 @@ public class Review {
 
     public LocalDate getCreationDate() {
         return creationDate;
+    }
+
+    public String toString() {
+        String description = "";
+        if (title == null || title.isEmpty()){
+            description += star;
+        } else {
+            description += title + " | " + star;
+        }
+        description += " étoile(s) crée le " + creationDate;
+        return description;
     }
 
 

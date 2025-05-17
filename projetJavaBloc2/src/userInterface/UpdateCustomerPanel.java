@@ -68,7 +68,6 @@ public class UpdateCustomerPanel extends JPanel {
         public void actionPerformed(ActionEvent e) {
             try {
                 Customer selectedCustomer = (Customer) customersComboBox.getSelectedItem();
-
                 RegistrationForm registrationForm = new RegistrationForm(appControllers, selectedCustomer);
                 registrationForm.setMainWindows(mainWindows);
                 mainWindows.showPanel(registrationForm);

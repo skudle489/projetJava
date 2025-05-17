@@ -14,9 +14,9 @@ public class MainWindows extends JFrame {
 
     private Plane plane;
 
-    JMenuBar menuBar;
-    JMenu customerMenu, reservationMenu, businessMenu, searchMenu;
-    JMenuItem customerRegistrationMenuItem, listingCustomerMenuItem, updateCustomerMenuItem, deleteCustomerMenuItem, newReservationMenuItem, reservationInvoiceMenuItem, averageRatingReviewsHotelMenuItem, searchReviewsMenuItem;
+    private JMenuBar menuBar;
+    private JMenu customerMenu, reservationMenu, businessMenu, searchMenu, reviewMenu;
+    private JMenuItem customerRegistrationMenuItem, listingCustomerMenuItem, updateCustomerMenuItem, deleteCustomerMenuItem, newReservationMenuItem, reservationInvoiceMenuItem, averageRatingReviewsHotelMenuItem, searchReviewsMenuItem, updateReviewsMenuItem, addReviewsMenuItem, deleteReviewsMenuItem, listingReviewsMenuItem;
 
     public MainWindows() {
         super("Plane");
@@ -44,8 +44,10 @@ public class MainWindows extends JFrame {
         reservationMenu = new JMenu("Reservation");
         businessMenu = new JMenu("Tache métier");
         searchMenu = new JMenu("Recherches");
+        reviewMenu = new JMenu("Avis");
 
         menuBar.add(customerMenu);
+        menuBar.add(reviewMenu);
         menuBar.add(reservationMenu);
         menuBar.add(businessMenu);
         menuBar.add(searchMenu);
@@ -58,6 +60,10 @@ public class MainWindows extends JFrame {
         reservationInvoiceMenuItem = new JMenuItem("Facture réservation");
         averageRatingReviewsHotelMenuItem = new JMenuItem("Moyenne étoiles d'avis d'hotels");
         searchReviewsMenuItem = new JMenuItem("Informations sur les avis non anonymes");
+        updateReviewsMenuItem = new JMenuItem("Modifier un avis");
+        addReviewsMenuItem = new JMenuItem("Ajouter un avis");
+        deleteReviewsMenuItem = new JMenuItem("Supprimer un avis");
+        listingReviewsMenuItem = new JMenuItem("Listing sur les avis");
 
         customerMenu.add(customerRegistrationMenuItem);
         customerMenu.add(listingCustomerMenuItem);
@@ -67,6 +73,10 @@ public class MainWindows extends JFrame {
         businessMenu.add(reservationInvoiceMenuItem);
         businessMenu.add(averageRatingReviewsHotelMenuItem);
         searchMenu.add(searchReviewsMenuItem);
+        reviewMenu.add(updateReviewsMenuItem);
+        reviewMenu.add(addReviewsMenuItem);
+        reviewMenu.add(deleteReviewsMenuItem);
+        reviewMenu.add(listingReviewsMenuItem);
 
         customerRegistrationMenuItem.addActionListener(new AddCustomerActionListener());
         listingCustomerMenuItem.addActionListener(new ListingCustomerActionListener());
@@ -76,6 +86,10 @@ public class MainWindows extends JFrame {
         reservationInvoiceMenuItem.addActionListener(new ReservationInvoiceActionListener());
         averageRatingReviewsHotelMenuItem.addActionListener(new AverageRatingReviewsHotelActionListener());
         searchReviewsMenuItem.addActionListener(new SearchReviewsActionListener());
+        updateReviewsMenuItem.addActionListener(new UpdateReviewActionListener());
+        addReviewsMenuItem.addActionListener(new AddReviewActionListener());
+        deleteReviewsMenuItem.addActionListener(new DeleteReviewActionListener());
+        listingReviewsMenuItem.addActionListener(new ListingReviewActionListener());
     }
 
     public void onRegistrationValidated() {
@@ -194,4 +208,62 @@ public class MainWindows extends JFrame {
     private void showError(Exception ex) {
         JOptionPane.showMessageDialog(this, ex.getMessage(), "Erreur", JOptionPane.ERROR_MESSAGE);
     }
+
+
+    private class UpdateReviewActionListener implements ActionListener {
+        public void actionPerformed(ActionEvent e) {
+            try {
+                UpdateReviewPanel updateReviewPanel = new UpdateReviewPanel(appControllers);
+                updateReviewPanel.setMainWindows(MainWindows.this);
+                showPanel(updateReviewPanel);
+            } catch (Exception exception){
+                showError(exception);
+            }
+
+        }
+    }
+
+    private class AddReviewActionListener implements ActionListener {
+        public void actionPerformed(ActionEvent e) {
+            try {
+                ReviewForm reviewForm = new ReviewForm(appControllers, null, null, null);
+                reviewForm.setMainWindows(MainWindows.this);
+                showPanel(reviewForm);
+            } catch (Exception exception){
+                showError(exception);
+            }
+        }
+    }
+
+    private class DeleteReviewActionListener implements ActionListener {
+        @Override
+        public void actionPerformed(ActionEvent e) {
+            try {
+                DeleteReview deleteReview = new DeleteReview(appControllers);
+                deleteReview.setMainWindows(MainWindows.this);
+                showPanel(deleteReview);
+            } catch (Exception exception){
+                showError(exception);
+            }
+        }
+    }
+
+    private class ListingReviewActionListener implements ActionListener {
+        public void actionPerformed(ActionEvent e) {
+            try {
+                AllReviewsModel allReviewsModel = new AllReviewsModel(appControllers.getReviewController().getAllReviews());
+                JTable table = new JTable(allReviewsModel);
+                JScrollPane scrollPane = new JScrollPane(table);
+                frameContainer.removeAll();
+                frameContainer.add(scrollPane);
+                frameContainer.revalidate();
+                frameContainer.repaint();
+            } catch (Exception exception){
+                JOptionPane.showMessageDialog(MainWindows.this, exception.getMessage(), "Erreur", JOptionPane.ERROR_MESSAGE);
+            }
+
+        }
+    }
+
+
 }
