@@ -35,4 +35,8 @@ public class HotelManager {
 
         return totalStarsReviews / reviews.size();
     }
+
+    public int getHotelStar(int id) throws HotelException {
+        return hotelDBDAO.getHotelStar(id);
+    }
 }

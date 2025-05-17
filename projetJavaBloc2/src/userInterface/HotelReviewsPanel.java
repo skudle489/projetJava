@@ -67,9 +67,15 @@ public class HotelReviewsPanel extends JPanel {
         for (Review review : reviews){
             JPanel reviewPanel = new JPanel();
             reviewPanel.setLayout(new GridLayout(7, 2));
+            JTextField commentTextField = new JTextField();
 
             JLabel commentLabel = new JLabel("Commentaire");
-            JTextField commentTextField = new JTextField(review.getComment());
+            if (review.getComment() == null){
+                commentTextField.setText("/");
+            } else {
+                commentTextField.setText(review.getComment());
+            }
+
 
             JLabel titleLabel = new JLabel("Titre");
             JTextField titleTextField = new JTextField(review.getTitle());
@@ -81,10 +87,18 @@ public class HotelReviewsPanel extends JPanel {
             JTextField customerTextField = new JTextField();
             if (!review.getIsAnonymous()){
                 customerTextField.setText(review.getCustomer());
+            } else {
+                customerTextField.setText("/");
             }
 
             JLabel lastVisitDateLabel = new JLabel("Date de dernière visite du pays de l'hôtel");
-            JTextField lastVisitDateTextField = new JTextField(String.valueOf(review.getLastVisitDateHotelCountry()));
+
+            JTextField lastVisitDateTextField = new JTextField();
+            if (review.getLastVisitDateHotelCountry() == null){
+                lastVisitDateTextField.setText("/");
+            } else {
+                lastVisitDateTextField.setText(String.valueOf(review.getLastVisitDateHotelCountry()));
+            }
 
             JLabel creationDateLabel = new JLabel("Date de création de l'avis");
             JTextField creationDateTextField = new JTextField(String.valueOf(review.getCreationDate()));
@@ -114,7 +128,7 @@ public class HotelReviewsPanel extends JPanel {
             allHotelReviews.add(reviewPanel);
         }
 
-        allHotelReviews.revalidate(); // forcer la mise à jour
+        allHotelReviews.revalidate();
         allHotelReviews.repaint();
     }
 

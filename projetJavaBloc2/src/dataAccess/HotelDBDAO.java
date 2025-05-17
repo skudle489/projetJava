@@ -63,4 +63,20 @@ public class HotelDBDAO {
         }
     }
 
+
+    public int getHotelStar(int id) throws HotelException {
+        try {
+            String sqlInstruction = "select stars from hotel where id = ?";
+            PreparedStatement preparedStatement = connection.prepareStatement(sqlInstruction);
+            preparedStatement.setInt(1, id);
+            ResultSet data = preparedStatement.executeQuery();
+            data.next();
+            return data.getInt("stars");
+
+
+        } catch (SQLException exception){
+            throw new HotelException("Erreur lors de la recherche de l'hotel " + exception.getMessage());
+        }
+    }
+
 }

@@ -15,8 +15,8 @@ public class MainWindows extends JFrame {
     private Plane plane;
 
     JMenuBar menuBar;
-    JMenu customerMenu, reservationMenu, businessMenu;
-    JMenuItem customerRegistrationMenuItem, listingCustomerMenuItem, updateCustomerMenuItem, deleteCustomerMenuItem, newReservationMenuItem, reservationInvoiceMenuItem, averageRatingReviewsHotelMenuItem;
+    JMenu customerMenu, reservationMenu, businessMenu, searchMenu;
+    JMenuItem customerRegistrationMenuItem, listingCustomerMenuItem, updateCustomerMenuItem, deleteCustomerMenuItem, newReservationMenuItem, reservationInvoiceMenuItem, averageRatingReviewsHotelMenuItem, searchReviewsMenuItem;
 
     public MainWindows() {
         super("Plane");
@@ -43,10 +43,12 @@ public class MainWindows extends JFrame {
         customerMenu = new JMenu("Client");
         reservationMenu = new JMenu("Reservation");
         businessMenu = new JMenu("Tache métier");
+        searchMenu = new JMenu("Recherches");
 
         menuBar.add(customerMenu);
         menuBar.add(reservationMenu);
         menuBar.add(businessMenu);
+        menuBar.add(searchMenu);
 
         customerRegistrationMenuItem = new JMenuItem("Inscription");
         listingCustomerMenuItem = new JMenuItem("Listing clients");
@@ -55,6 +57,7 @@ public class MainWindows extends JFrame {
         newReservationMenuItem = new JMenuItem("Réserver");
         reservationInvoiceMenuItem = new JMenuItem("Facture réservation");
         averageRatingReviewsHotelMenuItem = new JMenuItem("Moyenne étoiles d'avis d'hotels");
+        searchReviewsMenuItem = new JMenuItem("Informations sur les avis non anonymes");
 
         customerMenu.add(customerRegistrationMenuItem);
         customerMenu.add(listingCustomerMenuItem);
@@ -63,6 +66,7 @@ public class MainWindows extends JFrame {
         reservationMenu.add(newReservationMenuItem);
         businessMenu.add(reservationInvoiceMenuItem);
         businessMenu.add(averageRatingReviewsHotelMenuItem);
+        searchMenu.add(searchReviewsMenuItem);
 
         customerRegistrationMenuItem.addActionListener(new AddCustomerActionListener());
         listingCustomerMenuItem.addActionListener(new ListingCustomerActionListener());
@@ -71,6 +75,7 @@ public class MainWindows extends JFrame {
         newReservationMenuItem.addActionListener(new NewReservationActionListener());
         reservationInvoiceMenuItem.addActionListener(new ReservationInvoiceActionListener());
         averageRatingReviewsHotelMenuItem.addActionListener(new AverageRatingReviewsHotelActionListener());
+        searchReviewsMenuItem.addActionListener(new SearchReviewsActionListener());
     }
 
     public void onRegistrationValidated() {
@@ -169,7 +174,19 @@ public class MainWindows extends JFrame {
                 HotelReviewsPanel hotelReviewsPanel = new HotelReviewsPanel(appControllers);
                 showPanel(hotelReviewsPanel);
             } catch (GetAllHotelsException ex) {
-                throw new RuntimeException(ex);
+                showError(ex);
+            }
+        }
+    }
+
+    public class SearchReviewsActionListener implements ActionListener {
+        public void actionPerformed(ActionEvent e) {
+            try {
+                SearchReviewsPanel searchReviewsPanel = new SearchReviewsPanel(appControllers);
+                searchReviewsPanel.setMainWindows(MainWindows.this);
+                showPanel(searchReviewsPanel);
+            } catch (Exception ex) {
+                showError(ex);
             }
         }
     }

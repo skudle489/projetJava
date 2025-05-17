@@ -3,6 +3,7 @@ package dataAccess;
 import exceptions.*;
 import model.Customer;
 import model.Review;
+import model.SearchReviewsModel;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -163,6 +164,57 @@ public class ReviewDBDAO implements IReviewDataAccess {
         } catch (SQLException exception) {
             throw new DeleteReviewException("Erreur lors de la supression de l'avis client");
         }
+    }
+
+    public ArrayList<Review> searchReviewsByRatingAndDates(int starRating, LocalDate startDate, LocalDate endDate) throws ReviewCreationException {
+        try {
+            String sqlInstruction = "select * from review where star = ? and is_anonymous = false and creation_date between ? and ?";
+            PreparedStatement preparedStatement = connection.prepareStatement(sqlInstruction);
+            preparedStatement.setInt(1, starRating);
+            preparedStatement.setDate(2, java.sql.Date.valueOf(startDate));
+            preparedStatement.setDate(3, java.sql.Date.valueOf(endDate));
+            ResultSet data = preparedStatement.executeQuery();
+            ArrayList<Review> reviews = new ArrayList<>();
+            String comment;
+            int hotel;
+            String title;
+            String customer;
+            boolean isAnonymous;
+            int star;
+            java.sql.Date lastVisitSQLDateHotelCountry;
+            java.sql.Date creationSQLDate;
+
+            LocalDate lastVisitDateHotelCountry = null;
+
+
+            while (data.next()){
+                comment = data.getString("comment");
+                if (comment == null) {
+                    comment = "/";
+                }
+                hotel = data.getInt("hotel");
+                customer = data.getString("customer");
+                title = data.getString("title");
+                star = data.getInt("star");
+                isAnonymous = data.getBoolean("is_anonymous");
+                lastVisitSQLDateHotelCountry = data.getDate("last_visit_date_hotel_country");
+                creationSQLDate = data.getDate("creation_date");
+
+                if (lastVisitSQLDateHotelCountry != null){
+                    lastVisitDateHotelCountry = lastVisitSQLDateHotelCountry.toLocalDate();
+                }
+
+
+                reviews.add(new Review(comment, hotel, title, isAnonymous, star, customer, creationSQLDate.toLocalDate(), lastVisitDateHotelCountry));
+            }
+
+            return reviews;
+        } catch (SQLException e) {
+            throw new ReviewCreationException("Erreur lors de la recherches des avis " + e.getMessage());
+        }
+
+
+
     }
 
 

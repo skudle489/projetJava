@@ -1,9 +1,11 @@
 package controller;
 
 import business.ReviewManager;
-import exceptions.GetAllReviewException;
+import exceptions.*;
 import model.Review;
+import model.SearchReviewsModel;
 
+import java.time.LocalDate;
 import java.util.ArrayList;
 
 public class ReviewController {
@@ -14,5 +16,9 @@ public class ReviewController {
 
     public ArrayList<Review> getAllReviewsByHotel(int hotel) throws GetAllReviewException {
         return reviewManager.getAllReviewsByHotel(hotel);
+    }
+
+    public ArrayList<SearchReviewsModel> searchReviewsByRatingAndDates(int starRating, LocalDate startDate, LocalDate endDate) throws SearchReviewModelException, HotelException, GetCustomerException, ReviewCreationException {
+        return reviewManager.searchReviewsByRatingAndDates(starRating, startDate, endDate);
     }
 }
