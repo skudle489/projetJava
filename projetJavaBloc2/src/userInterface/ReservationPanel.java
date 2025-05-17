@@ -15,7 +15,7 @@ import java.time.LocalDate;
 import java.util.ArrayList;
 
 public class ReservationPanel extends JPanel {
-    private JPanel mainPanel, startReservationDatePanel, showDetailsAndSearchDatesButtonPanel, endReservationDatePanel;
+    private JPanel mainPanel, startReservationDatePanel, showDetailsButtonPanel, endReservationDatePanel;
 
     private JLabel mailAddressLabel, hotel, bedroom, availableDatesLabel;
     private JComboBox mailAddressComboBox, hotelComboBox, bedroomComboBox;
@@ -23,7 +23,7 @@ public class ReservationPanel extends JPanel {
     private JLabel startDateLabel, endDateLabel;
     private JComboBox startReservationDateComboBox;
     private JComboBox endReservationDateComboBox;
-    private JButton showDetailsButton, searchAvailableDatesButton, confirmReservationButton;
+    private JButton showDetailsButton, confirmReservationButton;
     private AppControllers appControllers;
 
     public ReservationPanel(AppControllers appControllers) {
@@ -41,12 +41,15 @@ public class ReservationPanel extends JPanel {
         hotelComboBox = new JComboBox();
         bedroomComboBox = new JComboBox();
 
-        showDetailsAndSearchDatesButtonPanel = new JPanel();
-        showDetailsAndSearchDatesButtonPanel.setLayout(new GridLayout(1, 2));
+        showDetailsButtonPanel = new JPanel();
+        showDetailsButtonPanel.setLayout(new GridLayout(1, 1));
         showDetailsButton = new JButton("Afficher informations");
-        searchAvailableDatesButton = new JButton("Chercher les dates libres");
+
+        /*searchAvailableDatesButton = new JButton("Chercher les dates libres");
         showDetailsAndSearchDatesButtonPanel.add(showDetailsButton);
-        showDetailsAndSearchDatesButtonPanel.add(searchAvailableDatesButton);
+        showDetailsAndSearchDatesButtonPanel.add(searchAvailableDatesButton);*/
+
+        showDetailsButtonPanel.add(showDetailsButton);
 
 
 
@@ -93,7 +96,7 @@ public class ReservationPanel extends JPanel {
         mainPanel.add(hotelComboBox);
         mainPanel.add(bedroom);
         mainPanel.add(bedroomComboBox);
-        mainPanel.add(showDetailsAndSearchDatesButtonPanel);
+        mainPanel.add(showDetailsButtonPanel);
         mainPanel.add(startReservationDatePanel);
         mainPanel.add(availableDatesLabel);
         mainPanel.add(endReservationDatePanel);
@@ -110,7 +113,8 @@ public class ReservationPanel extends JPanel {
 
         showDetailsButton.addActionListener(new ShowDetailsButtonActionListener());
         confirmReservationButton.addActionListener(new ConfirmReservationButtonActionListener());
-        searchAvailableDatesButton.addActionListener(new SearchAvaialbleDatesButtonListener());
+        startReservationDateComboBox.addActionListener(new SearchAvaialbleDatesButtonListener());
+        bedroomComboBox.addActionListener(new SearchAvaialbleDatesButtonListener());
 
         add(mainPanel);
     }
@@ -164,12 +168,15 @@ public class ReservationPanel extends JPanel {
         endReservationDateComboBox.removeAllItems();
         LocalDate selectedDate = (LocalDate) startReservationDateComboBox.getSelectedItem();
         Bedroom selectedBedroom = (Bedroom) bedroomComboBox.getSelectedItem();
-        Hotel selectedHotel = (Hotel) hotelComboBox.getSelectedItem();
-        ArrayList<LocalDate> availableDates = appControllers.getReservationController().getAvailableDatesFrom(selectedBedroom.getBedroomNumber(), selectedHotel.getId(), selectedDate);
+        if (selectedBedroom != null) {
+            Hotel selectedHotel = (Hotel) hotelComboBox.getSelectedItem();
+            ArrayList<LocalDate> availableDates = appControllers.getReservationController().getAvailableDatesFrom(selectedBedroom.getBedroomNumber(), selectedHotel.getId(), selectedDate);
 
-        for (LocalDate availableDate : availableDates) {
-            endReservationDateComboBox.addItem(availableDate);
+            for (LocalDate availableDate : availableDates) {
+                endReservationDateComboBox.addItem(availableDate);
+            }
         }
+
     }
 
 

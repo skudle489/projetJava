@@ -10,6 +10,7 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.time.LocalDate;
 import java.util.ArrayList;
+import java.util.Date;
 
 public class ReviewDBDAO implements IReviewDataAccess {
     private static Connection connection;
@@ -48,7 +49,6 @@ public class ReviewDBDAO implements IReviewDataAccess {
     }
 
     public ArrayList<Review> getAllReviews() throws GetAllReviewException {
-
         try {
 
             String sqlInstruction = "select * from review";
@@ -77,6 +77,42 @@ public class ReviewDBDAO implements IReviewDataAccess {
             return reviews;
         } catch (SQLException | ReviewCreationException exception){
             throw new GetAllReviewException("Erreur lors de la lecture de tous les avis");
+        }
+    }
+
+    public ArrayList<Review> getAllReviewsByHotel(int hotel) throws GetAllReviewException {
+
+        try {
+            String sqlInstruction = "select * from review where hotel = ?";
+            PreparedStatement preparedStatement = connection.prepareStatement(sqlInstruction);
+            preparedStatement.setInt(1, hotel);
+            ResultSet data = preparedStatement.executeQuery();
+            String comment;
+            String title;
+            boolean isAnonymous;
+            int star;
+            String customer;
+            LocalDate lastVisitDateHotelCountry;
+            LocalDate creationDate;
+            ArrayList<Review> reviews = new ArrayList<>();
+            while (data.next()) {
+                comment = data.getString("comment");
+                title = data.getString("title");
+                isAnonymous = data.getBoolean("is_anonymous");
+                star = data.getInt("star");
+                customer = data.getString("customer");
+
+                java.sql.Date lastVisitSqlDate = data.getDate("last_visit_date_hotel_country");
+                lastVisitDateHotelCountry = (lastVisitSqlDate != null) ? lastVisitSqlDate.toLocalDate() : null;
+
+                java.sql.Date creationSqlDate = data.getDate("creation_date");
+                creationDate = (creationSqlDate != null) ? creationSqlDate.toLocalDate() : null;
+
+                reviews.add(new Review(comment, hotel, title, isAnonymous, star, customer, creationDate, lastVisitDateHotelCountry));
+            }
+            return reviews;
+        } catch (SQLException | ReviewCreationException exception){
+            throw new GetAllReviewException("Erreur lors de la lectures de tous les avis de l'hotel " + exception.getMessage());
         }
     }
 

@@ -19,7 +19,8 @@ INSERT INTO equipment (label) VALUES
 -- Insertion des clients
 INSERT INTO customer (mail_adress, first_name, last_name, phone, street, street_number, birthdate, is_vegan, secondary_phone, city, postal_code, country) VALUES
                                                                                                                                                               ('jean.dupont@email.fr', 'Jean', 'Dupont', '0612345678', 'Rue de la Paix', 10, '1985-04-15', 0, NULL, 'Paris', '75001', 'FR'),
-                                                                                                                                                              ('marie.claire@email.be', 'Marie', 'Claire', '0478123456', 'Avenue Louise', 45, '1990-09-21', 1, '0487123456', 'Bruxelles', '1000', 'BE');
+                                                                                                                                                              ('marie.claire@email.be', 'Marie', 'Claire', '0478123456', 'Avenue Louise', 45, '1990-09-21', 1, '0487123456', 'Bruxelles', '1000', 'BE'),
+                                                                                                                                                              ('luc.martin@email.fr', 'Luc', 'Martin', '0699887766', 'Rue Lafayette', 12, '1992-07-03', 0, NULL, 'Paris', '75001', 'FR');
 
 -- Insertion des étoiles pour hôtels
 INSERT INTO star (star_number) VALUES (1), (2), (3), (4), (5);
@@ -78,5 +79,6 @@ INSERT INTO reservation (start_date, end_date, customer, bedroom_number, hotel) 
 
 -- Insertion des avis
 INSERT INTO review (comment, last_visit_date_hotel_country, creation_date, customer, star, is_anonymous, title, hotel) VALUES
-                                                                                                                           ('Très bon séjour, personnel accueillant.', '2025-05-20', '2025-05-22', 'jean.dupont@email.fr', 4, 0, 'Bon hôtel', 1),
-                                                                                                                           ('Chambre propre mais un peu bruyante.', '2025-07-16', '2025-07-17', 'marie.claire@email.be', 3, 1, 'Satisfaisant', 2);
+                                                                                                                           ('Très bon séjour, personnel accueillant.', '2025-04-20', '2025-05-22', 'jean.dupont@email.fr', 4, 0, 'Bon hôtel', 1),
+                                                                                                                           ('Chambre propre mais un peu bruyante.', '2025-02-16', '2025-07-17', 'marie.claire@email.be', 3, 1, 'Satisfaisant', 2),
+                                                                                                                           ('Pas très propre', null, '2024-02-16', 'luc.martin@email.fr', 1, 1, 'Sale !', 2);

@@ -11,6 +11,7 @@ public class AppControllers {
     private final BedroomOwnsBedController bedroomOwnsBedController;
     private final ReservationController reservationController;
     private final CustomerController customerController;
+    private final ReviewController reviewController;
 
     public AppControllers() {
         countryController = new CountryController();
@@ -21,6 +22,7 @@ public class AppControllers {
         bedroomOwnsBedController = new BedroomOwnsBedController();
         reservationController = new ReservationController();
         customerController = new CustomerController();
+        reviewController = new ReviewController();
     }
 
     public CountryController getCountryController() {
@@ -53,6 +55,10 @@ public class AppControllers {
 
     public CustomerController getCustomerController() {
         return customerController;
+    }
+
+    public ReviewController getReviewController() {
+        return reviewController;
     }
 
 

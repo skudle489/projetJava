@@ -10,49 +10,67 @@ import java.awt.event.ActionListener;
 
 public class MainWindows extends JFrame {
     private final AppControllers appControllers;
-    private Container frameContainer;
+    private final Container frameContainer;
 
     private Plane plane;
+
+    JMenuBar menuBar;
+    JMenu customerMenu, reservationMenu, businessMenu;
+    JMenuItem customerRegistrationMenuItem, listingCustomerMenuItem, updateCustomerMenuItem, deleteCustomerMenuItem, newReservationMenuItem, reservationInvoiceMenuItem, averageRatingReviewsHotelMenuItem;
 
     public MainWindows() {
         super("Plane");
         this.appControllers = new AppControllers();
         this.frameContainer = getContentPane();
 
+
         setupUI();
         setupMenuBar();
         showPlaneTemporarily();
+        setVisible(true);
     }
 
     private void setupUI() {
         setBounds(100, 100, 700, 300);
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         setExtendedState(JFrame.MAXIMIZED_BOTH);
-        setVisible(true);
     }
 
     private void setupMenuBar() {
-        JMenuBar menuBar = new JMenuBar();
+        menuBar = new JMenuBar();
         setJMenuBar(menuBar);
 
-        JMenu menuCustomer = new JMenu("Client");
-        JMenu reservationMenu = new JMenu("Reservation");
+        customerMenu = new JMenu("Client");
+        reservationMenu = new JMenu("Reservation");
+        businessMenu = new JMenu("Tache métier");
 
-        menuBar.add(menuCustomer);
+        menuBar.add(customerMenu);
         menuBar.add(reservationMenu);
+        menuBar.add(businessMenu);
 
-        addMenuItem(menuCustomer, "Inscription", new AddCustomerActionListener());
-        addMenuItem(menuCustomer, "Listing clients", new ListingCustomerActionListener());
-        addMenuItem(menuCustomer, "Modifier un client", new UpdateCustomerActionListener());
-        addMenuItem(menuCustomer, "Supprimer un client", new DeleteCustomerActionListener());
-        addMenuItem(reservationMenu, "Nouvelle Reservation", new NewReservationActionListener());
-        addMenuItem(reservationMenu, "Facture réservation", new ReservationInvoiceActionListener());
-    }
+        customerRegistrationMenuItem = new JMenuItem("Inscription");
+        listingCustomerMenuItem = new JMenuItem("Listing clients");
+        updateCustomerMenuItem = new JMenuItem("Modifier clients");
+        deleteCustomerMenuItem = new JMenuItem("Supprimer client");
+        newReservationMenuItem = new JMenuItem("Réserver");
+        reservationInvoiceMenuItem = new JMenuItem("Facture réservation");
+        averageRatingReviewsHotelMenuItem = new JMenuItem("Moyenne étoiles d'avis d'hotels");
 
-    private void addMenuItem(JMenu menu, String title, ActionListener listener) {
-        JMenuItem item = new JMenuItem(title);
-        item.addActionListener(listener);
-        menu.add(item);
+        customerMenu.add(customerRegistrationMenuItem);
+        customerMenu.add(listingCustomerMenuItem);
+        customerMenu.add(updateCustomerMenuItem);
+        customerMenu.add(deleteCustomerMenuItem);
+        reservationMenu.add(newReservationMenuItem);
+        businessMenu.add(reservationInvoiceMenuItem);
+        businessMenu.add(averageRatingReviewsHotelMenuItem);
+
+        customerRegistrationMenuItem.addActionListener(new AddCustomerActionListener());
+        listingCustomerMenuItem.addActionListener(new ListingCustomerActionListener());
+        updateCustomerMenuItem.addActionListener(new UpdateCustomerActionListener());
+        deleteCustomerMenuItem.addActionListener(new DeleteCustomerActionListener());
+        newReservationMenuItem.addActionListener(new NewReservationActionListener());
+        reservationInvoiceMenuItem.addActionListener(new ReservationInvoiceActionListener());
+        averageRatingReviewsHotelMenuItem.addActionListener(new AverageRatingReviewsHotelActionListener());
     }
 
     public void onRegistrationValidated() {
@@ -141,6 +159,17 @@ public class MainWindows extends JFrame {
                 showPanel(panel);
             } catch (GetAllCustomersException ex) {
                 showError(ex);
+            }
+        }
+    }
+
+    public class AverageRatingReviewsHotelActionListener implements ActionListener {
+        public void actionPerformed(ActionEvent e) {
+            try {
+                HotelReviewsPanel hotelReviewsPanel = new HotelReviewsPanel(appControllers);
+                showPanel(hotelReviewsPanel);
+            } catch (GetAllHotelsException ex) {
+                throw new RuntimeException(ex);
             }
         }
     }

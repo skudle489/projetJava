@@ -2,6 +2,7 @@ package controller;
 
 import business.HotelManager;
 import exceptions.GetAllHotelsException;
+import exceptions.GetAllReviewException;
 import exceptions.HotelException;
 import model.Hotel;
 
@@ -19,5 +20,9 @@ public class HotelController {
 
     public String getHotelName(int id) throws HotelException {
         return hotelManager.getHotelName(id);
+    }
+
+    public double getAverageStarsReviewsByHotel(int hotelId) throws GetAllReviewException {
+        return hotelManager.getAverageStarsReviewsByHotel(hotelId);
     }
 }

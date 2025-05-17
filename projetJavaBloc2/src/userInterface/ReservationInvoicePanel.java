@@ -87,16 +87,24 @@ public class ReservationInvoicePanel extends JPanel {
         public void actionPerformed(ActionEvent e) {
             try {
                 Reservation reservation = (Reservation) reservationComboBox.getSelectedItem();
-                String description = appControllers.getReservationController().getReservationInvoiceCustomer(reservation);
 
-                JTextArea textArea = new JTextArea(description.toString());
+                if (reservation != null) {
+                    String description = appControllers.getReservationController().getReservationInvoiceCustomer(reservation);
 
-                textArea.setEditable(false);
+                    JTextArea textArea = new JTextArea(description.toString());
 
-                JScrollPane scrollPane = new JScrollPane(textArea);
-                scrollPane.setPreferredSize(new Dimension(400, 300));
+                    textArea.setEditable(false);
 
-                JOptionPane.showMessageDialog(null, scrollPane, "Description complète de la chambre", JOptionPane.INFORMATION_MESSAGE);
+                    JScrollPane scrollPane = new JScrollPane(textArea);
+                    scrollPane.setPreferredSize(new Dimension(400, 300));
+
+                    JOptionPane.showMessageDialog(null, scrollPane, "Description complète de la chambre", JOptionPane.INFORMATION_MESSAGE);
+                } else {
+                    JOptionPane.showMessageDialog(mainPanel, "Veuillez sélectionner une réservation");
+                }
+
+
+
 
             } catch (Exception exception) {
                 JOptionPane.showMessageDialog(mainPanel, exception.getMessage());

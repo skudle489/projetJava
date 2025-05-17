@@ -1,0 +1,15 @@
+DROP TABLE IF EXISTS bedroom_owns_bed;
+DROP TABLE IF EXISTS bedroom_owns_amenity;
+DROP TABLE IF EXISTS reservation;
+DROP TABLE IF EXISTS bedroom;
+DROP TABLE IF EXISTS bedroom_type;
+DROP TABLE IF EXISTS amenity;
+DROP TABLE IF EXISTS bed;
+DROP TABLE IF EXISTS review;
+DROP TABLE IF EXISTS hotel_owns_equipment;
+DROP TABLE IF EXISTS hotel;
+DROP TABLE IF EXISTS star;
+DROP TABLE IF EXISTS customer;
+DROP TABLE IF EXISTS locality;
+DROP TABLE IF EXISTS country;
+DROP TABLE IF EXISTS equipment;
