@@ -1,5 +1,6 @@
 package business;
 
+import dataAccess.ILocalityDataAccess;
 import dataAccess.LocalityDBDAO;
 import exceptions.DataAccessException;
 import exceptions.GetAllLocalityWithCountryException;
@@ -9,7 +10,7 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 
 public class LocalityManager {
-    private LocalityDBDAO localityDBDAO;
+    private ILocalityDataAccess localityDBDAO;
     public LocalityManager() {
         localityDBDAO = new LocalityDBDAO();
     }

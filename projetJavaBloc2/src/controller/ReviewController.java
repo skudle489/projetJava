@@ -31,7 +31,7 @@ public class ReviewController {
         return reviewManager.getAllReviewsByHotel(hotel);
     }
 
-    public ArrayList<SearchReviewsModel> searchReviewsByRatingAndDates(int starRating, LocalDate startDate, LocalDate endDate) throws SearchReviewModelException, HotelException, GetCustomerException, ReviewCreationException {
+    public ArrayList<SearchReviewsModel> searchReviewsByRatingAndDates(int starRating, LocalDate startDate, LocalDate endDate) throws ReviewCreationException {
         return reviewManager.searchReviewsByRatingAndDates(starRating, startDate, endDate);
     }
 
