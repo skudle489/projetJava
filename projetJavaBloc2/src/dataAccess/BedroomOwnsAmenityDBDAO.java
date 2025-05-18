@@ -10,7 +10,7 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 
-public class BedroomOwnsAmenityDBDAO {
+public class BedroomOwnsAmenityDBDAO implements IBedroomOwnsAmenityDataAccess {
     private Connection connection;
 
     public BedroomOwnsAmenityDBDAO() {

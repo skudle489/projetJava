@@ -11,7 +11,7 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 
-public class CountryDBDAO {
+public class CountryDBDAO implements ICountryDataAccess {
     private static Connection connection;
 
     public CountryDBDAO() throws DataAccessException {

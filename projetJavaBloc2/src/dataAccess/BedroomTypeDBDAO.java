@@ -1,6 +1,6 @@
 package dataAccess;
 
-import exceptions.BedroomCreationException;
+
 import exceptions.BedroomTypeCreationException;
 import exceptions.DataAccessException;
 import model.BedroomType;
@@ -12,7 +12,7 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 
 
-public class BedroomTypeDBDAO {
+public class BedroomTypeDBDAO implements IBedroomTypeDataAccess {
     private Connection connection;
 
     public BedroomTypeDBDAO() throws DataAccessException {

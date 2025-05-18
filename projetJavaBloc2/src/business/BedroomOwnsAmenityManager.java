@@ -1,13 +1,14 @@
 package business;
 
 import dataAccess.BedroomOwnsAmenityDBDAO;
+import dataAccess.IBedroomOwnsAmenityDataAccess;
 import exceptions.GetAllAmenitiesFromBedroomException;
 import model.Amenity;
 
 import java.util.ArrayList;
 
 public class BedroomOwnsAmenityManager {
-    private BedroomOwnsAmenityDBDAO bedroomOwnsAmenityDBDAO;
+    private IBedroomOwnsAmenityDataAccess bedroomOwnsAmenityDBDAO;
     public BedroomOwnsAmenityManager() {
         bedroomOwnsAmenityDBDAO = new BedroomOwnsAmenityDBDAO();
     }

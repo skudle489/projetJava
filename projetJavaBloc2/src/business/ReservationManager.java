@@ -1,5 +1,6 @@
 package business;
 
+import dataAccess.IReservationDataAccess;
 import dataAccess.ReservationDBDAO;
 import exceptions.*;
 import model.*;
@@ -11,7 +12,7 @@ import java.time.temporal.ChronoUnit;
 import java.util.ArrayList;
 
 public class ReservationManager {
-    private ReservationDBDAO reservationDBDAO;
+    private IReservationDataAccess reservationDBDAO;
     private BedroomOwnsAmenityManager bedroomOwnsAmenityManager;
     private BedroomOwnsBedManager bedroomOwnsBedManager;
     private BedroomManager bedroomManager;

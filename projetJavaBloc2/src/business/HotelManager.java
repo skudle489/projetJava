@@ -1,6 +1,7 @@
 package business;
 
 import dataAccess.HotelDBDAO;
+import dataAccess.IHotelDataAccess;
 import exceptions.GetAllHotelsException;
 import exceptions.GetAllReviewException;
 import exceptions.HotelException;
@@ -10,7 +11,7 @@ import model.Review;
 import java.util.ArrayList;
 
 public class HotelManager {
-    private HotelDBDAO hotelDBDAO;
+    private IHotelDataAccess hotelDBDAO;
     private ReviewManager reviewManager;
     public HotelManager() {
         hotelDBDAO = new HotelDBDAO();

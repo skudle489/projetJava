@@ -1,6 +1,7 @@
 package business;
 
 import dataAccess.CustomerDBDAO;
+import dataAccess.ICustomerDataAccess;
 import exceptions.*;
 import model.Customer;
 
@@ -10,7 +11,7 @@ import java.util.ArrayList;
 
 
 public class CustomerManager {
-    private CustomerDBDAO customerDBDAO;
+    private ICustomerDataAccess customerDBDAO;
 
     public CustomerManager() {
         try {

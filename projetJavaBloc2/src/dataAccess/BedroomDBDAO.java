@@ -12,7 +12,7 @@ import java.sql.SQLException;
 import java.time.LocalDate;
 import java.util.ArrayList;
 
-public class BedroomDBDAO {
+public class BedroomDBDAO implements IBedroomDataAccess {
     private Connection connection;
 
     public BedroomDBDAO() throws DataAccessException {

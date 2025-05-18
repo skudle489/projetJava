@@ -1,6 +1,7 @@
 package business;
 
 import dataAccess.CountryDBDAO;
+import dataAccess.ICountryDataAccess;
 import exceptions.CountryCreationException;
 import exceptions.DataAccessException;
 import exceptions.GetAllCountryException;
@@ -10,7 +11,7 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 
 public class CountryManager {
-    private CountryDBDAO countryDBDAO;
+    private ICountryDataAccess countryDBDAO;
 
     public CountryManager() {
         countryDBDAO = new CountryDBDAO();

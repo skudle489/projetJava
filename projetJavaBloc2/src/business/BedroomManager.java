@@ -1,6 +1,7 @@
 package business;
 
 import dataAccess.BedroomDBDAO;
+import dataAccess.IBedroomDataAccess;
 import exceptions.BedroomCreationException;
 import model.Bedroom;
 import model.BedroomInformationsModel;
@@ -8,7 +9,7 @@ import model.BedroomInformationsModel;
 import java.util.ArrayList;
 
 public class BedroomManager {
-    private BedroomDBDAO bedroomDBDAO;
+    private IBedroomDataAccess bedroomDBDAO;
 
     public BedroomManager() {
         bedroomDBDAO = new BedroomDBDAO();

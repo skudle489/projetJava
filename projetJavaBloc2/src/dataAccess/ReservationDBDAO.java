@@ -12,7 +12,7 @@ import java.sql.SQLException;
 import java.time.LocalDate;
 import java.util.ArrayList;
 
-public class ReservationDBDAO {
+public class ReservationDBDAO implements IReservationDataAccess{
     private static Connection connection;
 
     public ReservationDBDAO() throws DataAccessException {

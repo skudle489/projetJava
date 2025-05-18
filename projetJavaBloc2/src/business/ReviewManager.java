@@ -1,6 +1,7 @@
 package business;
 
 import dataAccess.HotelDBDAO;
+import dataAccess.IReviewDataAccess;
 import dataAccess.ReviewDBDAO;
 import exceptions.*;
 import model.Customer;
@@ -11,13 +12,10 @@ import java.time.LocalDate;
 import java.util.ArrayList;
 
 public class ReviewManager {
-    private ReviewDBDAO reviewDBDAO;
-    private HotelDBDAO hotelDBDAO;
-    private CustomerManager customerManager;
+    private IReviewDataAccess reviewDBDAO;
+
     public ReviewManager() {
         reviewDBDAO = new ReviewDBDAO();
-        hotelDBDAO = new HotelDBDAO();
-        customerManager = new CustomerManager();
     }
 
     public void addReview(Review review) throws AddReviewException, ReviewException, UpdateReviewException {

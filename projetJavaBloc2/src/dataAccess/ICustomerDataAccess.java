@@ -11,4 +11,5 @@ public interface ICustomerDataAccess {
     ArrayList<Customer> getAllCustomers() throws GetAllCustomersException;
     void updateCustomer(Customer customer) throws UpdateCustomerException;
     void deleteCustomer(String mailAdress) throws DeleteCustomerException;
+    Customer getCustomer(String mailAdress) throws GetCustomerException;
 }

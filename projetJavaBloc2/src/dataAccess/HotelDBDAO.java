@@ -9,7 +9,7 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 
-public class HotelDBDAO {
+public class HotelDBDAO implements IHotelDataAccess {
     private Connection connection;
 
     public HotelDBDAO() throws DataAccessException {
