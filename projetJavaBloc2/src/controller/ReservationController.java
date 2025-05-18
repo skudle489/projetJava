@@ -3,6 +3,7 @@ package controller;
 import business.ReservationManager;
 import exceptions.*;
 import model.Reservation;
+import model.ReservationInvoiceModel;
 
 import java.time.LocalDate;
 import java.util.ArrayList;
@@ -30,9 +31,14 @@ public class ReservationController {
         return reservationManager.getAllReservationsCustomer(customer);
     }
 
-    public String getReservationInvoiceCustomer(Reservation reservation) throws ReservationException, GetAllAmenitiesFromBedroomException, GetAllBedsFromBedroomException, BedroomCreationException {
+    public String getReservationInvoiceCustomer(Reservation reservation) throws GetAllAmenitiesFromBedroomException, GetAllBedsFromBedroomException, BedroomCreationException {
         return reservationManager.getReservationInvoiceCustomer(reservation);
     }
+
+    public ArrayList<ReservationInvoiceModel> reservationInvoice (String mailAddress) throws ReservationException {
+        return reservationManager.reservationInvoice(mailAddress);
+    }
+
 
 
 }

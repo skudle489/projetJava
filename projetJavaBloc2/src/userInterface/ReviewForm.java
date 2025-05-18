@@ -208,42 +208,31 @@ public class ReviewForm extends JPanel {
 
                 if (hotel == null || customer == null) {
                     JOptionPane.showMessageDialog(null, "Veuillez sélectionner un hôtel et un client.");
-                    return;
-                }
-
-                int idHotel = hotel.getId();
-                String customerEmail = customer.getMailAdress();
-                boolean isAnonymous = isAnonymousCheckBox.isSelected();
-                String title = titleTextField.getText().trim();
-                String comment = commentTextField.getText().trim();
-                int nbStars = Integer.parseInt(starSpinner.getValue().toString());
-                LocalDate creationCommentDate = LocalDate.now();
-
-                LocalDate dateLastVisitCountry;
-                if (lastVisitDateHotelCountryCheckBox.isSelected()) {
-                    int dayVisit = daysValues[dayComboBoxLastVisitCountry.getSelectedIndex()];
-                    int monthVisit = monthsValues[monthComboBoxLastVisitCountry.getSelectedIndex()];
-                    int yearVisit = yearsValues[yearComboBoxLastVisitCountry.getSelectedIndex()];
-                    dateLastVisitCountry = LocalDate.of(yearVisit, monthVisit, dayVisit);
                 } else {
-                    dateLastVisitCountry = null;
+                    int idHotel = hotel.getId();
+                    String customerEmail = customer.getMailAdress();
+                    boolean isAnonymous = isAnonymousCheckBox.isSelected();
+                    String title = titleTextField.getText().trim();
+                    String comment = commentTextField.getText().trim();
+                    int nbStars = Integer.parseInt(starSpinner.getValue().toString());
+                    LocalDate creationCommentDate = LocalDate.now();
+
+                    LocalDate dateLastVisitCountry;
+                    if (lastVisitDateHotelCountryCheckBox.isSelected()) {
+                        int dayVisit = daysValues[dayComboBoxLastVisitCountry.getSelectedIndex()];
+                        int monthVisit = monthsValues[monthComboBoxLastVisitCountry.getSelectedIndex()];
+                        int yearVisit = yearsValues[yearComboBoxLastVisitCountry.getSelectedIndex()];
+                        dateLastVisitCountry = LocalDate.of(yearVisit, monthVisit, dayVisit);
+                    } else {
+                        dateLastVisitCountry = null;
+                    }
+
+
+                    Review review = new Review(comment, idHotel, title, isAnonymous, nbStars, customerEmail, creationCommentDate, dateLastVisitCountry);
+
+                    appControllers.getReviewController().addReview(review);
+                    mainWindows.onRegistrationValidated();
                 }
-
-
-
-                Review review = new Review(
-                        comment,
-                        idHotel,
-                        title,
-                        isAnonymous,
-                        nbStars,
-                        customerEmail,
-                        creationCommentDate,
-                        dateLastVisitCountry
-                );
-
-                appControllers.getReviewController().addReview(review);
-                mainWindows.onRegistrationValidated();
 
             } catch (AddReviewException | ReviewCreationException | UpdateReviewException | ReviewException ex) {
                 JOptionPane.showMessageDialog(null, ex.getMessage());

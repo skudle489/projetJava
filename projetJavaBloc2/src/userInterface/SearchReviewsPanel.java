@@ -4,10 +4,12 @@ import exceptions.GetCustomerException;
 import exceptions.HotelException;
 import exceptions.ReviewCreationException;
 import exceptions.SearchReviewModelException;
+import model.ReservationInvoiceModel;
 import model.SearchReviewsModel;
 import utils.AppControllers;
 
 import javax.swing.*;
+import javax.swing.table.DefaultTableModel;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -34,6 +36,10 @@ public class SearchReviewsPanel extends JPanel {
     private AppControllers appControllers;
     private MainWindows mainWindows;
 
+
+    private JTable reservationsTable;
+    private DefaultTableModel tableModel;
+
     public SearchReviewsPanel(AppControllers appControllers) {
         this.appControllers = appControllers;
         setUpUI();
@@ -46,8 +52,11 @@ public class SearchReviewsPanel extends JPanel {
         reviewsResultPanel = new JPanel();
         reviewsResultPanel.setLayout(new FlowLayout(FlowLayout.CENTER));
 
-        scrollPane = new JScrollPane(reviewsResultPanel);
-        scrollPane.setPreferredSize(new Dimension(600, 300));
+        String[] columns = {"Commentaire", "Nom hotel", "Nombre d'étoiles de l'hotel", "Prénom", "Nom"};
+        tableModel = new DefaultTableModel(columns, 0);
+        reservationsTable = new JTable(tableModel);
+        JScrollPane tableScrollPane = new JScrollPane(reservationsTable);
+
 
         searchButton = new JButton("Chercher les avis non anonymes entre les deux dates");
 
@@ -94,7 +103,7 @@ public class SearchReviewsPanel extends JPanel {
         mainPanelContainer.add(searchButton, BorderLayout.SOUTH);
 
         add(mainPanelContainer);
-        add(scrollPane);
+        add(tableScrollPane);
 
         searchButton.addActionListener(new SearchButtonListener());
     }
@@ -114,12 +123,7 @@ public class SearchReviewsPanel extends JPanel {
     }
 
     public void displayResult() {
-        reviewsResultPanel.removeAll();
-        mainWindows.revalidate();
-        mainWindows.repaint();
-
-        JPanel verticalWrapper = new JPanel();
-        verticalWrapper.setLayout(new BoxLayout(verticalWrapper, BoxLayout.Y_AXIS));
+        tableModel.setRowCount(0);
 
         int starRating = (int) ratingSpinner.getValue();
 
@@ -134,29 +138,14 @@ public class SearchReviewsPanel extends JPanel {
 
                 if (!searchReviewsModels.isEmpty()) {
                     for (SearchReviewsModel review : searchReviewsModels) {
-                        JPanel resultPanel = new JPanel();
-                        resultPanel.setLayout(new BoxLayout(resultPanel, BoxLayout.Y_AXIS));
 
-                        resultPanel.setMaximumSize(new Dimension(550, Integer.MAX_VALUE));
+                        Object[] row = {review.getReviewComment(), review.getHotelName(), review.getHotelStars(), review.getCustomerFirstName(), review.getCustomerLastName()};
+                        tableModel.addRow(row);
 
-
-                        resultPanel.add(new JLabel("Commentaire: " + review.getReviewComment()));
-                        resultPanel.add(new JLabel(review.getHotelName()));
-                        resultPanel.add(new JLabel("Étoile de l'hôtel: " + review.getHotelStars()));
-                        resultPanel.add(new JLabel("Prénom : " + review.getCustomerFirstName()));
-                        resultPanel.add(new JLabel("Nom : " + review.getCustomerLastName()));
-
-                        verticalWrapper.add(resultPanel);
-                        verticalWrapper.add(Box.createVerticalStrut(10));
                     }
 
-                    reviewsResultPanel.add(verticalWrapper);
-                    reviewsResultPanel.revalidate();
-                    reviewsResultPanel.repaint();
-                    mainWindows.revalidate();
-                    mainWindows.repaint();
                 } else {
-                    JOptionPane.showMessageDialog(null, "Aucun résultat trouvé");
+                    JOptionPane.showMessageDialog(null, "Aucun avis non anonymes trouvés");
                 }
             } else {
                 JOptionPane.showMessageDialog(null, "Dates invalides. La date de début doit être inférieure à la date de fin. Vérifiez aussi que la date de jour correspond au mois.");

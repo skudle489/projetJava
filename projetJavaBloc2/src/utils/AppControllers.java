@@ -1,6 +1,7 @@
 package utils;
 
 import controller.*;
+import model.BedroomType;
 
 public class AppControllers {
     private final CountryController countryController;
@@ -12,6 +13,7 @@ public class AppControllers {
     private final ReservationController reservationController;
     private final CustomerController customerController;
     private final ReviewController reviewController;
+    private final BedroomTypeController bedroomTypeController;
 
     public AppControllers() {
         countryController = new CountryController();
@@ -23,6 +25,7 @@ public class AppControllers {
         reservationController = new ReservationController();
         customerController = new CustomerController();
         reviewController = new ReviewController();
+        bedroomTypeController = new BedroomTypeController();
     }
 
     public CountryController getCountryController() {
@@ -60,6 +63,8 @@ public class AppControllers {
     public ReviewController getReviewController() {
         return reviewController;
     }
+
+    public BedroomTypeController getBedroomTypeController() {return bedroomTypeController;}
 
 
 

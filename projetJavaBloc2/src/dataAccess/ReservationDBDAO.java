@@ -2,6 +2,7 @@ package dataAccess;
 
 import exceptions.*;
 import model.Reservation;
+import model.ReservationInvoiceModel;
 
 import javax.xml.crypto.Data;
 import java.sql.Connection;
@@ -128,6 +129,37 @@ public class ReservationDBDAO {
             throw new ReservationException("Erreur lors de la lecture de tous les réservations client " + exception.getMessage());
         }
     }
+
+
+
+    public ArrayList<ReservationInvoiceModel> reservationInvoice(String mailAddress) throws ReservationException {
+        String sqlInstruction = "SELECT r.start_date, r.end_date, b.nb_of_people, b.bedroom_size, b.cost_per_day, h.name FROM reservation AS r INNER JOIN bedroom AS b ON r.bedroom_number = b.bedroom_number INNER JOIN hotel AS h ON b.hotel = h.id WHERE r.customer = ?";
+
+        ArrayList<ReservationInvoiceModel> reservationInvoices = new ArrayList<>();
+
+        try {
+            PreparedStatement preparedStatement = connection.prepareStatement(sqlInstruction);
+            preparedStatement.setString(1, mailAddress);
+            ResultSet data = preparedStatement.executeQuery();
+
+            while (data.next()) {
+                String hotelName = data.getString("name");
+                LocalDate startDateReservation = data.getDate("start_date").toLocalDate();
+                LocalDate endDateReservation = data.getDate("end_date").toLocalDate();
+                int nbOfPeopleInBedroom = data.getInt("nb_of_people");
+                double bedroomSize = data.getDouble("bedroom_size");
+                double costPerDay = data.getDouble("cost_per_day");
+
+                reservationInvoices.add(new ReservationInvoiceModel(hotelName, startDateReservation, endDateReservation, nbOfPeopleInBedroom, bedroomSize, costPerDay));
+            }
+
+            return reservationInvoices;
+
+        } catch (SQLException e) {
+            throw new ReservationException("Erreur : impossible de récupérer les factures de réservation" + e.getMessage());
+        }
+    }
+
 
 
 

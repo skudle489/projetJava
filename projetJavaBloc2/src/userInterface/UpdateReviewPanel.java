@@ -107,9 +107,15 @@ public class UpdateReviewPanel extends JPanel {
                 Customer selectedCustomer = (Customer) customersEmailComboBox.getSelectedItem();
                 Hotel selectedHotel = (Hotel) hotelsComboBox.getSelectedItem();
                 Review selectedReview = (Review) reviewsCustomerComboBox.getSelectedItem();
-                ReviewForm reviewForm = new ReviewForm(appControllers, selectedCustomer, selectedHotel, selectedReview);
-                reviewForm.setMainWindows(mainWindows);
-                mainWindows.showPanel(reviewForm);
+
+                if (selectedCustomer != null && selectedHotel != null && selectedReview != null) {
+                    ReviewForm reviewForm = new ReviewForm(appControllers, selectedCustomer, selectedHotel, selectedReview);
+                    reviewForm.setMainWindows(mainWindows);
+                    mainWindows.showPanel(reviewForm);
+                } else {
+                    JOptionPane.showMessageDialog(mainWindows, "Il faut sélectionner un client, hotel et un avis.", "Erreur", JOptionPane.ERROR_MESSAGE);
+                }
+
             } catch (Exception ex) {
                 JOptionPane.showMessageDialog(mainWindows, ex.getMessage(), "Erreur", JOptionPane.ERROR_MESSAGE);
             }

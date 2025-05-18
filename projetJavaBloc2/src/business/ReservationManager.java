@@ -56,7 +56,7 @@ public class ReservationManager {
         return reservationDBDAO.getAllReservationsCustomer(customer);
     }
 
-    public String getReservationInvoiceCustomer(Reservation reservation) throws ReservationException, GetAllAmenitiesFromBedroomException, GetAllBedsFromBedroomException, BedroomCreationException {
+    public String getReservationInvoiceCustomer(Reservation reservation) throws GetAllAmenitiesFromBedroomException, GetAllBedsFromBedroomException, BedroomCreationException {
 
         StringBuilder description = new StringBuilder();
 
@@ -114,6 +114,10 @@ public class ReservationManager {
         }
 
         return availableDates;
+    }
+
+    public ArrayList<ReservationInvoiceModel> reservationInvoice (String mailAddress) throws ReservationException {
+        return reservationDBDAO.reservationInvoice(mailAddress);
     }
 
 }
