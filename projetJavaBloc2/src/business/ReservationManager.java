@@ -47,7 +47,11 @@ public class ReservationManager {
         return reservationDBDAO.getAllReservationsCustomer(customer);
     }
 
-    /*Test unitaire*/
+    public double totalPrice(int daysCount, double pricePerDay){
+        return daysCount * pricePerDay;
+    }
+
+
     public String getReservationInvoiceCustomer(Reservation reservation) throws GetAllAmenitiesFromBedroomException, GetAllBedsFromBedroomException, BedroomCreationException {
 
         StringBuilder description = new StringBuilder();
@@ -90,13 +94,13 @@ public class ReservationManager {
         long days = ChronoUnit.DAYS.between(reservation.getStartDate(), reservation.getEndDate());
         if (days == 0) days = 1;
 
-        int totalPrice = (int) (days * bedroom.getCostPerDay());
+        double totalPrice = totalPrice((int) days, bedroom.getCostPerDay());
 
         description.append(totalPrice).append(" euros");
         return description.toString();
     }
 
-    /*Test unitaire*/
+
     public ArrayList<LocalDate> getAvailableDatesFrom(int bedroom, int hotel, LocalDate startDate) throws IsRoomReservedException {
         ArrayList<LocalDate> availableDates = new ArrayList<>();
         LocalDate endDate = startDate.plusMonths(6);

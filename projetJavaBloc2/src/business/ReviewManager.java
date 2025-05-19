@@ -18,11 +18,19 @@ public class ReviewManager {
         reviewDBDAO = new ReviewDBDAO();
     }
 
+    public boolean reviewExists(String customer, int hotel, LocalDate creationDate) throws ReviewException {
+        return reviewDBDAO.reviewExists(customer,hotel,creationDate);
+    }
+
+    public boolean isLastVisitDateValid(LocalDate lastVisitDate) {
+        return !lastVisitDate.isAfter(LocalDate.now());
+    }
+
     public void addReview(Review review) throws AddReviewException, ReviewException, UpdateReviewException {
 
         LocalDate lastVisitDate = review.getLastVisitDateHotelCountry();
 
-        if (lastVisitDate != null && lastVisitDate.isAfter(LocalDate.now())) {
+        if (lastVisitDate != null && !isLastVisitDateValid(lastVisitDate)) {
             throw new AddReviewException("La date de dernière visite du pays de l'hôtel ne peut être dans le futur.");
         }
 

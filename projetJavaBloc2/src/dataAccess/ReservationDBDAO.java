@@ -60,7 +60,6 @@ public class ReservationDBDAO implements IReservationDataAccess{
             int count = data.getInt(1);
             return count > 0;
 
-
         } catch (SQLException exception){
             throw new IsRoomReservedException("Erreur lors du test pour savoir si une data est libre pour la réservation " + exception.getMessage());
         }
