@@ -6,6 +6,8 @@ import exceptions.*;
 import model.Customer;
 
 
+import java.time.LocalDate;
+import java.time.Period;
 import java.util.ArrayList;
 
 
@@ -21,6 +23,17 @@ public class CustomerManager {
     }
 
     public void addCustomer(Customer customer) throws AddCustomerException {
+        LocalDate birthDate = customer.getBirthDate();
+        LocalDate today = LocalDate.now();
+
+        if (Period.between(birthDate, today).getYears() < 18) {
+            throw new AddCustomerException("Le client doit être majeur.");
+        }
+
+        if (customer.getStreetNumber() < 0){
+            throw new AddCustomerException("Le numéro de la rue ne peut etre negatif.");
+        }
+
         customerDBDAO.addCustomer(customer);
     }
 
@@ -39,7 +52,7 @@ public class CustomerManager {
     public void deleteCustomer(String mailAddress) throws DeleteCustomerException {
         customerDBDAO.deleteCustomer(mailAddress);
     }
-    /*test unitaire*/
+
     public boolean customerExists(String mailAddress) {
         try {
             Customer customer = getCustomer(mailAddress);

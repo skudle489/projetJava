@@ -24,7 +24,6 @@ public class SearchReviewsPanel extends JPanel {
     private JSpinner endDaySpinner, endMonthSpinner, endYearSpinner;
     private JLabel endDateLabel;
 
-    private JPanel reviewsResultPanel;
 
     private JButton searchButton;
     private AppControllers appControllers;
@@ -42,8 +41,6 @@ public class SearchReviewsPanel extends JPanel {
         setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
 
         mainPanelContainer = new JPanel();
-        reviewsResultPanel = new JPanel();
-        reviewsResultPanel.setLayout(new FlowLayout(FlowLayout.CENTER));
 
         String[] columns = {"Commentaire", "Nom hotel", "Nombre d'étoiles de l'hotel", "Prénom", "Nom"};
         tableModel = new DefaultTableModel(columns, 0);

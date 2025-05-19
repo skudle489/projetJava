@@ -17,14 +17,22 @@ public class ReviewManager {
     public ReviewManager() {
         reviewDBDAO = new ReviewDBDAO();
     }
-    /*Test unitaire*/
+
     public void addReview(Review review) throws AddReviewException, ReviewException, UpdateReviewException {
-        if (reviewDBDAO.reviewExists(review.getCustomer(), review.getHotel(), review.getCreationDate())){
+
+        LocalDate lastVisitDate = review.getLastVisitDateHotelCountry();
+
+        if (lastVisitDate != null && lastVisitDate.isAfter(LocalDate.now())) {
+            throw new AddReviewException("La date de dernière visite du pays de l'hôtel ne peut être dans le futur.");
+        }
+
+        if (reviewDBDAO.reviewExists(review.getCustomer(), review.getHotel(), review.getCreationDate())) {
             reviewDBDAO.updateReview(review);
         } else {
             reviewDBDAO.addReview(review);
         }
     }
+
 
     public ArrayList<Review> getAllReviews() throws GetAllReviewException {
         return reviewDBDAO.getAllReviews();
