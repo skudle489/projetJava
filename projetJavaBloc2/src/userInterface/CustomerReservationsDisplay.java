@@ -13,7 +13,7 @@ import java.awt.event.ActionListener;
 import java.util.ArrayList;
 
 public class CustomerReservationsDisplay extends JPanel {
-    private JPanel mainPanel;
+    private JPanel mainPanel, buttonPanel, mainPanelContainer, listEmailAddressPanel;
     private JLabel mailAddressLabel;
     private JList<String> mailAddressJList;
     private MainWindows mainWindows;
@@ -36,18 +36,32 @@ public class CustomerReservationsDisplay extends JPanel {
     public void setUpUI() throws GetAllCustomersException {
         setLayout(new BorderLayout());
 
-        mainPanel = new JPanel();
-        mainPanel.setLayout(new GridLayout(1, 3));
+        mainPanelContainer = new JPanel();
+        mainPanelContainer.setLayout(new BorderLayout());
 
-        mailAddressLabel = new JLabel("Addresse mail");
+        mainPanel = new JPanel();
+        mainPanelContainer.add(mainPanel);
+        mainPanel.setLayout(new GridLayout(1, 2));
+
+        listEmailAddressPanel = new JPanel();
+        listEmailAddressPanel.setLayout(new BorderLayout());
+        listEmailAddressPanel.setBorder(BorderFactory.createEmptyBorder(30, 10, 15, 10));
+
+
+        mailAddressLabel = new JLabel("  Adresse mail");
         mailAddressJList = new JList<>();
+
+        buttonPanel = new JPanel();
         validationButton = new JButton("Valider");
+        validationButton.setPreferredSize(new Dimension(200, 25));
         validationButton.addActionListener(new ValidationListener());
         loadCustomersInJList();
 
         mainPanel.add(mailAddressLabel);
-        mainPanel.add(new JScrollPane(mailAddressJList));
-        mainPanel.add(validationButton);
+        listEmailAddressPanel.add(new JScrollPane(mailAddressJList), BorderLayout.CENTER);
+        mainPanel.add(listEmailAddressPanel);
+        buttonPanel.add(validationButton);
+        mainPanelContainer.add(buttonPanel, BorderLayout.SOUTH);
 
         String[] columns = {"Nom hotel", "Date début réservation", "Date de fin de réservation", "Nombre de personnes", "Taille de la chambre (m2)", "Prix par jour"};
         tableModel = new DefaultTableModel(columns, 0);
@@ -62,7 +76,7 @@ public class CustomerReservationsDisplay extends JPanel {
 
         JScrollPane tableScrollPane = new JScrollPane(reservationsTable);
 
-        add(mainPanel, BorderLayout.CENTER);
+        add(mainPanelContainer, BorderLayout.CENTER);
         add(tableScrollPane, BorderLayout.SOUTH);
 
     }
@@ -100,11 +114,10 @@ public class CustomerReservationsDisplay extends JPanel {
                     loadReservationsForCustomer(mailAddressJList.getSelectedValue());
                 }
             } catch (Exception ex) {
-                JOptionPane.showMessageDialog(mainPanel, ex.getMessage(), "Erreur", JOptionPane.ERROR_MESSAGE);
+                JOptionPane.showMessageDialog(mainPanelContainer, ex.getMessage(), "Erreur", JOptionPane.ERROR_MESSAGE);
             }
         }
     }
 
 }
-
 

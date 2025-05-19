@@ -13,7 +13,7 @@ import java.awt.event.ActionListener;
 import java.util.ArrayList;
 
 public class SearchBedroomPanel extends JPanel {
-    private JPanel mainPanel;
+    private JPanel mainPanel, mainPanelContainer, listLabelsPanel, buttonPanel ;
     private JLabel labelsBedroomsLabel;
     private JList<String> labelsBedroomsList;
     private JTable informationsBedroomsTable;
@@ -28,21 +28,38 @@ public class SearchBedroomPanel extends JPanel {
 
 
     public void setUpUI() throws BedroomTypeCreationException {
+
         setLayout(new BorderLayout());
 
-        mainPanel = new JPanel();
-        mainPanel.setLayout(new GridLayout(1, 3));
+        mainPanelContainer = new JPanel();
+        mainPanelContainer.setLayout(new BorderLayout());
 
-        labelsBedroomsLabel = new JLabel("Type de chambre recherché :");
+
+        mainPanel = new JPanel();
+        mainPanel.setLayout(new GridLayout(1, 2));
+        mainPanelContainer.add(mainPanel);
+
+
+        labelsBedroomsLabel = new JLabel("  Type de chambre recherché :");
+        listLabelsPanel = new JPanel();
+        listLabelsPanel.setLayout(new BorderLayout());
+        listLabelsPanel.setBorder(BorderFactory.createEmptyBorder(30, 10, 15, 10));
+
+
         labelsBedroomsList = new JList<>();
+
+        buttonPanel = new JPanel();
         sendRequestButton = new JButton("Recherche");
+        sendRequestButton.setPreferredSize(new Dimension(200, 25));
         sendRequestButton.addActionListener(new SearchButtonListener());
 
         loadBedroomTypesInJList();
 
         mainPanel.add(labelsBedroomsLabel);
-        mainPanel.add(new JScrollPane(labelsBedroomsList));
-        mainPanel.add(sendRequestButton);
+        listLabelsPanel.add(new JScrollPane(labelsBedroomsList), BorderLayout.CENTER);
+        mainPanel.add(listLabelsPanel);
+        buttonPanel.add(sendRequestButton);
+        mainPanelContainer.add(buttonPanel, BorderLayout.SOUTH);
 
         String[] columnNames = {"Numéro de chambre", "Prix par jour", "Nom hotel", "Numéro de rue", "Rue", "Ville", "Pays"};
         tableModel = new DefaultTableModel(columnNames, 0);
@@ -54,8 +71,8 @@ public class SearchBedroomPanel extends JPanel {
 
         JScrollPane tableScrollPane = new JScrollPane(informationsBedroomsTable);
 
-        add(mainPanel, BorderLayout.CENTER);
-        add(tableScrollPane, BorderLayout.SOUTH);
+        this.add(mainPanelContainer, BorderLayout.CENTER);
+        this.add(tableScrollPane, BorderLayout.SOUTH);
     }
 
     private void loadBedroomTypesInJList() throws BedroomTypeCreationException {
@@ -93,7 +110,7 @@ public class SearchBedroomPanel extends JPanel {
                     }
                 }
             } catch (Exception ex) {
-                JOptionPane.showMessageDialog(mainPanel, ex.getMessage(), "Erreur", JOptionPane.ERROR_MESSAGE);
+                JOptionPane.showMessageDialog(mainPanelContainer, ex.getMessage(), "Erreur", JOptionPane.ERROR_MESSAGE);
             }
         }
     }

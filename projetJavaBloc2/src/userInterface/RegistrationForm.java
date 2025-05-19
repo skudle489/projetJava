@@ -23,6 +23,8 @@ public class RegistrationForm extends JPanel {
     private JPanel formPanel;
     private JPanel birthdayPanel;
     private JPanel comboBoxPanel;
+    private JPanel southpanel;
+    private JPanel buttonPanel;
     private JCheckBox isVeganCheckBox;
     private JLabel mailAddressLabel, firstNameLabel, lastName, street, streetNumber, birthday, phone, secondaryPhone, dayLabel, monthLabel, yearLabel, cityLabel, postalCode, country ;
     private JTextField mailAddressTextField, firstNameTextField, lastNameTextField, streetTextField, streetNumberTextField, postalCodeTextField, phoneTextField, secondaryPhoneTextField, cityTextField;
@@ -72,6 +74,7 @@ public class RegistrationForm extends JPanel {
 
 
     public void setUpUI(){
+
         formPanel = new JPanel();
         formPanel.setLayout(new GridLayout(10, 2, 5, 5));
 
@@ -128,13 +131,17 @@ public class RegistrationForm extends JPanel {
         phoneTextField=new JTextField();
         formPanel.add(phoneTextField);
 
-        secondaryPhone=new JLabel("Numéro de téléphone secondaire :");
+        secondaryPhone=new JLabel("Numéro de téléphone secondaire* :");
         formPanel.add(secondaryPhone);
         secondaryPhoneTextField=new JTextField();
         formPanel.add(secondaryPhoneTextField);
 
         isVeganCheckBox=new JCheckBox("Est vegan");
         formPanel.add(isVeganCheckBox);
+
+        southpanel = new JPanel();
+        southpanel.setLayout(new BorderLayout());
+
 
         birthdayPanel=new JPanel();
         birthdayPanel.setLayout(new GridLayout(1, 2, 2,2));
@@ -189,13 +196,18 @@ public class RegistrationForm extends JPanel {
         yearCombox=new JComboBox(yearsValues);
         comboBoxPanel.add(yearCombox);
 
+        buttonPanel = new JPanel();
+
         buttonValidation = new JButton("Valider");
         buttonValidation.addActionListener(new ValidateButtonActionListener());
+        buttonValidation.setPreferredSize(new Dimension(150, 25));
+        buttonPanel.add(buttonValidation);
 
         setLayout(new BorderLayout());
         add(formPanel, BorderLayout.CENTER);
-        add(birthdayPanel, BorderLayout.SOUTH);
-        add(buttonValidation, BorderLayout.EAST);
+        add(southpanel, BorderLayout.SOUTH);
+        southpanel.add(birthdayPanel, BorderLayout.CENTER);
+        southpanel.add(buttonPanel, BorderLayout.SOUTH);
 
 
         countryComboBox.addItemListener(new ItemListener() {

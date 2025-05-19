@@ -30,8 +30,12 @@ public class ReservationPanel extends JPanel {
         initializeComponents();
     }
 
-    public void initializeComponents(){
+    public void initializeComponents() {
+        setLayout(new BorderLayout());
+
         mainPanel = new JPanel();
+        mainPanel.setLayout(new BoxLayout(mainPanel, BoxLayout.Y_AXIS));
+        mainPanel.setBorder(BorderFactory.createEmptyBorder(10, 10, 10, 10)); // padding around main panel
 
         mailAddressLabel = new JLabel("Addresse mail");
         hotel = new JLabel("Hotel");
@@ -40,54 +44,73 @@ public class ReservationPanel extends JPanel {
         hotelComboBox = new JComboBox();
         bedroomComboBox = new JComboBox();
 
-        showDetailsButtonPanel = new JPanel();
-        showDetailsButtonPanel.setLayout(new GridLayout(1, 1));
         showDetailsButton = new JButton("Afficher informations");
+        confirmReservationButton = new JButton("Réserver");
 
-        showDetailsButtonPanel.add(showDetailsButton);
 
-        startReservationDatePanel = new JPanel();
+        JPanel mailPanel = new JPanel(new GridLayout(1, 2, 10, 0));
+        mailPanel.add(mailAddressLabel);
+        mailPanel.add(mailAddressComboBox);
+        mailPanel.setMaximumSize(new Dimension(Integer.MAX_VALUE, mailAddressComboBox.getPreferredSize().height));
+
+
+        JPanel hotelPanel = new JPanel(new GridLayout(1, 2, 10, 0));
+        hotelPanel.add(hotel);
+        hotelPanel.add(hotelComboBox);
+        hotelPanel.setMaximumSize(new Dimension(Integer.MAX_VALUE, hotelComboBox.getPreferredSize().height));
+
+        JPanel bedroomPanel = new JPanel(new GridLayout(1, 2, 10, 0));
+        bedroomPanel.add(bedroom);
+        bedroomPanel.add(bedroomComboBox);
+        bedroomPanel.setMaximumSize(new Dimension(Integer.MAX_VALUE, bedroomComboBox.getPreferredSize().height));
+
+
+        JPanel buttonsPanel = new JPanel(new FlowLayout(FlowLayout.CENTER, 20, 5));
+        buttonsPanel.add(showDetailsButton);
+        buttonsPanel.add(confirmReservationButton);
+
 
         startDateLabel = new JLabel("Date de début de la réservation");
-
-        endDateLabel = new JLabel("Réserve jusqu'au ");
-
-
+        startReservationDateComboBox = new JComboBox();
         LocalDate today = LocalDate.now();
         LocalDate threeMonthsLater = today.plusMonths(3);
-
-        startReservationDateComboBox = new JComboBox();
-
         for (LocalDate date = today; date.isBefore(threeMonthsLater); date = date.plusDays(1)) {
             startReservationDateComboBox.addItem(date);
         }
-
-        startReservationDatePanel.setLayout(new GridLayout(1, 2));
+        startReservationDatePanel = new JPanel(new GridLayout(1, 2));
         startReservationDatePanel.add(startDateLabel);
         startReservationDatePanel.add(startReservationDateComboBox);
+        startReservationDatePanel.setMaximumSize(new Dimension(Integer.MAX_VALUE, startReservationDateComboBox.getPreferredSize().height));
 
 
-        endReservationDatePanel = new JPanel(new GridLayout(1, 2));
+        endDateLabel = new JLabel("Réserve jusqu'au ");
         endReservationDateComboBox = new JComboBox();
+        endReservationDatePanel = new JPanel(new GridLayout(1, 2));
         endReservationDatePanel.add(endDateLabel);
         endReservationDatePanel.add(endReservationDateComboBox);
+        endReservationDatePanel.setMaximumSize(new Dimension(Integer.MAX_VALUE, endReservationDateComboBox.getPreferredSize().height));
+
 
         availableDatesLabel = new JLabel("Dates libres");
+        availableDatesLabel.setAlignmentX(Component.CENTER_ALIGNMENT);
 
-        confirmReservationButton = new JButton("Réserver");
 
-        mainPanel.setLayout(new BoxLayout(mainPanel, BoxLayout.Y_AXIS));
-        mainPanel.add(mailAddressLabel);
-        mainPanel.add(mailAddressComboBox);
-        mainPanel.add(hotel);
-        mainPanel.add(hotelComboBox);
-        mainPanel.add(bedroom);
-        mainPanel.add(bedroomComboBox);
-        mainPanel.add(showDetailsButtonPanel);
+        mainPanel.add(mailPanel);
+        mainPanel.add(Box.createRigidArea(new Dimension(0, 10)));
+        mainPanel.add(hotelPanel);
+        mainPanel.add(Box.createRigidArea(new Dimension(0, 10)));
+        mainPanel.add(bedroomPanel);
+        mainPanel.add(Box.createRigidArea(new Dimension(0, 10)));
+        mainPanel.add(buttonsPanel);
+        mainPanel.add(Box.createRigidArea(new Dimension(0, 10)));
         mainPanel.add(startReservationDatePanel);
+        mainPanel.add(Box.createRigidArea(new Dimension(0, 5)));
         mainPanel.add(availableDatesLabel);
+        mainPanel.add(Box.createRigidArea(new Dimension(0, 5)));
         mainPanel.add(endReservationDatePanel);
-        mainPanel.add(confirmReservationButton);
+
+        add(mainPanel, BorderLayout.NORTH);
+
 
         hotelComboBox.addItemListener(new ItemListener() {
             @Override
@@ -102,10 +125,7 @@ public class ReservationPanel extends JPanel {
         confirmReservationButton.addActionListener(new ConfirmReservationButtonActionListener());
         startReservationDateComboBox.addActionListener(new SearchAvaialbleDatesButtonListener());
         bedroomComboBox.addActionListener(new SearchAvaialbleDatesButtonListener());
-
-        add(mainPanel);
     }
-
 
     public void loadDataInComboBox(){
         try {
@@ -122,7 +142,6 @@ public class ReservationPanel extends JPanel {
             for (Hotel hotel : hotels) {
                 hotelComboBox.addItem(hotel);
             }
-
 
             updateBedroomsForSelectedHotel();
 
@@ -163,17 +182,13 @@ public class ReservationPanel extends JPanel {
                 endReservationDateComboBox.addItem(availableDate);
             }
         }
-
     }
-
 
     private class SearchAvaialbleDatesButtonListener implements ActionListener {
         @Override
         public void actionPerformed(ActionEvent e) {
             try {
-
                 loadReservationDates();
-
             } catch (IsRoomReservedException exception){
                 JOptionPane.showMessageDialog(mainPanel, exception.getMessage(), "Erreur", JOptionPane.ERROR_MESSAGE);
             }
@@ -195,33 +210,23 @@ public class ReservationPanel extends JPanel {
                         for (Amenity amenity : amenities) {
                             description.append(amenity.getLabel()).append(", ");
                         }
-
                         description.setLength(description.length() - 2);
-
                     }
-
                     description.append("\n");
 
                     ArrayList<BedroomOwnsBed> bedroomOwnsBeds = appControllers.getBedroomOwnsBedController().getAllBedsFromBedroom(selectedBedroom.getBedroomNumber(), selectedBedroom.getHotel());
-
                     description.append("Type de lit(s) : ");
 
                     if (bedroomOwnsBeds != null) {
                         for (BedroomOwnsBed bed : bedroomOwnsBeds) {
                             description.append(bed.getBed()).append(", ");
                         }
-
                         description.setLength(description.length() - 2);
                     }
-
                     description.append("\n");
 
-
-
                     JTextArea textArea = new JTextArea(description.toString());
-
                     textArea.setEditable(false);
-
                     JScrollPane scrollPane = new JScrollPane(textArea);
                     scrollPane.setPreferredSize(new Dimension(400, 300));
 
@@ -251,7 +256,6 @@ public class ReservationPanel extends JPanel {
                 loadReservationDates();
                 mainWindows.revalidate();
                 mainWindows.repaint();
-
 
             } catch (IsRoomReservedException | ReservationException | ReservationCreationException | CustomerCreationException exception){
                 JOptionPane.showMessageDialog(mainPanel, exception.getMessage(), "Erreur", JOptionPane.ERROR_MESSAGE);

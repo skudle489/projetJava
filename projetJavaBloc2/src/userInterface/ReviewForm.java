@@ -62,6 +62,7 @@ public class ReviewForm extends JPanel {
     public void setUpUI(){
         formPanel = new JPanel();
         formPanel.setLayout(new GridLayout(7, 2, 2, 2));
+        formPanel.setBorder(BorderFactory.createEmptyBorder(10, 0,0,0 ));
 
         hotelLabel = new JLabel("Hotel :");
         formPanel.add(hotelLabel);
@@ -175,7 +176,7 @@ public class ReviewForm extends JPanel {
         lastVisitDateHotelCountryCheckBox.setSelected(false);
 
         setLayout(new BorderLayout());
-        this.add(new JLabel("ATTENTION: Par hotel, vous ne pouvez ajouter qu'un avis par jour. Si vous cliquez sur valider, cela modifiera votre avis du jour actuelle de l'hotel et n'ajoutera pas un NOUVEL avis."), BorderLayout.NORTH);
+        add(new JLabel("<html><body style='width:400px; padding:5px;'>ATTENTION: Par hotel, vous ne pouvez ajouter qu'un avis par jour. Si vous cliquez sur valider, cela modifiera votre avis du jour actuel de l'hôtel et n'ajoutera pas un NOUVEL avis.</body></html>"), BorderLayout.NORTH);
         this.add(formPanel, BorderLayout.CENTER);
         this.add(buttonSendPanel, BorderLayout.SOUTH);
     }

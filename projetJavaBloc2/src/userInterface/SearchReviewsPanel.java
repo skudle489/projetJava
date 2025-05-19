@@ -12,7 +12,7 @@ import java.time.LocalDate;
 import java.util.ArrayList;
 
 public class SearchReviewsPanel extends JPanel {
-    private JPanel mainPanel, mainPanelContainer;
+    private JPanel mainPanel, mainPanelContainer, buttonPanelContainer, starPanel;
     private JSpinner ratingSpinner;
     private JLabel ratingLabel;
 
@@ -24,6 +24,7 @@ public class SearchReviewsPanel extends JPanel {
     private JSpinner endDaySpinner, endMonthSpinner, endYearSpinner;
     private JLabel endDateLabel;
 
+    private JPanel reviewsResultPanel;
 
     private JButton searchButton;
     private AppControllers appControllers;
@@ -38,7 +39,7 @@ public class SearchReviewsPanel extends JPanel {
     }
 
     public void setUpUI() {
-        setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
+        setLayout(new BorderLayout());
 
         mainPanelContainer = new JPanel();
 
@@ -47,17 +48,28 @@ public class SearchReviewsPanel extends JPanel {
         reservationsTable = new JTable(tableModel);
         JScrollPane tableScrollPane = new JScrollPane(reservationsTable);
 
-
+        buttonPanelContainer = new JPanel();
         searchButton = new JButton("Chercher les avis non anonymes entre les deux dates");
+        searchButton.setPreferredSize(new Dimension(350, 25));
+
+
 
         mainPanel = new JPanel(new GridLayout(2, 2));
-        ratingLabel = new JLabel("Étoile des avis");
+        ratingLabel = new JLabel(" Étoile des avis");
+        mainPanel.add(ratingLabel);
+        starPanel = new JPanel();
+        starPanel.setLayout(new FlowLayout(FlowLayout.LEFT));
+        starPanel.setBorder(BorderFactory.createEmptyBorder(30, 250, 0, 0));
+        mainPanel.add(starPanel);
+
+
         SpinnerNumberModel ratingModel = new SpinnerNumberModel(1, 1, 5, 1);
         ratingSpinner = new JSpinner(ratingModel);
-        mainPanel.add(ratingLabel);
-        mainPanel.add(ratingSpinner);
+        ratingSpinner.setPreferredSize(new Dimension(400, 70));
+        starPanel.add(ratingSpinner);
 
         startDatePanel = new JPanel(new FlowLayout(FlowLayout.LEFT));
+        startDatePanel.setBorder(BorderFactory.createEmptyBorder(30, 0, 0, 0 ));
         startDateLabel = new JLabel("Date de début : ");
         startDaySpinner = new JSpinner(new SpinnerNumberModel(1, 1, 31, 1));
         startMonthSpinner = new JSpinner(new SpinnerNumberModel(1, 1, 12, 1));
@@ -74,6 +86,7 @@ public class SearchReviewsPanel extends JPanel {
         mainPanel.add(startDatePanel);
 
         endDatePanel = new JPanel(new FlowLayout(FlowLayout.LEFT));
+        endDatePanel.setBorder(BorderFactory.createEmptyBorder(30, 250, 0, 0 ));
         endDateLabel = new JLabel("Date de fin : ");
         endDaySpinner = new JSpinner(new SpinnerNumberModel(31, 1, 31, 1));
         endMonthSpinner = new JSpinner(new SpinnerNumberModel(12, 1, 12, 1));
@@ -89,11 +102,13 @@ public class SearchReviewsPanel extends JPanel {
         mainPanel.add(endDatePanel);
 
         mainPanelContainer.setLayout(new BorderLayout());
+        mainPanelContainer.setBorder(BorderFactory.createEmptyBorder(30, 10, 10, 10));
         mainPanelContainer.add(mainPanel, BorderLayout.CENTER);
-        mainPanelContainer.add(searchButton, BorderLayout.SOUTH);
+        mainPanelContainer.add(buttonPanelContainer, BorderLayout.SOUTH);
+        buttonPanelContainer.add(searchButton);
 
-        add(mainPanelContainer);
-        add(tableScrollPane);
+        add(mainPanelContainer, BorderLayout.CENTER);
+        add(tableScrollPane, BorderLayout.SOUTH);
 
         searchButton.addActionListener(new SearchButtonListener());
     }
