@@ -167,7 +167,7 @@ public class ReviewForm extends JPanel {
         yearComboBoxCreation.setEnabled(false);
 
         buttonSendPanel = new JPanel();
-        buttonValidation = new JButton("Envoyer");
+        buttonValidation = new JButton("Valider");
         buttonValidation.addActionListener(new ValidateButtonActionListener());
         buttonValidation.setPreferredSize(new Dimension(160, 18));
         buttonSendPanel.add(buttonValidation);
@@ -175,6 +175,7 @@ public class ReviewForm extends JPanel {
         lastVisitDateHotelCountryCheckBox.setSelected(false);
 
         setLayout(new BorderLayout());
+        this.add(new JLabel("ATTENTION: Par hotel, vous ne pouvez ajouter qu'un avis par jour. Si vous cliquez sur valider, cela modifiera votre avis du jour actuelle de l'hotel et n'ajoutera pas un NOUVEL avis."), BorderLayout.NORTH);
         this.add(formPanel, BorderLayout.CENTER);
         this.add(buttonSendPanel, BorderLayout.SOUTH);
     }

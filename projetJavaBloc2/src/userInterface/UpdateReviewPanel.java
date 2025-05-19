@@ -59,7 +59,7 @@ public class UpdateReviewPanel extends JPanel {
 
 
         sendButtonPanel = new JPanel();
-        searchCommentButton = new JButton("Recherché");
+        searchCommentButton = new JButton("Rechercher");
         searchCommentButton.setPreferredSize(new Dimension(300, 100));
         sendButtonPanel.add(searchCommentButton);
 
