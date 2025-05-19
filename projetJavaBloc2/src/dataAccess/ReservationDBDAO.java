@@ -4,7 +4,6 @@ import exceptions.*;
 import model.Reservation;
 import model.ReservationInvoiceModel;
 
-import javax.xml.crypto.Data;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -68,38 +67,6 @@ public class ReservationDBDAO implements IReservationDataAccess{
 
     }
 
-    public ArrayList<LocalDate> getAllReservedDatesFrom(int bedroom, int hotel, LocalDate startDate) throws ReservationException {
-
-        try {
-            ArrayList<LocalDate> reservedDates = new ArrayList<>();
-
-
-            String sqlInstruction = "SELECT start_date, end_date FROM reservation " +
-                    "WHERE bedroom_number = ? AND hotel = ? AND end_date >= ? ORDER BY start_date DESC";
-
-            PreparedStatement preparedStatement = connection.prepareStatement(sqlInstruction);
-            preparedStatement.setInt(1, bedroom);
-            preparedStatement.setInt(2, hotel);
-            preparedStatement.setDate(3, java.sql.Date.valueOf(startDate));
-            ResultSet data = preparedStatement.executeQuery();
-
-            while (data.next()) {
-                LocalDate start = data.getDate("start_date").toLocalDate();
-                LocalDate end = data.getDate("end_date").toLocalDate();
-
-                for (LocalDate date = start; !date.isAfter(end); date = date.plusDays(1)) {
-                    reservedDates.add(date);
-                }
-            }
-
-            return reservedDates;
-
-
-        } catch (SQLException exception) {
-            throw new ReservationException("Erreur lors de l'accès aux date reéservées " + exception.getMessage());
-        }
-    }
-
     public ArrayList<Reservation> getAllReservationsCustomer(String customer) throws ReservationException {
 
         try {
@@ -159,9 +126,4 @@ public class ReservationDBDAO implements IReservationDataAccess{
             throw new ReservationException("Erreur : impossible de récupérer les factures de réservation" + e.getMessage());
         }
     }
-
-
-
-
-
 }

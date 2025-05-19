@@ -119,7 +119,7 @@ public class Bedroom {
         return descriptionText;
     }
 
-
+    @Override
     public String toString(){
         return "Chambre numéro " + bedroomNumber;
     }

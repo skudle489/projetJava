@@ -17,6 +17,7 @@ public class Star {
         }
     }
 
+    @Override
     public String toString(){
         return starNumber + "";
     }

@@ -2,11 +2,9 @@ package business;
 
 import dataAccess.ILocalityDataAccess;
 import dataAccess.LocalityDBDAO;
-import exceptions.DataAccessException;
 import exceptions.GetAllLocalityWithCountryException;
 import model.Locality;
 
-import java.sql.SQLException;
 import java.util.ArrayList;
 
 public class LocalityManager {

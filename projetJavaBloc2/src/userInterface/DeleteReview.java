@@ -1,7 +1,6 @@
 package userInterface;
 
-import exceptions.DeleteCustomerException;
-import exceptions.DeleteReviewException;
+
 import exceptions.ReviewException;
 import model.Customer;
 import model.Hotel;
@@ -11,7 +10,6 @@ import utils.JComboBoxLoader;
 
 
 import javax.swing.*;
-import javax.swing.plaf.ActionMapUIResource;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -82,6 +80,7 @@ public class DeleteReview extends JPanel {
     }
 
     private class CustomerAndHotelComboBoxListener implements ActionListener {
+        @Override
         public void actionPerformed(ActionEvent event){
             Customer selectedCustomerComboBox = (Customer) customerEmailsComboBox.getSelectedItem();
             Hotel selectedHotelComboBox = (Hotel) hotelsComboBox.getSelectedItem();
@@ -96,6 +95,7 @@ public class DeleteReview extends JPanel {
 
 
     private class DeleteReviewListener implements ActionListener {
+        @Override
         public void actionPerformed(ActionEvent event) {
             try {
                 Customer selectedCustomer = (Customer) customerEmailsComboBox.getSelectedItem();

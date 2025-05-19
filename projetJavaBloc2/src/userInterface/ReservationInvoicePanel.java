@@ -1,11 +1,8 @@
 package userInterface;
 
-import exceptions.GetAllAmenitiesFromBedroomException;
 import exceptions.GetAllCustomersException;
 import exceptions.HotelException;
 import exceptions.ReservationException;
-import model.Amenity;
-import model.BedroomOwnsBed;
 import model.Customer;
 import model.Reservation;
 import utils.AppControllers;

@@ -3,7 +3,6 @@ package userInterface;
 import exceptions.*;
 import model.Customer;
 import utils.AppControllers;
-import utils.CustomerFormValidator;
 
 import javax.swing.*;
 import java.awt.*;
@@ -46,11 +45,6 @@ public class UpdateCustomerPanel extends JPanel {
         add(mailAddressPanel, BorderLayout.CENTER);
         loadAllCustomersInComboBox();
     }
-
-    public void setMainWindows(MainWindows mainWindows){
-        this.mainWindows = mainWindows;
-    }
-
 
     public void loadAllCustomersInComboBox(){
         try {

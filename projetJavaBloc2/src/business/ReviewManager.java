@@ -17,7 +17,7 @@ public class ReviewManager {
     public ReviewManager() {
         reviewDBDAO = new ReviewDBDAO();
     }
-
+    /*Test unitaire*/
     public void addReview(Review review) throws AddReviewException, ReviewException, UpdateReviewException {
         if (reviewDBDAO.reviewExists(review.getCustomer(), review.getHotel(), review.getCreationDate())){
             reviewDBDAO.updateReview(review);
@@ -43,7 +43,7 @@ public class ReviewManager {
     }
 
     public ArrayList<Review> getAllReviewsByCustomerAndHotel(String customer, int hotel) throws ReviewException {
-        ArrayList<Review> reviews = reviewDBDAO.getAllReviewsByCustomerAndHotel(customer, hotel);
+
         return reviewDBDAO.getAllReviewsByCustomerAndHotel(customer, hotel);
     }
 

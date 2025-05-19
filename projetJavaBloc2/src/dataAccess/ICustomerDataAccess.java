@@ -3,7 +3,6 @@ package dataAccess;
 import exceptions.*;
 import model.Customer;
 
-import java.sql.SQLException;
 import java.util.ArrayList;
 
 public interface ICustomerDataAccess {

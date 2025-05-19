@@ -1,7 +1,6 @@
 package utils;
 
 import controller.*;
-import model.BedroomType;
 
 public class AppControllers {
     private final CountryController countryController;

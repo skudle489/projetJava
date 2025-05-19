@@ -3,7 +3,6 @@ package userInterface;
 import exceptions.*;
 import model.*;
 import utils.AppControllers;
-import utils.IntegerUtil;
 
 import javax.swing.*;
 import java.awt.*;
@@ -45,13 +44,7 @@ public class ReservationPanel extends JPanel {
         showDetailsButtonPanel.setLayout(new GridLayout(1, 1));
         showDetailsButton = new JButton("Afficher informations");
 
-        /*searchAvailableDatesButton = new JButton("Chercher les dates libres");
-        showDetailsAndSearchDatesButtonPanel.add(showDetailsButton);
-        showDetailsAndSearchDatesButtonPanel.add(searchAvailableDatesButton);*/
-
         showDetailsButtonPanel.add(showDetailsButton);
-
-
 
         startReservationDatePanel = new JPanel();
 
@@ -69,9 +62,6 @@ public class ReservationPanel extends JPanel {
             startReservationDateComboBox.addItem(date);
         }
 
-
-
-
         startReservationDatePanel.setLayout(new GridLayout(1, 2));
         startReservationDatePanel.add(startDateLabel);
         startReservationDatePanel.add(startReservationDateComboBox);
@@ -82,12 +72,9 @@ public class ReservationPanel extends JPanel {
         endReservationDatePanel.add(endDateLabel);
         endReservationDatePanel.add(endReservationDateComboBox);
 
-
         availableDatesLabel = new JLabel("Dates libres");
 
         confirmReservationButton = new JButton("Réserver");
-
-
 
         mainPanel.setLayout(new BoxLayout(mainPanel, BoxLayout.Y_AXIS));
         mainPanel.add(mailAddressLabel);
@@ -271,6 +258,4 @@ public class ReservationPanel extends JPanel {
             }
         }
     }
-
-
 }

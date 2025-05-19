@@ -2,12 +2,9 @@ package business;
 
 import dataAccess.CountryDBDAO;
 import dataAccess.ICountryDataAccess;
-import exceptions.CountryCreationException;
-import exceptions.DataAccessException;
 import exceptions.GetAllCountryException;
 import model.Country;
 
-import java.sql.SQLException;
 import java.util.ArrayList;
 
 public class CountryManager {

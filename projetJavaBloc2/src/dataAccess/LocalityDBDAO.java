@@ -5,7 +5,7 @@ import exceptions.GetAllLocalityWithCountryException;
 import exceptions.LocalityCreationException;
 import model.Locality;
 
-import javax.xml.crypto.Data;
+
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;

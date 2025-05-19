@@ -5,8 +5,6 @@ import dataAccess.ReservationDBDAO;
 import exceptions.*;
 import model.*;
 
-import javax.swing.*;
-import java.awt.*;
 import java.time.LocalDate;
 import java.time.temporal.ChronoUnit;
 import java.util.ArrayList;
@@ -24,18 +22,10 @@ public class ReservationManager {
 
     }
 
-
-    public void deleteReservation(String customer) throws DeleteReservationException {
-        reservationDBDAO.deleteReservation(customer);
-    }
-
     public boolean isRoomReserved(int bedroom, int hotel, LocalDate date) throws IsRoomReservedException {
         return reservationDBDAO.isRoomReserved(bedroom, hotel, date);
     }
 
-    public ArrayList<LocalDate> getAllReservedDatesFrom(int bedroom, int hotel, LocalDate startDate) throws ReservationException {
-        return reservationDBDAO.getAllReservedDatesFrom(bedroom, hotel, startDate);
-    }
 
     public void addReservation(Reservation reservation) throws ReservationException {
         if (reservation.getStartDate().isBefore(LocalDate.now())){
@@ -57,6 +47,7 @@ public class ReservationManager {
         return reservationDBDAO.getAllReservationsCustomer(customer);
     }
 
+    /*Test unitaire*/
     public String getReservationInvoiceCustomer(Reservation reservation) throws GetAllAmenitiesFromBedroomException, GetAllBedsFromBedroomException, BedroomCreationException {
 
         StringBuilder description = new StringBuilder();
@@ -105,6 +96,7 @@ public class ReservationManager {
         return description.toString();
     }
 
+    /*Test unitaire*/
     public ArrayList<LocalDate> getAvailableDatesFrom(int bedroom, int hotel, LocalDate startDate) throws IsRoomReservedException {
         ArrayList<LocalDate> availableDates = new ArrayList<>();
         LocalDate endDate = startDate.plusMonths(6);

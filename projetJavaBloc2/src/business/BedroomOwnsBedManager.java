@@ -3,7 +3,6 @@ package business;
 import dataAccess.BedroomOwnsBedDBDAO;
 import dataAccess.IBedroomOwnsBedDataAccess;
 import exceptions.GetAllBedsFromBedroomException;
-import model.Bed;
 import model.BedroomOwnsBed;
 
 import java.util.ArrayList;

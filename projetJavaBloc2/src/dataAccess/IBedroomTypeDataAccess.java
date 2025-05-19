@@ -6,5 +6,5 @@ import model.BedroomType;
 import java.util.ArrayList;
 
 public interface IBedroomTypeDataAccess {
-    public ArrayList<BedroomType> getAllTypesBedroom() throws BedroomTypeCreationException;
+    ArrayList<BedroomType> getAllTypesBedroom() throws BedroomTypeCreationException;
 }

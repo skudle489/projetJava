@@ -58,9 +58,6 @@ public class Review {
         }
     }
 
-
-
-
     public String getComment() {
         return comment;
     }
@@ -93,6 +90,7 @@ public class Review {
         return creationDate;
     }
 
+    @Override
     public String toString() {
         String description = "";
         if (title == null || title.isEmpty()){
@@ -101,6 +99,7 @@ public class Review {
             description += title + " | " + star;
         }
         description += " étoile(s) crée le " + creationDate;
+
         return description;
     }
 

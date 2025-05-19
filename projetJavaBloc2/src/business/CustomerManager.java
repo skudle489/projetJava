@@ -5,8 +5,7 @@ import dataAccess.ICustomerDataAccess;
 import exceptions.*;
 import model.Customer;
 
-import javax.swing.*;
-import java.sql.SQLException;
+
 import java.util.ArrayList;
 
 
@@ -40,7 +39,7 @@ public class CustomerManager {
     public void deleteCustomer(String mailAddress) throws DeleteCustomerException {
         customerDBDAO.deleteCustomer(mailAddress);
     }
-
+    /*test unitaire*/
     public boolean customerExists(String mailAddress) {
         try {
             Customer customer = getCustomer(mailAddress);

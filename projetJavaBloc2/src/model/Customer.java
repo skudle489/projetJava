@@ -202,15 +202,6 @@ public class Customer {
     @Override
     public String toString() {
         return mailAdress;
-        /*return "\t========== Information du client ========== \n" +
-                "Adresse mail :" + mailAdress + "\n" +
-                "Nom complet : " + lastName + " " + firstName + "\n" +
-                "Numéro de téléphone : " + phone + "\n" +
-                "Adresse : " + street + " " + streetNumber + " " + city + " " + postalCode + " "  + countryIso + "\n" +
-                "Date de naissance : " + birthDate + "\n" +
-                "Est vegan : " + (isVegan ? "Oui" : "Non") + "\n" +
-                "Numéro de téléphone secondaire : " + (secondaryPhone == null ? "" : secondaryPhone);
-    */
     }
 
 }

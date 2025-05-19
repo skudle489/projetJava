@@ -13,8 +13,6 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.ItemEvent;
 import java.awt.event.ItemListener;
-import java.sql.SQLException;
-import java.sql.Wrapper;
 import java.util.ArrayList;
 import java.util.Objects;
 
@@ -114,12 +112,6 @@ public class RegistrationForm extends JPanel {
         formPanel.add(cityLabel);
         cityPostalCode = new JComboBox();
         formPanel.add(cityPostalCode);
-
-
-
-
-        //cityTextField=new JTextField();
-        //formPanel.add(cityTextField);
 
         street=new JLabel("Rue : ");
         formPanel.add(street);
@@ -224,8 +216,6 @@ public class RegistrationForm extends JPanel {
 
     }
 
-
-
     public void setCustomerLocality(){
         for (int i = 0; i < cityPostalCode.getItemCount(); i++) {
             Locality locality = (Locality) cityPostalCode.getItemAt(i);
@@ -235,7 +225,6 @@ public class RegistrationForm extends JPanel {
             }
         }
     }
-
 
     public void setCustomerValue() throws GetAllLocalityWithCountryException {
 
@@ -319,6 +308,7 @@ public class RegistrationForm extends JPanel {
     }
 
     private class ValidateButtonActionListener implements ActionListener {
+        @Override
         public void actionPerformed(ActionEvent e) {
 
             String mailAddress = mailAddressTextField.getText();

@@ -1,10 +1,5 @@
 package userInterface;
 
-import exceptions.GetCustomerException;
-import exceptions.HotelException;
-import exceptions.ReviewCreationException;
-import exceptions.SearchReviewModelException;
-import model.ReservationInvoiceModel;
 import model.SearchReviewsModel;
 import utils.AppControllers;
 
@@ -30,11 +25,9 @@ public class SearchReviewsPanel extends JPanel {
     private JLabel endDateLabel;
 
     private JPanel reviewsResultPanel;
-    private JScrollPane scrollPane;
 
     private JButton searchButton;
     private AppControllers appControllers;
-    private MainWindows mainWindows;
 
 
     private JTable reservationsTable;
@@ -108,10 +101,6 @@ public class SearchReviewsPanel extends JPanel {
         searchButton.addActionListener(new SearchButtonListener());
     }
 
-    public void setMainWindows(MainWindows mainWindows) {
-        this.mainWindows = mainWindows;
-    }
-
     public boolean areDatesValid(int startYear, int startMonth, int startDay, int endYear, int endMonth, int endDay) {
         try {
             LocalDate startDate = LocalDate.of(startYear, startMonth, startDay);
@@ -148,7 +137,7 @@ public class SearchReviewsPanel extends JPanel {
                     JOptionPane.showMessageDialog(null, "Aucun avis non anonymes trouvés");
                 }
             } else {
-                JOptionPane.showMessageDialog(null, "Dates invalides. La date de début doit être inférieure à la date de fin. Vérifiez aussi que la date de jour correspond au mois.");
+                JOptionPane.showMessageDialog(null, "Dates invalides. La date de début doit être inférieure à la date de fin. Vérifiez aussi que la date de jour correspond au mois. (Exemple : 30 jours dans avril, et 31 dans mai)");
             }
         } catch (Exception exception) {
             JOptionPane.showMessageDialog(null, "Erreur lors du traitement d'affichage des avis : " + exception.getMessage(), "Erreur", JOptionPane.ERROR_MESSAGE);

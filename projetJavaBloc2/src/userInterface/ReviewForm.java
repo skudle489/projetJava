@@ -3,9 +3,7 @@ package userInterface;
 import exceptions.*;
 import model.Customer;
 import model.Hotel;
-import model.Reservation;
 import model.Review;
-import userInterface.MainWindows;
 import utils.AppControllers;
 import utils.JComboBoxLoader;
 
@@ -15,10 +13,9 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.ItemEvent;
 import java.awt.event.ItemListener;
-import java.sql.SQLException;
 import java.time.DateTimeException;
 import java.time.LocalDate;
-import java.util.ArrayList;
+
 
 
 public class ReviewForm extends JPanel {
@@ -39,14 +36,9 @@ public class ReviewForm extends JPanel {
     private JComboBox hotelsComboBox;
     private MainWindows mainWindows;
 
-
-
-
     Integer[] daysValues;
     Integer[] monthsValues;
     Integer[] yearsValues;
-
-
 
     private Customer selectedCustomer;
     private Hotel selectedHotel;
@@ -192,6 +184,7 @@ public class ReviewForm extends JPanel {
     }
 
     private class LastVisitDateHotelCountryCheckBoxListener implements ItemListener {
+        @Override
         public void itemStateChanged(ItemEvent event) {
             boolean selected = (event.getStateChange() == ItemEvent.SELECTED);
             dayComboBoxLastVisitCountry.setEnabled(selected);
@@ -201,6 +194,7 @@ public class ReviewForm extends JPanel {
     }
 
     private class ValidateButtonActionListener implements ActionListener {
+        @Override
         public void actionPerformed(ActionEvent e) {
             try {
                 Hotel hotel = (Hotel) hotelsComboBox.getSelectedItem();
@@ -215,7 +209,11 @@ public class ReviewForm extends JPanel {
                     String title = titleTextField.getText().trim();
                     String comment = commentTextField.getText().trim();
                     int nbStars = Integer.parseInt(starSpinner.getValue().toString());
-                    LocalDate creationCommentDate = LocalDate.now();
+
+                    int dayCreationDate = daysValues[dayComboBoxCreation.getSelectedIndex()];
+                    int monthCreationDate = monthsValues[monthComboBoxCreation.getSelectedIndex()];
+                    int yearCreationDate = yearsValues[yearComboBoxCreation.getSelectedIndex()];
+                    LocalDate creationCommentDate = LocalDate.of(yearCreationDate, monthCreationDate, dayCreationDate);
 
                     LocalDate dateLastVisitCountry;
                     if (lastVisitDateHotelCountryCheckBox.isSelected()) {
@@ -259,7 +257,6 @@ public class ReviewForm extends JPanel {
         customersComboBox.setEnabled(false);
         hotelsComboBox.setEnabled(false);
         lastVisitDateHotelCountryCheckBox.setSelected(selectedReview.getLastVisitDateHotelCountry() != null);
-
 
         isAnonymousCheckBox.setSelected(selectedReview.getIsAnonymous());
 

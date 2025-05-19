@@ -1,7 +1,6 @@
 package dataAccess;
 
 import exceptions.GetAllBedsFromBedroomException;
-import model.Bed;
 import model.BedroomOwnsBed;
 
 import java.sql.Connection;

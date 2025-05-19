@@ -23,7 +23,6 @@ public class MainWindows extends JFrame {
         this.appControllers = new AppControllers();
         this.frameContainer = getContentPane();
 
-
         setupUI();
         setupMenuBar();
         showPlaneTemporarily();
@@ -125,6 +124,7 @@ public class MainWindows extends JFrame {
 
 
     private class AddCustomerActionListener implements ActionListener {
+        @Override
         public void actionPerformed(ActionEvent e) {
             try {
                 RegistrationForm form = new RegistrationForm(appControllers, null);
@@ -137,6 +137,7 @@ public class MainWindows extends JFrame {
     }
 
     private class ListingCustomerActionListener implements ActionListener {
+        @Override
         public void actionPerformed(ActionEvent e) {
             try {
                 AllCustomersModel model = new AllCustomersModel(appControllers.getCustomerController().getAllCustomers());
@@ -153,6 +154,7 @@ public class MainWindows extends JFrame {
     }
 
     private class UpdateCustomerActionListener implements ActionListener {
+        @Override
         public void actionPerformed(ActionEvent e) {
             UpdateCustomerPanel panel = new UpdateCustomerPanel(appControllers);
             panel.setMainWindow(MainWindows.this);
@@ -161,6 +163,7 @@ public class MainWindows extends JFrame {
     }
 
     private class DeleteCustomerActionListener implements ActionListener {
+        @Override
         public void actionPerformed(ActionEvent e) {
             DeleteCustomerPanel panel = new DeleteCustomerPanel(appControllers);
             panel.setDeleteCustomerListener(MainWindows.this);
@@ -169,6 +172,7 @@ public class MainWindows extends JFrame {
     }
 
     private class NewReservationActionListener implements ActionListener {
+        @Override
         public void actionPerformed(ActionEvent e) {
             ReservationPanel panel = new ReservationPanel(appControllers);
             panel.setMainWindows(MainWindows.this);
@@ -177,6 +181,7 @@ public class MainWindows extends JFrame {
     }
 
     private class ReservationInvoiceActionListener implements ActionListener {
+        @Override
         public void actionPerformed(ActionEvent e) {
             try {
                 ReservationInvoicePanel panel = new ReservationInvoicePanel(appControllers);
@@ -188,6 +193,7 @@ public class MainWindows extends JFrame {
     }
 
     public class AverageRatingReviewsHotelActionListener implements ActionListener {
+        @Override
         public void actionPerformed(ActionEvent e) {
             try {
                 HotelReviewsPanel hotelReviewsPanel = new HotelReviewsPanel(appControllers);
@@ -199,10 +205,10 @@ public class MainWindows extends JFrame {
     }
 
     public class SearchReviewsActionListener implements ActionListener {
+        @Override
         public void actionPerformed(ActionEvent e) {
             try {
                 SearchReviewsPanel searchReviewsPanel = new SearchReviewsPanel(appControllers);
-                searchReviewsPanel.setMainWindows(MainWindows.this);
                 showPanel(searchReviewsPanel);
             } catch (Exception ex) {
                 showError(ex);
@@ -216,6 +222,7 @@ public class MainWindows extends JFrame {
 
 
     private class UpdateReviewActionListener implements ActionListener {
+        @Override
         public void actionPerformed(ActionEvent e) {
             try {
                 UpdateReviewPanel updateReviewPanel = new UpdateReviewPanel(appControllers);
@@ -229,6 +236,7 @@ public class MainWindows extends JFrame {
     }
 
     private class AddReviewActionListener implements ActionListener {
+        @Override
         public void actionPerformed(ActionEvent e) {
             try {
                 ReviewForm reviewForm = new ReviewForm(appControllers, null, null, null);
@@ -254,6 +262,7 @@ public class MainWindows extends JFrame {
     }
 
     private class ListingReviewActionListener implements ActionListener {
+        @Override
         public void actionPerformed(ActionEvent e) {
             try {
                 AllReviewsModel allReviewsModel = new AllReviewsModel(appControllers.getReviewController().getAllReviews());
@@ -272,6 +281,7 @@ public class MainWindows extends JFrame {
 
 
     private class CustomerReservationsDisplayActionListener implements ActionListener {
+        @Override
         public void actionPerformed(ActionEvent e) {
             try {
                 CustomerReservationsDisplay customerReservationsDisplay = new CustomerReservationsDisplay(appControllers);

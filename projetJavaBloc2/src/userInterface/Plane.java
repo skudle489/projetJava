@@ -52,21 +52,6 @@ public class Plane extends JPanel {
         return new Polygon(xPointsBottomWing, yPointsBottomWing, 3);
     }
 
-    public Rectangle getRectangle() {
-        return rectangle;
-    }
-
-    public Polygon getFace() {
-        return face;
-    }
-
-    public Polygon getTopWing() {
-        return topWing;
-    }
-
-    public Polygon getBottomWing() {
-        return bottomWing;
-    }
 
     public Polygon createTail(){
         int[] xPoints = {rectangle.x, rectangle.x, rectangle.x + rectangle.width/10};
@@ -74,9 +59,6 @@ public class Plane extends JPanel {
         return new Polygon(xPoints, yPoints, 3);
     }
 
-    public Polygon getTail() {
-        return tail;
-    }
 
     public ArrayList<Rectangle> createWindows(){
         ArrayList<Rectangle> windows = new ArrayList<>();
@@ -92,9 +74,6 @@ public class Plane extends JPanel {
         return windows;
     }
 
-    public ArrayList<Rectangle> getWindows() {
-        return windows;
-    }
 
     public void movePolygone(Polygon polygon, int dx, int dy) {
         for (int iPoint = 0; iPoint < polygon.npoints; iPoint++) {

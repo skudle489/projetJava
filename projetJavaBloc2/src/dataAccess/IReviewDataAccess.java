@@ -4,7 +4,6 @@ import exceptions.*;
 import model.Review;
 import model.SearchReviewsModel;
 
-import java.sql.SQLException;
 import java.time.LocalDate;
 import java.util.ArrayList;
 

@@ -1,11 +1,11 @@
 package userInterface;
 
-import exceptions.CustomerCreationException;
+
 import exceptions.DeleteCustomerException;
 import exceptions.GetAllCustomersException;
 import model.Customer;
 import utils.AppControllers;
-import utils.CustomerFormValidator;
+
 
 import javax.swing.*;
 import java.awt.*;
@@ -21,7 +21,7 @@ public class DeleteCustomerPanel extends JPanel {
 
     private JButton searchCustomerButton;
 
-    MainWindows updateCustomerListener;
+
     MainWindows deleteCustomerListener;
     private AppControllers appControllers;
 
@@ -62,6 +62,7 @@ public class DeleteCustomerPanel extends JPanel {
     }
 
     private class DeleteCustomerListener implements ActionListener {
+        @Override
         public void actionPerformed(ActionEvent e) {
             try {
                 Customer selectedCustomer = (Customer) customersComboBox.getSelectedItem();

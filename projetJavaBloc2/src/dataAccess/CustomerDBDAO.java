@@ -1,9 +1,7 @@
 package dataAccess;
 
 import exceptions.*;
-import model.Country;
 import model.Customer;
-import model.Locality;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;

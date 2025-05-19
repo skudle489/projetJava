@@ -1,7 +1,6 @@
 package dataAccess;
 
 import exceptions.*;
-import model.Customer;
 import model.Review;
 import model.SearchReviewsModel;
 
@@ -11,7 +10,7 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.time.LocalDate;
 import java.util.ArrayList;
-import java.util.Date;
+
 
 public class ReviewDBDAO implements IReviewDataAccess {
     private static Connection connection;

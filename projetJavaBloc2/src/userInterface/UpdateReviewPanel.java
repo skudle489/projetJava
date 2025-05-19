@@ -1,10 +1,7 @@
 package userInterface;
 
-import com.sun.tools.javac.Main;
-import exceptions.GetAllCountryException;
+
 import exceptions.GetAllCustomersException;
-import exceptions.GetAllHotelsException;
-import exceptions.ReservationException;
 import model.Customer;
 import model.Hotel;
 import model.Review;
@@ -15,9 +12,6 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.awt.event.ItemEvent;
-import java.awt.event.ItemListener;
-import java.time.LocalDate;
 
 public class UpdateReviewPanel extends JPanel {
 
@@ -30,15 +24,13 @@ public class UpdateReviewPanel extends JPanel {
 
     private MainWindows mainWindows;
 
-    private SearchReviewButtonListener searchReviewButtonListener;
+
     private AppControllers appControllers;
 
     public UpdateReviewPanel(AppControllers appControllers) {
         this.appControllers = appControllers;
         setUpUI();
     }
-
-
 
     public void setUpUI() {
 
@@ -84,7 +76,7 @@ public class UpdateReviewPanel extends JPanel {
         this.add(sendButtonPanel);
     }
 
-    public void setMainWindows(MainWindows mainWindows) throws GetAllCustomersException {
+    public void setMainWindows(MainWindows mainWindows) {
         this.mainWindows = mainWindows;
     }
 
